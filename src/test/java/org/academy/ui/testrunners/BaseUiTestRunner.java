@@ -13,7 +13,7 @@ import org.testng.annotations.BeforeSuite;
 import java.time.Duration;
 
 public class BaseUiTestRunner {
-    protected  static TestEnvProvider testEnvProvider;
+    protected static TestEnvProvider testEnvProvider;
     protected WebDriver driver;
 
     @BeforeSuite
@@ -22,7 +22,7 @@ public class BaseUiTestRunner {
         testEnvProvider = new TestEnvProvider();
     }
 
-    public  WebDriver initChromeDriver() {
+    public WebDriver initChromeDriver() {
 
         ChromeOptions options = new ChromeOptions();
         if (testEnvProvider.isHeadless()) {
