@@ -2,6 +2,7 @@ package org.academy.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
@@ -10,55 +11,53 @@ public class TestEnvProvider {
     private final Properties properties;
 
     public TestEnvProvider() {
-
         properties = new Properties();
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream("src/test/resources/env.properties"), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        } catch (IOException e) {
-            System.err.println("Could not load properties file: " + e.getMessage());
-            System.err.println("Use system properties.");
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("env.properties");
+        if (stream == null) {
+            try {
+                stream = new FileInputStream("src/test/resources/env.properties");
+            } catch (IOException ignored) {
+            }
         }
+        if (stream != null) {
+            try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                properties.load(reader);
+            } catch (IOException e) {
+                System.err.println("Could not load properties file: " + e.getMessage());
+                System.err.println("Use system properties.");
+            }
+        }
+    }
+
+    private String getProperty(String key) {
+        if (properties != null && properties.getProperty(key) != null) {
+            return properties.getProperty(key);
+        }
+        return System.getProperty(key);
     }
 
     public String getBaseUrl() {
-        if (properties != null) {
-            return properties.getProperty("BASE_URL");
-        }
-        return System.getProperty("BASE_URL");
+        return getProperty("BASE_URL");
     }
 
     public String getAdminLoginUrl() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_LOGIN_URL");
-        }
-        return System.getProperty("ADMIN_LOGIN_URL");
+        return getProperty("ADMIN_LOGIN_URL");
     }
 
     public Boolean isHeadless() {
-        if (properties != null) {
-            return Boolean.parseBoolean(properties.getProperty("HEADLESS"));
-        }
-        return Boolean.parseBoolean(System.getProperty("HEADLESS"));
+        return Boolean.parseBoolean(getProperty("HEADLESS"));
     }
 
     public int getImplicitWait() {
-        if (properties != null) {
-            return Integer.parseInt(properties.getProperty("IMPLICITLY_WAIT"));
-        }
-        return Integer.parseInt(System.getProperty("IMPLICITLY_WAIT", "10"));
+        String waitVal = getProperty("IMPLICITLY_WAIT");
+        return Integer.parseInt(waitVal != null ? waitVal : "10");
     }
 
     public String getAdminEmail() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_EMAIL");
-        }
-        return System.getProperty("ADMIN_EMAIL");
+        return getProperty("ADMIN_EMAIL");
     }
 
     public String getAdminPassword() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_PASSWORD");
-        }
-        return System.getProperty("ADMIN_PASSWORD");
+        return getProperty("ADMIN_PASSWORD");
     }
 }
