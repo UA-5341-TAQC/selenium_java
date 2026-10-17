@@ -74,3 +74,4 @@ allure-results
 
 ### properties ###
 env.properties
+test-output/
