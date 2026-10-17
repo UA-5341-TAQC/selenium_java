@@ -1,7 +1,6 @@
 package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
-import org.academy.ui.modals.LoginModal;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -60,15 +59,5 @@ public class LoginPage extends BasePage {
     @Step("Check if password is visible as plain text")
     public boolean isPasswordVisible() {
         return "text".equalsIgnoreCase(getPasswordFieldType());
-    }
-
-    @Step("Login with invalid credentials: email={email}")
-    public LoginModal loginWithInvalidCredentials(String email, String password) {
-        enterEmail(email);
-        enterPassword(password);
-        clickLoginButton();
-        LoginModal modal = new LoginModal(driver);
-        modal.waitForVisible();
-        return modal;
     }
 }
