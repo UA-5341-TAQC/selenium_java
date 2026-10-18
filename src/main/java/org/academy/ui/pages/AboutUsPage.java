@@ -68,11 +68,28 @@ public class AboutUsPage extends BasePage {
         return new SupportSectionComponent(supportSectionElement);
     }
 
-    @Step("Get Support Section component")
+    @Step("Get Company Values Section component")
     public CompanyValuesSectionComponent getCompanyValuesSection() {
         wait.until(ExpectedConditions.visibilityOf(companyValuesSectionElement));
         return new CompanyValuesSectionComponent(companyValuesSectionElement);
     }
 
+    @Step("Get Our Team Section component")
+    public OurTeamSectionComponent getOurTeamSection() {
+        wait.until(ExpectedConditions.visibilityOf(ourTeamSectionElement));
+        return new OurTeamSectionComponent(ourTeamSectionElement);
+    }
+
+    @Step("Get Main Value component")
+    public OurTeamSectionComponent getOurTeamSection() {
+        wait.until(ExpectedConditions.visibilityOf(mainValueSectionElement));
+        return new OurTeamSectionComponent(mainValueSectionElement);
+    }
+
+    @Step("Get About Us Donate Section component")
+    public AboutUsDonateSectionComponent getAboutUsDonateSection() {
+        wait.until(ExpectedConditions.visibilityOf(donateSectionElement));
+        return new OurTeamSectionComponent(donateSectionElement);
+    }
 
 }

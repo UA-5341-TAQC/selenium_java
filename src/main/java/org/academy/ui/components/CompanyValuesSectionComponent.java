@@ -13,6 +13,13 @@ public class CompanyValuesSectionComponent extends BaseComponent {
     @FindBy(css = "div[class*='ValueCard_item']")
     private WebElement valueCardElements;
 
+    @FindBy(css = "div[class*='CompanyValues_root'] div[class*='ValueCard_item']")
+    private List<WebElement> programCardElements;
+
+    public CompanyValuesSectionComponent(WebElement element) {
+        super(element);
+    }
+
     @Step("Get Company Values section title")
     public String getValueSectionTitleText() {
         wait.until(ExpectedConditions.visibilityOf(titleElement));
@@ -49,8 +56,5 @@ public class CompanyValuesSectionComponent extends BaseComponent {
         }
         throw new IllegalArgumentException("ValueCard not found with name containing: " + cardName);
     }
-
-
-
 
 }

@@ -14,7 +14,7 @@ public class OurMissionComponent extends BaseComponent {
     @FindBy(css = "p[class*='OurMission_text']")
     private WebElement description;
 
-    @FindBy(css = "button[class*='Button_content'], a[class*='Button_content'], button, a")
+    @FindBy(css = "div[class*='OurMission_actions'] a[class*='Button_button'][href*='programs']")
     private WebElement goToProgramsButton;
 
 
