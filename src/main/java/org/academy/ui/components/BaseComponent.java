@@ -11,7 +11,9 @@ public class BaseComponent extends Base {
 
     public BaseComponent(WebElement element) {
         super(((WrapsDriver) element).getWrappedDriver());
+        PageFactory.initElements(new DefaultElementLocatorFactory(element), this);
+        // PageFactory decorates all WebElement fields: including rootElement
+        // Keep the supplied root:
         this.rootElement = element;
-        PageFactory.initElements(new DefaultElementLocatorFactory(rootElement), this);
     }
 }
