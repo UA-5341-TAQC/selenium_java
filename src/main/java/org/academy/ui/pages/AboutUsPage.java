@@ -4,8 +4,11 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class AboutUsPage extends BasePage {
+
+    private static final String PAGE_PATH = "about-us";
 
     @FindBy(css = "section[class*='IntroSection_root']")
     private WebElement introSectionElement;
@@ -19,14 +22,8 @@ public class AboutUsPage extends BasePage {
     @FindBy(css = "div[class*='SupportSectionTablet'],")
     private WebElement supportSectionElement;
 
-    @FindBy(css = "div[class*='ProgramCardAboutUsPage_root'],")
-    private WebElement supportCardElement;
-
     @FindBy(css = "div[class*='CompanyValues_root']")
     private WebElement companyValuesSectionElement;
-
-    @FindBy(css = "div[class*='ValueCard_item']")
-    private WebElement valueCardSectionElement;
 
     @FindBy(css = "div[class*='OurTeam_root']")
     private WebElement ourTeamSectionElement;
@@ -39,6 +36,12 @@ public class AboutUsPage extends BasePage {
 
     public AboutUsPagePage(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    public AboutUsPage open(String baseUrl) {
+        driver.get(baseUrl + PAGE_PATH);
+        return this;
     }
 
     @Step("Get IntroSection component")
@@ -48,9 +51,27 @@ public class AboutUsPage extends BasePage {
     }
 
     @Step("Get OurMission component")
-    public OurMissionComponent getIntroSection() {
+    public OurMissionComponent getOurMissionSection() {
         wait.until(ExpectedConditions.visibilityOf(ourMissionSectionElement));
-        return new IntroSectionComponent(ourMissionSectionElement);
+        return new OurMissionComponent(ourMissionSectionElement);
+    }
+
+    @Step("Get Programs Section component")
+    public AboutUsProgramsSectionComponent getProgramsSectionSection() {
+        wait.until(ExpectedConditions.visibilityOf(programSectionElement));
+        return new AboutUsProgramsSectionComponent(programSectionElement);
+    }
+
+    @Step("Get Support Section component")
+    public SupportSectionComponent getSupportSectionSection() {
+        wait.until(ExpectedConditions.visibilityOf(supportSectionElement));
+        return new SupportSectionComponent(supportSectionElement);
+    }
+
+    @Step("Get Support Section component")
+    public CompanyValuesSectionComponent getCompanyValuesSection() {
+        wait.until(ExpectedConditions.visibilityOf(companyValuesSectionElement));
+        return new CompanyValuesSectionComponent(companyValuesSectionElement);
     }
 
 
