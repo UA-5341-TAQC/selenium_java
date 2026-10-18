@@ -11,7 +11,7 @@ public class SupportSectionComponent extends BaseComponent {
     private List<WebElement> supportCardElements;
 
     @FindBy(css = "h2[class*='SupportSectionTablet_title'], [class*='SupportSectionTablet_title']")
-    private List<WebElement> titleElement;
+    private WebElement titleElement;
 
     public SupportSectionComponent(WebElement element) {
         super(element);
