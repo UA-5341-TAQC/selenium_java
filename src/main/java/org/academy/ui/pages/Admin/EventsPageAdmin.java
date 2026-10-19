@@ -2,7 +2,7 @@ package org.academy.ui.pages.Admin;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.components.admin.AdminEventNewsItemComponent;
+import org.academy.ui.components.admin.EventItemComponentAdmin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 @Getter
-public class AdminEventsNewsPage extends BaseAdminPage {
+public class EventsPageAdmin extends BaseAdminPage {
 
     // Toolbar
 
@@ -103,7 +103,7 @@ public class AdminEventsNewsPage extends BaseAdminPage {
     @FindBy(css = "[data-testid='infinite-scroll-list'] .item-data")
     private List<WebElement> eventItems;
 
-    public AdminEventsNewsPage(WebDriver driver) {
+    public EventsPageAdmin(WebDriver driver) {
         super(driver);
     }
 
@@ -293,12 +293,12 @@ public class AdminEventsNewsPage extends BaseAdminPage {
     }
 
     @Step("Get event item by index: {index}")
-    public AdminEventNewsItemComponent getEventItem(int index) {
-        return new AdminEventNewsItemComponent(eventItems.get(index));
+    public EventItemComponentAdmin getEventItem(int index) {
+        return new EventItemComponentAdmin(eventItems.get(index));
     }
 
     @Step("Get event item by title: {title}")
-    public AdminEventNewsItemComponent getEventItemByTitle(String title) {
+    public EventItemComponentAdmin getEventItemByTitle(String title) {
         searchEventNews(title);
 
         By locator = By.xpath(
@@ -312,6 +312,6 @@ public class AdminEventsNewsPage extends BaseAdminPage {
                 ExpectedConditions.visibilityOfElementLocated(locator)
         );
 
-        return new AdminEventNewsItemComponent(item);
+        return new EventItemComponentAdmin(item);
     }
 }

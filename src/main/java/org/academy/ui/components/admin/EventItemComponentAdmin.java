@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 @Getter
-public class AdminEventNewsItemComponent extends BaseComponent {
+public class EventItemComponentAdmin extends BaseComponent {
 
     @FindBy(css = ".event-item-date")
     private WebElement eventDate;
@@ -42,7 +42,7 @@ public class AdminEventNewsItemComponent extends BaseComponent {
     @FindBy(css = "button[aria-label='Видалити матеріал']")
     private WebElement deleteButton;
 
-    public AdminEventNewsItemComponent(WebElement element) {
+    public EventItemComponentAdmin(WebElement element) {
         super(element);
     }
 

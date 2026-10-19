@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
-public class AdminEventsNewsTranslationModal extends BaseAdminPage {
+public class EventTranslationModalAdmin extends BaseAdminPage {
 
     @FindBy(css = ".modal-container:has(#translate-event-form)")
     private WebElement modal;
@@ -39,7 +39,7 @@ public class AdminEventsNewsTranslationModal extends BaseAdminPage {
     @FindBy(css = ".modal-container:has(#translate-event-form) .localization-modal .btn-primary")
     private WebElement saveTranslationButton;
 
-    public AdminEventsNewsTranslationModal(WebDriver driver) {
+    public EventTranslationModalAdmin(WebDriver driver) {
         super(driver);
     }
 

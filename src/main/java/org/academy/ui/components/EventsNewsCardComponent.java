@@ -7,7 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
-public class EventNewsCardComponent extends BaseComponent {
+public class EventsNewsCardComponent extends BaseComponent {
+
     @FindBy(css = "[class*='SingleEventNews_event-image__']")
     private WebElement eventImage;
 
@@ -26,7 +27,7 @@ public class EventNewsCardComponent extends BaseComponent {
     @FindBy(css = "button[class*='Button_tertiary__']")
     private WebElement articleButton;
 
-    public EventNewsCardComponent(WebElement element) {
+    public EventsNewsCardComponent(WebElement element) {
         super(element);
     }
 

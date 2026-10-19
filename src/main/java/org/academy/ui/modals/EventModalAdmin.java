@@ -10,9 +10,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Getter
-public class AdminAddEditEventsNewsModal extends BaseAdminPage {
+public class EventModalAdmin extends BaseAdminPage {
+
+    // Modal
 
     @FindBy(css = ".modal-container:has(#event-title)")
     private WebElement modal;
@@ -26,6 +30,8 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     @FindBy(css = ".modal-container:has(#event-title) [class*='EventModal_category-chip']")
     private WebElement categoryChip;
 
+    // Event fields
+
     @FindBy(id = "event-title")
     private WebElement titleInput;
 
@@ -35,23 +41,26 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     @FindBy(id = "event-additional-description")
     private WebElement additionalDescriptionInput;
 
-    @FindBy(id = "event-date")
-    private WebElement dateButton;
+    // Image
 
-    @FindBy(css = ".modal-container:has(#event-title) [data-testid='image-input-hidden']")
+    @FindBy(id = "event-image")
     private WebElement imageInput;
 
-    @FindBy(css = ".modal-container:has(#event-title) [data-testid='preview-image']")
+    @FindBy(css = "[class*='EventImageInput_container']")
+    private WebElement imageContainer;
+
+    @FindBy(css = ".modal-container:has(#event-title) img[data-testid='preview-image']")
     private WebElement imagePreview;
 
-    @FindBy(css = ".modal-container:has(#event-title) [data-testid='remove-photo-button']")
-    private WebElement removePhotoButton;
+    // Links
 
     @FindBy(id = "event-link-ukr")
     private WebElement ukrainianLinkInput;
 
     @FindBy(id = "event-link-eng")
     private WebElement englishLinkInput;
+
+    // Action buttons
 
     @FindBy(css = ".modal-container:has(#event-title) .modal-footer .btn-secondary")
     private WebElement saveDraftButton;
@@ -60,6 +69,9 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     private WebElement publishButton;
 
     // Calendar
+
+    @FindBy(id = "event-date")
+    private WebElement dateButton;
 
     @FindBy(css = "[role='dialog'][aria-label='Вибір дати']")
     private WebElement datePicker;
@@ -73,9 +85,11 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     @FindBy(xpath = "//div[@role='dialog' and @aria-label='Вибір дати']//button[normalize-space()='Відмінити']")
     private WebElement cancelDateButton;
 
-    public AdminAddEditEventsNewsModal (WebDriver driver) {
+    public EventModalAdmin(WebDriver driver) {
         super(driver);
     }
+
+    // Modal methods
 
     @Step("Check Add/Edit Event modal is displayed")
     public boolean isDisplayed() {
@@ -91,6 +105,13 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     public String getCategory() {
         return categoryChip.getText().trim();
     }
+
+    @Step("Close Add/Edit Event modal")
+    public void closeModal() {
+        wait.until(ExpectedConditions.elementToBeClickable(closeButton)).click();
+    }
+
+    // Event fields methods
 
     @Step("Fill event title: {title}")
     public void fillTitle(String title) {
@@ -110,6 +131,8 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
         additionalDescriptionInput.sendKeys(description);
     }
 
+    // Calendar methods
+
     @Step("Open date picker")
     public void openDatePicker() {
         wait.until(ExpectedConditions.elementToBeClickable(dateButton)).click();
@@ -124,6 +147,15 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     public void selectDate(String date) {
         openDatePicker();
 
+        LocalDate selectedDate = LocalDate.parse(
+                date,
+                DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        );
+
+        String formattedDate = selectedDate.format(
+                DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        );
+
         By dateLocator = By.cssSelector(
                 "[role='dialog'][aria-label='Вибір дати'] " +
                         "button[aria-label='" + date + "']"
@@ -131,6 +163,9 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
 
         wait.until(ExpectedConditions.elementToBeClickable(dateLocator)).click();
         wait.until(ExpectedConditions.elementToBeClickable(confirmDateButton)).click();
+        wait.until(
+                ExpectedConditions.invisibilityOf(datePicker)
+        );
     }
 
     @Step("Open month and year selector")
@@ -155,15 +190,22 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
 
     @Step("Check image preview is displayed")
     public boolean isImagePreviewDisplayed() {
-        return !modal.findElements(
-                By.cssSelector("[data-testid='preview-image']")
-        ).isEmpty();
+        return wait.until(
+                ExpectedConditions.visibilityOf(imagePreview)
+        ).isDisplayed();
     }
 
-    @Step("Remove event image")
-    public void removeImage() {
-        wait.until(ExpectedConditions.elementToBeClickable(removePhotoButton)).click();
+    @Step("Get uploaded image source")
+    public String getImageSource() {
+        return imagePreview.getDomAttribute("src");
     }
+
+    @Step("Check image upload container is displayed")
+    public boolean isImageContainerDisplayed() {
+        return imageContainer.isDisplayed();
+    }
+
+    // Link methods
 
     @Step("Fill Ukrainian link: {link}")
     public void fillUkrainianLink(String link) {
@@ -176,6 +218,8 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
         englishLinkInput.clear();
         englishLinkInput.sendKeys(link);
     }
+
+    // Action methods
 
     @Step("Save event as draft")
     public void saveAsDraft() {
@@ -195,10 +239,5 @@ public class AdminAddEditEventsNewsModal extends BaseAdminPage {
     @Step("Check save draft button is enabled")
     public boolean isSaveDraftEnabled() {
         return saveDraftButton.isEnabled();
-    }
-
-    @Step("Close Add/Edit Event modal")
-    public void closeModal() {
-        wait.until(ExpectedConditions.elementToBeClickable(closeButton)).click();
     }
 }

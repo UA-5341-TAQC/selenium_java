@@ -2,7 +2,7 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.components.EventNewsCardComponent;
+import org.academy.ui.components.EventsNewsCardComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +14,7 @@ import java.util.List;
 public class EventsNewsPage extends BasePage {
 
     // EventsNewsIntro
+
     @FindBy(css = "[class*='EventsNewsIntro_slogan__']")
     private WebElement pageTitle;
 
@@ -21,6 +22,7 @@ public class EventsNewsPage extends BasePage {
     private WebElement pageDescription;
 
     // Events
+
     @FindBy(css = "[class*='Events_header-title__']")
     private WebElement eventsTitle;
 
@@ -43,6 +45,7 @@ public class EventsNewsPage extends BasePage {
     private WebElement showMoreButton;
 
     // ChooseProgram
+
     @FindBy(css = "[class*='CtaSection_title__']")
     private WebElement chooseProgramTitle;
 
@@ -74,7 +77,6 @@ public class EventsNewsPage extends BasePage {
     public String getPageDescriptionText() {
         return pageDescription.getText().trim();
     }
-
 
     // Events Methods
 
@@ -111,7 +113,6 @@ public class EventsNewsPage extends BasePage {
         ).click();
     }
 
-
     // Event Cards Methods
 
     @Step("Get event cards count")
@@ -120,8 +121,8 @@ public class EventsNewsPage extends BasePage {
     }
 
     @Step("Get event card by index: {index}")
-    public EventNewsCardComponent getEventCard(int index) {
-        return new EventNewsCardComponent(eventCards.get(index));
+    public EventsNewsCardComponent getEventCard(int index) {
+        return new EventsNewsCardComponent(eventCards.get(index));
     }
 
     @Step("Click Show More button")
@@ -130,7 +131,6 @@ public class EventsNewsPage extends BasePage {
                 ExpectedConditions.elementToBeClickable(showMoreButton)
         ).click();
     }
-
 
     // ChooseProgram Methods
 
