@@ -2,63 +2,90 @@ package org.academy.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class TestEnvProvider {
-    private final Properties properties;
+    private static final String ENV_FILE_NAME = "env.properties";
+    private static final String FALLBACK_PATH = "src/test/resources/" + ENV_FILE_NAME;
+    private static final Properties PROPERTIES = new Properties();
+
+    static {
+        loadProperties();
+    }
 
     public TestEnvProvider() {
+        // Properties are loaded once in the static initializer block
+    }
 
-        properties = new Properties();
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream("src/test/resources/env.properties"), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        } catch (IOException e) {
-            System.err.println("Could not load properties file: " + e.getMessage());
-            System.err.println("Use system properties.");
+    private static void loadProperties() {
+        InputStream stream = TestEnvProvider.class.getClassLoader().getResourceAsStream(ENV_FILE_NAME);
+        if (stream == null) {
+            try {
+                stream = new FileInputStream(FALLBACK_PATH);
+            } catch (IOException ignored) {
+                // Fallback to system properties / environment variables
+            }
         }
+
+        if (stream != null) {
+            try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                PROPERTIES.load(reader);
+            } catch (IOException e) {
+                System.err.println("Could not load properties file: " + e.getMessage());
+            }
+        }
+    }
+
+    private String getProperty(String key) {
+        // 1. Check JVM System Properties first (-DKEY=value) for easy CLI & CI/CD overrides
+        String value = System.getProperty(key);
+        if (value != null && !value.isBlank()) {
+            return value.trim();
+        }
+
+        // 2. Check OS Environment Variables
+        value = System.getenv(key);
+        if (value != null && !value.isBlank()) {
+            return value.trim();
+        }
+
+        // 3. Fallback to local env.properties file
+        value = PROPERTIES.getProperty(key);
+        return value != null ? value.trim() : null;
     }
 
     public String getBaseUrl() {
-        if (properties != null) {
-            return properties.getProperty("BASE_URL");
-        }
-        return System.getProperty("BASE_URL");
+        return getProperty("BASE_URL");
     }
 
     public String getAdminLoginUrl() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_LOGIN_URL");
-        }
-        return System.getProperty("ADMIN_LOGIN_URL");
+        return getProperty("ADMIN_LOGIN_URL");
     }
 
-    public Boolean isHeadless() {
-        if (properties != null) {
-            return Boolean.parseBoolean(properties.getProperty("HEADLESS"));
-        }
-        return Boolean.parseBoolean(System.getProperty("HEADLESS"));
+    public boolean isHeadless() {
+        return Boolean.parseBoolean(getProperty("HEADLESS"));
     }
 
     public int getImplicitWait() {
-        if (properties != null) {
-            return Integer.parseInt(properties.getProperty("IMPLICITLY_WAIT"));
+        String waitVal = getProperty("IMPLICITLY_WAIT");
+        if (waitVal == null || waitVal.isBlank()) {
+            return 10;
         }
-        return Integer.parseInt(System.getProperty("IMPLICITLY_WAIT", "10"));
+        try {
+            return Integer.parseInt(waitVal);
+        } catch (NumberFormatException e) {
+            return 10;
+        }
     }
 
     public String getAdminEmail() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_EMAIL");
-        }
-        return System.getProperty("ADMIN_EMAIL");
+        return getProperty("ADMIN_EMAIL");
     }
 
     public String getAdminPassword() {
-        if (properties != null) {
-            return properties.getProperty("ADMIN_PASSWORD");
-        }
-        return System.getProperty("ADMIN_PASSWORD");
+        return getProperty("ADMIN_PASSWORD");
     }
 }
