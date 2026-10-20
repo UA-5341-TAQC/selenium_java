@@ -2,7 +2,7 @@ package org.academy.ui.components.admin.programs;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
-import org.academy.ui.constants.HtmlAttributes;
+import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.admin.programs.ProgramEditorModal;
 import org.academy.ui.modals.admin.programs.TranslateProgramModal;
 import org.openqa.selenium.By;
@@ -53,7 +53,7 @@ public class ProgramListItemComponent extends BaseComponent {
 
     @Step("Check whether program information is open")
     public boolean isInformationOpen() {
-        return Boolean.parseBoolean(informationButton.getDomAttribute(HtmlAttributes.ARIA_EXPANDED));
+        return Boolean.parseBoolean(informationButton.getDomAttribute(HtmlAttribute.ARIA_EXPANDED.getValue()));
     }
 
     @Step("Open program information")
@@ -61,10 +61,10 @@ public class ProgramListItemComponent extends BaseComponent {
         if (!isInformationOpen()) {
             click(informationButton);
         }
-        waitUntilAttributeEquals(informationButton, HtmlAttributes.ARIA_EXPANDED, "true");
+        waitUntilAttributeEquals(informationButton, HtmlAttribute.ARIA_EXPANDED.getValue(), "true");
 
         // The tooltip is outside the card; its ID comes from the trigger.
-        String tooltipId = waitUntilAttributeNotBlank(informationButton, HtmlAttributes.ARIA_DESCRIBED_BY);
+        String tooltipId = waitUntilAttributeNotBlank(informationButton, HtmlAttribute.ARIA_DESCRIBED_BY.getValue());
         WebElement tooltip = waitUntilVisible(By.id(tooltipId));
         return new ProgramInfoTooltipComponent(tooltip);
     }
@@ -75,7 +75,7 @@ public class ProgramListItemComponent extends BaseComponent {
             // Clicking the trigger again does not dismiss the tooltip.
             click(title);
         }
-        waitUntilAttributeEquals(informationButton, HtmlAttributes.ARIA_EXPANDED, "false");
+        waitUntilAttributeEquals(informationButton, HtmlAttribute.ARIA_EXPANDED.getValue(), "false");
         return this;
     }
 

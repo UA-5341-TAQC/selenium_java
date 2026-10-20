@@ -1,7 +1,7 @@
 package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
-import org.academy.ui.constants.HtmlAttributes;
+import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.admin.AddSectionModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -100,7 +100,7 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
         openCategories();
         for (WebElement option : categoryOptions) {
             if (category.equals(option.getText())) {
-                if (selected != Boolean.parseBoolean(option.getDomAttribute(HtmlAttributes.ARIA_SELECTED))) {
+                if (selected != Boolean.parseBoolean(option.getDomAttribute(HtmlAttribute.ARIA_SELECTED.getValue()))) {
                     click(option);
                 }
                 return this;
@@ -132,13 +132,13 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @Step("Read program preview image source")
     public String getPreviewImageSource() {
         return waitUntilAllVisible(previewImages)
-                .get(0).getDomAttribute(HtmlAttributes.SRC);
+                .get(0).getDomAttribute(HtmlAttribute.SRC.getValue());
     }
 
     @Step("Read program background image source")
     public String getBackgroundImageSource() {
         return waitUntilAllVisible(backgroundImages)
-                .get(0).getDomAttribute(HtmlAttributes.SRC);
+                .get(0).getDomAttribute(HtmlAttribute.SRC.getValue());
     }
 
     /** File selection may open the cropper or show a validation error. */
@@ -182,7 +182,7 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     }
 
     private void openCategories() {
-        if (!Boolean.parseBoolean(categoriesButton.getDomAttribute(HtmlAttributes.ARIA_EXPANDED))) {
+        if (!Boolean.parseBoolean(categoriesButton.getDomAttribute(HtmlAttribute.ARIA_EXPANDED.getValue()))) {
             click(categoriesButton);
         }
         waitUntilAllVisible(categoryOptions);

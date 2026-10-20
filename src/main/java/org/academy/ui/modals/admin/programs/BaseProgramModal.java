@@ -1,7 +1,7 @@
 package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
-import org.academy.ui.constants.HtmlAttributes;
+import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
 import org.academy.ui.pages.Admin.AdminProgramsPage;
 import org.academy.ui.types.ProgramField;
@@ -59,7 +59,7 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
     public List<String> getInvalidFieldNames() {
         List<String> names = new ArrayList<>();
         for (WebElement field : invalidFields) {
-            names.add(field.getDomAttribute(HtmlAttributes.NAME));
+            names.add(field.getDomAttribute(HtmlAttribute.NAME.getValue()));
         }
         return names;
     }
@@ -68,7 +68,7 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
     public String getCharacterCounter(ProgramField field) {
         Objects.requireNonNull(field, "Program field must not be null");
         for (WebElement counter : characterCounters) {
-            if (field.getId().equals(counter.getDomAttribute(HtmlAttributes.FOR))) {
+            if (field.getId().equals(counter.getDomAttribute(HtmlAttribute.FOR.getValue()))) {
                 return getText(counter);
             }
         }

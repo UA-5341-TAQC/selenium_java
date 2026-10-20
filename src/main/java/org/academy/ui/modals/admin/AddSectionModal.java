@@ -1,7 +1,7 @@
 package org.academy.ui.modals.admin;
 
 import io.qameta.allure.Step;
-import org.academy.ui.constants.HtmlAttributes;
+import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -107,7 +107,7 @@ public class AddSectionModal extends BaseModal {
 
     private int readActiveTemplateIndex() {
         for (int index = 0; index < templateSlides.size(); index++) {
-            if (templateSlides.get(index).getDomAttribute(HtmlAttributes.CLASS).contains(ACTIVE_TEMPLATE_CLASS)) {
+            if (templateSlides.get(index).getDomAttribute(HtmlAttribute.CLASS.getValue()).contains(ACTIVE_TEMPLATE_CLASS)) {
                 return index;
             }
         }
@@ -120,7 +120,7 @@ public class AddSectionModal extends BaseModal {
         }
         WebElement currentSlide = templateSlides.get(readActiveTemplateIndex());
         click(button);
-        waitUntilAttributeNotContains(currentSlide, HtmlAttributes.CLASS, ACTIVE_TEMPLATE_CLASS);
+        waitUntilAttributeNotContains(currentSlide, HtmlAttribute.CLASS.getValue(), ACTIVE_TEMPLATE_CLASS);
         waitUntilVisible(activeTemplateContent);
     }
 }
