@@ -23,7 +23,6 @@ public class TeamPage extends BasePage {
     @Step("Wait for the public Team page to load")
     public TeamPage waitUntilLoaded() {
         wait.until(ExpectedConditions.presenceOfElementLocated(TEAM_CONTAINER));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("[role='progressbar']")));
         return this;
     }
 
