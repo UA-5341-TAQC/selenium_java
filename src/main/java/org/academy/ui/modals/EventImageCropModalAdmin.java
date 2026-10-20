@@ -2,14 +2,12 @@ package org.academy.ui.modals;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.pages.Admin.BaseAdminPage;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
-public class EventImageCropModalAdmin extends BaseAdminPage {
+public class EventImageCropModalAdmin extends BaseModal {
 
     @FindBy(css = ".modal-container:has(.cropper-container)")
     private WebElement modal;
@@ -29,8 +27,8 @@ public class EventImageCropModalAdmin extends BaseAdminPage {
     @FindBy(xpath = "//div[contains(@class,'modal-container')][.//div[contains(@class,'cropper-container')]]//button[normalize-space()='Ні']")
     private WebElement cancelButton;
 
-    public EventImageCropModalAdmin(WebDriver driver) {
-        super(driver);
+    public EventImageCropModalAdmin(WebElement rootElement) {
+        super(rootElement);
     }
 
     @Step("Check image crop modal is displayed")

@@ -2,9 +2,7 @@ package org.academy.ui.modals;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.pages.Admin.BaseAdminPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-public class EventModalAdmin extends BaseAdminPage {
+public class EventModalAdmin extends BaseModal {
 
     // Modal
 
@@ -85,8 +83,8 @@ public class EventModalAdmin extends BaseAdminPage {
     @FindBy(xpath = "//div[@role='dialog' and @aria-label='Вибір дати']//button[normalize-space()='Відмінити']")
     private WebElement cancelDateButton;
 
-    public EventModalAdmin(WebDriver driver) {
-        super(driver);
+    public EventModalAdmin(WebElement rootElement) {
+        super(rootElement);
     }
 
     // Modal methods

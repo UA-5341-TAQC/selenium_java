@@ -2,15 +2,13 @@ package org.academy.ui.modals;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.pages.Admin.BaseAdminPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
-public class EventTranslationModalAdmin extends BaseAdminPage {
+public class EventTranslationModalAdmin extends BaseModal {
 
     @FindBy(css = ".modal-container:has(#translate-event-form)")
     private WebElement modal;
@@ -39,8 +37,8 @@ public class EventTranslationModalAdmin extends BaseAdminPage {
     @FindBy(css = ".modal-container:has(#translate-event-form) .localization-modal .btn-primary")
     private WebElement saveTranslationButton;
 
-    public EventTranslationModalAdmin(WebDriver driver) {
-        super(driver);
+    public EventTranslationModalAdmin(WebElement rootElement) {
+        super(rootElement);
     }
 
     @Step("Check Event Translation modal is displayed")
