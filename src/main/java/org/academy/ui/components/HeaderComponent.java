@@ -1,7 +1,6 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
-import org.academy.ui.modals.HeaderModal;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -91,11 +90,11 @@ public class HeaderComponent extends BaseComponent {
     }
 
     @Step("Open mobile menu via burger button")
-    public HeaderModal openMobileMenu() {
+    public MobileMenuComponent openMobileMenu() {
         wait.until(ExpectedConditions.elementToBeClickable(burgerMenuButton)).click();
-        HeaderModal headerModal = new HeaderModal(driver);
-        headerModal.waitForOpened();
-        return headerModal;
+        MobileMenuComponent mobileMenu = new MobileMenuComponent(driver);
+        mobileMenu.waitForOpened();
+        return mobileMenu;
     }
 
     @Step("Check if burger menu button is displayed")
