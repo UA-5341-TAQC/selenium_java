@@ -2,6 +2,7 @@ package org.academy.ui.components.admin.programs;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
+import org.academy.ui.constants.HtmlAttributes;
 import org.academy.ui.modals.admin.programs.ProgramEditorModal;
 import org.academy.ui.modals.admin.programs.TranslateProgramModal;
 import org.openqa.selenium.By;
@@ -52,7 +53,7 @@ public class ProgramListItemComponent extends BaseComponent {
 
     @Step("Check whether program information is open")
     public boolean isInformationOpen() {
-        return "true".equals(informationButton.getDomAttribute("aria-expanded"));
+        return Boolean.parseBoolean(informationButton.getDomAttribute(HtmlAttributes.ARIA_EXPANDED));
     }
 
     @Step("Open program information")
@@ -60,10 +61,10 @@ public class ProgramListItemComponent extends BaseComponent {
         if (!isInformationOpen()) {
             click(informationButton);
         }
-        waitUntilAttributeEquals(informationButton, "aria-expanded", "true");
+        waitUntilAttributeEquals(informationButton, HtmlAttributes.ARIA_EXPANDED, "true");
 
         // The tooltip is outside the card; its ID comes from the trigger.
-        String tooltipId = waitUntilAttributeNotBlank(informationButton, "aria-describedby");
+        String tooltipId = waitUntilAttributeNotBlank(informationButton, HtmlAttributes.ARIA_DESCRIBED_BY);
         WebElement tooltip = waitUntilVisible(By.id(tooltipId));
         return new ProgramInfoTooltipComponent(tooltip);
     }
@@ -74,7 +75,7 @@ public class ProgramListItemComponent extends BaseComponent {
             // Clicking the trigger again does not dismiss the tooltip.
             click(title);
         }
-        waitUntilAttributeEquals(informationButton, "aria-expanded", "false");
+        waitUntilAttributeEquals(informationButton, HtmlAttributes.ARIA_EXPANDED, "false");
         return this;
     }
 

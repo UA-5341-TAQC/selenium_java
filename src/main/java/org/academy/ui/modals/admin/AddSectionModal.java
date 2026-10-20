@@ -1,6 +1,7 @@
 package org.academy.ui.modals.admin;
 
 import io.qameta.allure.Step;
+import org.academy.ui.constants.HtmlAttributes;
 import org.academy.ui.modals.BaseModal;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,13 +10,15 @@ import java.util.List;
 
 public class AddSectionModal extends BaseModal {
 
+    private static final String ACTIVE_TEMPLATE_CLASS = "swiper-slide-active";
+
     public static final String ROOT_SELECTOR =
             ".modal-container:has([data-testid='add-section-modal-content'])";
 
     @FindBy(css = ".swiper-slide:has([data-testid='add-section-modal-content'])")
     private List<WebElement> templateSlides;
 
-    @FindBy(css = ".swiper-slide-active [data-testid='add-section-modal-content']")
+    @FindBy(css = "." + ACTIVE_TEMPLATE_CLASS + " [data-testid='add-section-modal-content']")
     private WebElement activeTemplateContent;
 
     @FindBy(css = "button[aria-label='previous'][data-icon-position='only']")
@@ -104,7 +107,7 @@ public class AddSectionModal extends BaseModal {
 
     private int readActiveTemplateIndex() {
         for (int index = 0; index < templateSlides.size(); index++) {
-            if (templateSlides.get(index).getDomAttribute("class").contains("swiper-slide-active")) {
+            if (templateSlides.get(index).getDomAttribute(HtmlAttributes.CLASS).contains(ACTIVE_TEMPLATE_CLASS)) {
                 return index;
             }
         }
@@ -117,7 +120,7 @@ public class AddSectionModal extends BaseModal {
         }
         WebElement currentSlide = templateSlides.get(readActiveTemplateIndex());
         click(button);
-        waitUntilAttributeNotContains(currentSlide, "class", "swiper-slide-active");
+        waitUntilAttributeNotContains(currentSlide, HtmlAttributes.CLASS, ACTIVE_TEMPLATE_CLASS);
         waitUntilVisible(activeTemplateContent);
     }
 }
