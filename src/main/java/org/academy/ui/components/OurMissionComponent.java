@@ -36,7 +36,7 @@ public class OurMissionComponent extends BaseComponent {
 
     @Step("Click Go To Programs button")
     public void clickGoToProgramsButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(goToProgramsButtonn)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(goToProgramsButton)).click();
     }
 
 }

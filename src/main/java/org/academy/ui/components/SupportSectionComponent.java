@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SupportSectionComponent extends BaseComponent {
 
     @FindBy(css = "div[class*='SupportCard_people-card']")
@@ -47,7 +50,7 @@ public class SupportSectionComponent extends BaseComponent {
     public SupportCardComponent getSupportCardByName(String cardName) {
         for (WebElement cardEl : supportCardElements) {
             SupportCardComponent card = new SupportCardComponent(cardEl);
-            if (card.getNameText().toLowerCase().contains(cardName.toLowerCase())) {
+            if (card.getDescriptionText().toLowerCase().contains(cardName.toLowerCase())) {
                 return card;
             }
         }

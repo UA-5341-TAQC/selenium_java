@@ -5,13 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CompanyValuesSectionComponent extends BaseComponent {
 
     @FindBy(css = "h2[class*='ValueCard_title']")
     private WebElement titleElement;
 
     @FindBy(css = "div[class*='ValueCard_item']")
-    private WebElement valueCardElements;
+    private List<WebElement> valueCardElements;
 
     @FindBy(css = "div[class*='CompanyValues_root'] div[class*='ValueCard_item']")
     private List<WebElement> programCardElements;
@@ -43,7 +46,7 @@ public class CompanyValuesSectionComponent extends BaseComponent {
         if (index < 0 || index >= valueCardElements.size()) {
             throw new IndexOutOfBoundsException("Invalid ValueCard index: " + index + ", total cards: " + valueCardElements.size());
         }
-        return new ProgramCardComponent(valueCardElements.get(index));
+        return new ValueCardComponent(valueCardElements.get(index));
     }
 
     @Step("Get ValueCard component by name: {cardName}")

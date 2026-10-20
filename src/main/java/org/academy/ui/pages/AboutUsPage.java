@@ -1,10 +1,12 @@
 package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
+import org.academy.ui.components.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AboutUsPage extends BasePage {
 
@@ -34,7 +36,7 @@ public class AboutUsPage extends BasePage {
     @FindBy(css = "div[class*='DonateSection_root'],")
     private WebElement donateSectionElement;
 
-    public AboutUsPagePage(WebDriver driver) {
+    public AboutUsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
@@ -81,15 +83,15 @@ public class AboutUsPage extends BasePage {
     }
 
     @Step("Get Main Value component")
-    public OurTeamSectionComponent getOurTeamSection() {
+    public MainValueComponent getMainValueComponent() {
         wait.until(ExpectedConditions.visibilityOf(mainValueSectionElement));
-        return new OurTeamSectionComponent(mainValueSectionElement);
+        return new MainValueComponent(mainValueSectionElement);
     }
 
     @Step("Get About Us Donate Section component")
     public AboutUsDonateSectionComponent getAboutUsDonateSection() {
         wait.until(ExpectedConditions.visibilityOf(donateSectionElement));
-        return new OurTeamSectionComponent(donateSectionElement);
+        return new AboutUsDonateSectionComponent(donateSectionElement);
     }
 
 }

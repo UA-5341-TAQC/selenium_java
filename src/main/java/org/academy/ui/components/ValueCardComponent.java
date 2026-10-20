@@ -25,7 +25,7 @@ public class ValueCardComponent extends BaseComponent {
     }
 
     @Step("Get Value Card name")
-    public String getDescriptionText() {
+    public String getNameText() {
         wait.until(ExpectedConditions.visibilityOf(nameElement));
         return nameElement.getText().trim();
     }

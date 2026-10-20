@@ -4,6 +4,9 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class AboutUsProgramsSectionComponent extends BaseComponent {
 
     @FindBy(css = "div[class*='ProgramCardAboutUsPage_root']")
@@ -20,9 +23,7 @@ public class AboutUsProgramsSectionComponent extends BaseComponent {
 
     @Step("Get list of ProgramCard components")
     public List<ProgramCardComponent> getProgramCards() {
-        return programCardElements.stream()
-                .map(ProgramCardComponent::new)
-                .collect(Collectors.toList());
+        return programCardElements.stream().map(ProgramCardComponent::new).collect(Collectors.toList());
     }
 
     @Step("Get ProgramCard component by index: {index}")
@@ -44,3 +45,4 @@ public class AboutUsProgramsSectionComponent extends BaseComponent {
         throw new IllegalArgumentException("ProgramCard not found with name containing: " + cardName);
 
     }
+}
