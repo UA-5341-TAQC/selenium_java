@@ -8,6 +8,8 @@ import org.academy.ui.modals.admin.team.TeamAddCategoryModal;
 import org.academy.ui.modals.admin.team.TeamDeleteCategoryModal;
 import org.academy.ui.modals.admin.team.TeamEditCategoryModal;
 import org.academy.ui.modals.admin.team.TeamTranslateCategoryModal;
+import org.academy.ui.types.TeamCategoryAction;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -20,22 +22,24 @@ public class TeamContextMenuComponent extends BaseComponent {
     private WebElement options;
     @FindBy(css = "[role='menuitem']")
     private List<WebElement> items;
-    @FindBy(xpath = ".//button[@role='menuitem' and normalize-space()='Додати категорію']")
-    private WebElement addCategory;
 
+    // Ініціалізує компонент у межах переданого кореневого елемента.
     public TeamContextMenuComponent(WebElement rootElement) {
         super(rootElement);
     }
 
+    // Перевіряє видимість пунктів контекстного меню.
     public boolean isOpen() {
         return options.isDisplayed();
     }
 
+    // Чекає видимості пунктів контекстного меню.
     public TeamContextMenuComponent waitUntilOpen() {
         wait.until(ExpectedConditions.visibilityOf(options));
         return this;
     }
 
+    // Повертає назви пунктів відкритого меню.
     public List<String> getOptionNames() {
         waitUntilOpen();
         List<String> names = new ArrayList<>();
@@ -47,33 +51,33 @@ public class TeamContextMenuComponent extends BaseComponent {
 
     @Step("Open the add Team category dialog")
     public TeamAddCategoryModal clickAddCategory() {
-        waitUntilOpen();
-        wait.until(ExpectedConditions.elementToBeClickable(addCategory)).click();
+        clickOption(TeamCategoryAction.ADD);
         return new TeamAddCategoryModal(driver);
     }
-    private void clickOption(String name) {
+    // Знаходить пункт меню за дією з enum і натискає його.
+    private void clickOption(TeamCategoryAction action) {
         waitUntilOpen();
         for (WebElement item : items) {
-            if (item.getText().equals(name)) {
+            if (item.getText().equals(action.getText())) {
                 wait.until(ExpectedConditions.elementToBeClickable(item)).click();
                 return;
             }
         }
-        throw new org.openqa.selenium.NoSuchElementException("Category menu option not found: " + name);
+        throw new NoSuchElementException("Category menu option not found: " + action.getText());
     }
     @Step("Open the edit Team category dialog")
     public TeamEditCategoryModal clickEditCategory() {
-        clickOption("Редагувати");
+        clickOption(TeamCategoryAction.EDIT);
         return new TeamEditCategoryModal(driver);
     }
     @Step("Open the Team category translation dialog")
     public TeamTranslateCategoryModal clickTranslateCategory() {
-        clickOption("Додати переклад");
+        clickOption(TeamCategoryAction.TRANSLATE);
         return new TeamTranslateCategoryModal(driver);
     }
     @Step("Open the delete Team category dialog")
     public TeamDeleteCategoryModal clickDeleteCategory() {
-        clickOption("Видалити");
+        clickOption(TeamCategoryAction.DELETE);
         return new TeamDeleteCategoryModal(driver);
     }
 }

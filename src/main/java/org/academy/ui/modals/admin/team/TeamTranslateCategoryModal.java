@@ -1,7 +1,7 @@
 package org.academy.ui.modals.admin.team;
 
 import io.qameta.allure.Step;
-import org.academy.ui.components.BaseComponent;
+import org.academy.ui.modals.BaseModal;
 import org.academy.ui.pages.Admin.TeamPageAdmin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,11 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 
-public class TeamTranslateCategoryModal extends BaseComponent {
+public class TeamTranslateCategoryModal extends BaseModal {
     private static final By MODAL = By.xpath(
             "//form[@id='translate-category-form']/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
 
@@ -29,19 +27,20 @@ public class TeamTranslateCategoryModal extends BaseComponent {
     private WebElement descriptionCounter;
     @FindBy(css = ".modal-footer .btn-primary")
     private WebElement saveButton;
-    @FindBy(css = "button[aria-label='Close modal']")
-    private WebElement closeButton;
 
+    // Знаходить відкриту модалку та ініціалізує її поля.
     public TeamTranslateCategoryModal(WebDriver driver) {
-        super(new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(MODAL)));
+        super(driver, MODAL);
     }
 
+    // Повертає назву вибраної мови перекладу.
     public String getLanguage() { return rootElement.findElement(By.cssSelector(".language-select .select-head")).getText(); }
+    // Повертає заголовок модалки.
     public String getTitle() {
         return title.getText();
     }
 
+    // Перевіряє видимість модалки.
     public boolean isDisplayed() {
         return rootElement.isDisplayed();
     }
@@ -54,6 +53,7 @@ public class TeamTranslateCategoryModal extends BaseComponent {
         return this;
     }
 
+    // Повертає поточне значення імені або назви.
     public String getName() {
         return nameField.getDomProperty("value");
     }
@@ -66,6 +66,7 @@ public class TeamTranslateCategoryModal extends BaseComponent {
         return this;
     }
 
+    // Повертає поточне значення опису.
     public String getDescription() {
         return descriptionField.getDomProperty("value");
     }
@@ -76,14 +77,17 @@ public class TeamTranslateCategoryModal extends BaseComponent {
         return this;
     }
 
+    // Повертає текст лічильника символів назви.
     public String getNameCounter() {
         return nameCounter.getText();
     }
 
+    // Повертає текст лічильника символів опису.
     public String getDescriptionCounter() {
         return descriptionCounter.getText();
     }
 
+    // Перевіряє доступність кнопки збереження.
     public boolean isSaveEnabled() {
         return saveButton.isEnabled();
     }
@@ -103,15 +107,7 @@ public class TeamTranslateCategoryModal extends BaseComponent {
         return new TeamPageAdmin(driver);
     }
 
-    // If fields were changed, closing may open a separate discard confirmation.
-    @Step("Close the Team category translation dialog")
-    public void clickClose() {
-        wait.until(ExpectedConditions.elementToBeClickable(closeButton)).click();
-    }
 
-    public void waitUntilClosed() {
-        wait.until(ExpectedConditions.stalenessOf(rootElement));
-    }
     @Step("Select category to translate: {name}")
     public TeamTranslateCategoryModal selectCategory(String name) {
         WebElement select = rootElement.findElement(By.id("category-select"));

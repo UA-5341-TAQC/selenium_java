@@ -20,10 +20,12 @@ public class TeamCategoryBarComponent extends BaseComponent {
     @FindBy(css = "[data-testid='context-menu']")
     private WebElement contextMenu;
 
+    // Ініціалізує компонент у межах переданого кореневого елемента.
     public TeamCategoryBarComponent(WebElement rootElement) {
         super(rootElement);
     }
 
+    // Повертає назви категорій із панелі.
     public List<String> getCategoryNames() {
         List<String> names = new ArrayList<>();
         for (WebElement button : categoryButtons) {
@@ -32,6 +34,7 @@ public class TeamCategoryBarComponent extends BaseComponent {
         return names;
     }
 
+    // Повертає назву активної категорії.
     public String getSelectedCategoryName() {
         return wait.until(ExpectedConditions.visibilityOf(selectedCategory)).getText();
     }
@@ -40,7 +43,7 @@ public class TeamCategoryBarComponent extends BaseComponent {
     public TeamCategoryBarComponent selectCategory(String categoryName) {
         for (WebElement button : categoryButtons) {
             if (button.getText().equals(categoryName)) {
-                js.executeScript("arguments[0].scrollIntoView({block: 'nearest', inline: 'center'});", button);
+                actions.moveToElement(button).perform();
                 wait.until(ExpectedConditions.elementToBeClickable(button)).click();
                 wait.until(webDriver -> getSelectedCategoryName().equals(categoryName));
                 return this;
@@ -51,8 +54,8 @@ public class TeamCategoryBarComponent extends BaseComponent {
 
     @Step("Open Team category context menu")
     public TeamContextMenuComponent openContextMenu() {
-        TeamContextMenuComponent menu = new TeamContextMenuComponent(
-                ((WrapsElement) contextMenu).getWrappedElement());
+        TeamContextMenuComponent menu =
+                new TeamContextMenuComponent(contextMenu);
         if (!menu.isOpen()) {
             wait.until(ExpectedConditions.elementToBeClickable(contextMenu)).click();
         }

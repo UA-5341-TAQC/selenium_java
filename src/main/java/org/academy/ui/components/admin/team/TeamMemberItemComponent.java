@@ -14,9 +14,13 @@ public class TeamMemberItemComponent extends BaseComponent {
     @FindBy(css = "button[aria-label='Редагувати учасника']") private WebElement edit;
     @FindBy(css = "button[aria-label='Додати переклад для учасника']") private WebElement translate;
     @FindBy(css = "button[aria-label='Видалити учасника']") private WebElement delete;
+    // Ініціалізує компонент у межах переданого кореневого елемента.
     public TeamMemberItemComponent(WebElement element) { super(element); }
+    // Повертає поточне значення імені або назви.
     public String getName() { return name.getText(); }
+    // Повертає поточне значення опису.
     public String getDescription() { return description.getText(); }
+    // Повертає статус учасника зі списку.
     public String getStatus() { return status.getText(); }
     @Step("Open the selected member for editing")
     public TeamMemberModal clickEdit() {

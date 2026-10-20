@@ -2,17 +2,15 @@ package org.academy.ui.modals.admin.team;
 
 import io.qameta.allure.Step;
 
-import org.academy.ui.components.BaseComponent;
+import org.academy.ui.modals.BaseModal;
 import org.academy.ui.pages.Admin.TeamPageAdmin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
-public class TeamDeleteCategoryModal extends BaseComponent {
+public class TeamDeleteCategoryModal extends BaseModal {
     private static final By MODAL = By.xpath("//*[@id='delete-category-select']/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
     @FindBy(id = "delete-category-select")
     private WebElement category;
@@ -21,13 +19,15 @@ public class TeamDeleteCategoryModal extends BaseComponent {
     @FindBy(css = ".modal-footer .btn-secondary")
     private WebElement cancelButton;
 
+    // Знаходить відкриту модалку та ініціалізує її поля.
     public TeamDeleteCategoryModal(WebDriver driver) {
-        super(new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(MODAL)));
+        super(driver, MODAL);
     }
+    // Повертає назву категорії, вибраної у формі.
     public String getCategoryName() { return category.getText(); }
     @Step("Check whether Team category deletion is enabled")
     public boolean isDeleteEnabled() { return deleteButton.isEnabled(); }
+    // Повертає підказку форми або порожній рядок, якщо підказки немає.
     public String getHint() {
         var hints = rootElement.findElements(By.cssSelector(".hint-box"));
         return hints.isEmpty() ? "" : hints.getFirst().getText();
