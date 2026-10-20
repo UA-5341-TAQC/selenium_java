@@ -40,6 +40,7 @@ public class TeamCategoryBarComponent extends BaseComponent {
     public TeamCategoryBarComponent selectCategory(String categoryName) {
         for (WebElement button : categoryButtons) {
             if (button.getText().equals(categoryName)) {
+                js.executeScript("arguments[0].scrollIntoView({block: 'nearest', inline: 'center'});", button);
                 wait.until(ExpectedConditions.elementToBeClickable(button)).click();
                 wait.until(webDriver -> getSelectedCategoryName().equals(categoryName));
                 return this;

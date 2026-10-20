@@ -36,9 +36,7 @@ public class TeamDeleteCategoryModal extends BaseComponent {
     public TeamPageAdmin clickDelete() {
         wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
         By confirmButton = By.xpath(
-                "//div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')]"
-                        + "[.//*[normalize-space()='Видалити категорію?']]"
-                        + "//button[normalize-space()='Так']"
+                "//button[contains(@class, 'btn-primary') and normalize-space()='Так']"
         );
         wait.until(ExpectedConditions.elementToBeClickable(confirmButton)).click();
         wait.until(ExpectedConditions.stalenessOf(rootElement));

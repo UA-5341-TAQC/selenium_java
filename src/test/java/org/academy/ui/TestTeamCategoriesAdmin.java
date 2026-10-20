@@ -17,13 +17,15 @@ import java.net.URI;
 import java.time.Duration;
 import java.util.List;
 
-public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
+public class TestTeamCategoriesAdmin extends UITestRunnerWithAdmin {
     @Test(description = "Create, edit, translate and delete a category")
     public void testAddCategoryModal() {
+        // 1. Після авторизації відкриваємо сторінку керування командою.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.urlContains("/admin-panel"));
         driver.get(URI.create(testEnvProvider.getBaseUrl()).resolve("/admin-panel/team").toString());
 
+        // 2. Чекаємо завантаження категорій, вибираємо першу та перевіряємо активну вкладку.
         TeamPageAdmin page = new TeamPageAdmin(driver);
         TeamCategoryBarComponent bar = page.getCategoryBar();
         TeamCategoryBarComponent initialBar = bar;
@@ -32,19 +34,23 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
         bar.selectCategory(categoryName);
         Assert.assertEquals(bar.getSelectedCategoryName(), categoryName);
 
+        // 3. Відкриваємо контекстне меню та перевіряємо перелік доступних дій.
         TeamContextMenuComponent menu = bar.openContextMenu();
         Assert.assertEquals(menu.getOptionNames(),
                 List.of("Додати категорію", "Редагувати", "Видалити", "Додати переклад"));
 
+        // 4. Відкриваємо форму додавання та перевіряємо її видимість і заголовок.
         TeamAddCategoryModal modal = menu.clickAddCategory();
         Assert.assertTrue(modal.isDisplayed());
         Assert.assertEquals(modal.getTitle(), "Додати категорію");
 
+        // 5. Генеруємо унікальну назву, заповнюємо назву й опис та перевіряємо введені дані.
         String newCategoryName = "QA " + Long.toString(System.currentTimeMillis(), 36);
         modal.setName(newCategoryName).setDescription("Опис тестової категорії").blurDescription();
         Assert.assertEquals(modal.getName(), newCategoryName);
         Assert.assertEquals(modal.getDescription(), "Опис тестової категорії");
 
+        // 6. Зберігаємо категорію та чекаємо її появи на панелі категорій.
         page = modal.clickSave();
         TeamCategoryBarComponent updatedBar = page.getCategoryBar();
         wait.until(webDriver -> updatedBar.getCategoryNames().contains(newCategoryName));
@@ -52,6 +58,7 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
                 "Created category must appear on the category bar");
 
 
+        // 7. Вибираємо створену категорію, перевіряємо початкові дані та змінюємо назву й опис.
         TeamEditCategoryModal edit = updatedBar.openContextMenu().clickEditCategory();
         edit.selectCategory(newCategoryName);
         Assert.assertEquals(edit.getName(), newCategoryName);
@@ -63,10 +70,12 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
 
         driver.navigate().refresh();
         bar = new TeamPageAdmin(driver).getCategoryBar();
+        // 8. Після оновлення перевіряємо нову назву та відсутність попередньої назви.
         TeamCategoryBarComponent editedBar = bar;
         wait.until(webDriver -> editedBar.getCategoryNames().contains(editedName));
         Assert.assertFalse(bar.getCategoryNames().contains(newCategoryName));
 
+        // 9. Повторно відкриваємо редагування та перевіряємо збережені назву й опис.
         edit = bar.openContextMenu().clickEditCategory();
         edit.selectCategory(editedName);
         Assert.assertEquals(edit.getName(), editedName);
@@ -74,6 +83,7 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
         edit.clickClose();
         edit.waitUntilClosed();
 
+        // 10. Вибираємо створену категорію та додаємо англійський переклад назви й опису.
         TeamTranslateCategoryModal translation = bar.openContextMenu().clickTranslateCategory();
         translation.selectCategory(editedName);
         Assert.assertEquals(translation.getLanguage(), "Англійська");
@@ -84,9 +94,11 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
 
         driver.navigate().refresh();
         bar = new TeamPageAdmin(driver).getCategoryBar();
+        // 11. Після оновлення чекаємо появи категорії перед перевіркою перекладу.
         TeamCategoryBarComponent translatedBar = bar;
         wait.until(webDriver -> translatedBar.getCategoryNames().contains(editedName));
 
+        // 12. Повторно відкриваємо переклад і перевіряємо збережені значення.
         translation = bar.openContextMenu().clickTranslateCategory();
         translation.selectCategory(editedName);
         Assert.assertEquals(translation.getName(), translatedName);
@@ -94,6 +106,7 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
         translation.clickClose();
         translation.waitUntilClosed();
 
+        // 13. Перевіряємо вибрану категорію й доступність видалення, потім видаляємо її з підтвердженням.
         TeamDeleteCategoryModal deletion = bar.openContextMenu().clickDeleteCategory();
         deletion.selectCategory(editedName);
         Assert.assertEquals(deletion.getCategoryName(), editedName);
@@ -101,6 +114,7 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
                 "Empty test category must allow deletion. " + deletion.getHint());
         page = deletion.clickDelete();
 
+        // 14. Чекаємо зникнення видаленої категорії та перевіряємо її відсутність у списку.
         TeamCategoryBarComponent barAfterDelete = page.getCategoryBar();
 
         wait.until(webDriver ->
