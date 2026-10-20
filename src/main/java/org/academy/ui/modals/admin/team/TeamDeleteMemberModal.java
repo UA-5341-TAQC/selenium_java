@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.*;
 
 public class TeamDeleteMemberModal extends BaseModal {
-    private static final By MODAL = By.xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][.//span[@class='modal-header-text' and normalize-space()='Видалити члена команди?']]");
+    private static final By MODAL = By.xpath("//div[@class='modal-container'][.//span[normalize-space()='Видалити члена команди?']]");
     @FindBy(xpath = ".//button[normalize-space()='Так']") private WebElement yes;
     @FindBy(xpath = ".//button[normalize-space()='Ні']") private WebElement no;
     // Знаходить відкриту модалку та ініціалізує її поля.

@@ -8,8 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TeamTranslateMemberModal extends TeamMemberFieldsModal {
     private static final By MODAL = By.xpath(
-            "//form[contains(concat(' ', normalize-space(@class), ' '), ' translate-member-form ')]"
-            + "/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
+            "//div[@class='modal-container'][.//form[@data-testid='test-form']]");
     @FindBy(css = ".modal-footer .btn-primary") private WebElement saveButton;
     @FindBy(css = ".language-select .select-head") private WebElement language;
     // Знаходить відкриту модалку та ініціалізує її поля.

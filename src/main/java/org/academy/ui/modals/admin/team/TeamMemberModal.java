@@ -10,8 +10,7 @@ import java.nio.file.Path;
 /** The same form is used for adding and editing a member. */
 public class TeamMemberModal extends TeamMemberFieldsModal {
     private static final By MODAL = By.xpath(
-            "//form[contains(concat(' ', normalize-space(@class), ' '), ' team-member-form-main ')]"
-            + "/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
+            "//div[@class='modal-container'][.//form[@class='team-member-form-main']]");
     @FindBy(css = ".singleselect .select-input") private WebElement category;
     @FindBy(css = ".modal-footer .btn-secondary") private WebElement draftButton;
     @FindBy(css = ".modal-footer .btn-primary") private WebElement publishButton;

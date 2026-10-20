@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TeamDeleteCategoryModal extends BaseModal {
-    private static final By MODAL = By.xpath("//*[@id='delete-category-select']/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
+    private static final By MODAL = By.xpath("//div[@class='modal-container'][.//div[@class='delete-category-modal-content']]");
     @FindBy(id = "delete-category-select")
     private WebElement category;
     @FindBy(css = ".modal-footer .btn-primary")

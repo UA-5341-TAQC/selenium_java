@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TeamEditCategoryModal extends BaseModal {
     private static final By MODAL = By.xpath(
-            "//form[@id='edit-team-category-form']/ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' modal-container ')][1]");
+            "//div[@class='modal-container'][.//form[@id='edit-team-category-form']]");
 
     @FindBy(css = ".modal-header-text")
     private WebElement title;
