@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -24,15 +23,13 @@ public class DonateSectionComponent extends BaseComponent {
 
     @Step("Enter donate amount: {amount}")
     public DonateSectionComponent enterAmount(String amount) {
-        wait.until(ExpectedConditions.visibilityOf(amountInput));
-        amountInput.clear();
-        amountInput.sendKeys(amount);
+        fillInput(amountInput, amount);
         return this;
     }
 
     @Step("Click quick donate submit")
     public void clickSubmit() {
-        wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
+        click(submitButton);
     }
 
     @Step("Get fast donate buttons count")
@@ -45,7 +42,8 @@ public class DonateSectionComponent extends BaseComponent {
         if (index < 0 || index >= fastDonateButtons.size()) {
             throw new IndexOutOfBoundsException("Invalid fast donate button index: " + index + ", total buttons: " + fastDonateButtons.size());
         }
-        wait.until(ExpectedConditions.elementToBeClickable(fastDonateButtons.get(index))).click();
+        click(fastDonateButtons.get(index));
         return this;
     }
 }
+

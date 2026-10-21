@@ -6,12 +6,11 @@ import org.academy.ui.components.EventsNewsCardComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 @Getter
-public class EventsNewsPage extends BasePage {
+public class EventsNewsPage extends BasePublicPage {
 
     // EventsNewsIntro
 
@@ -61,56 +60,44 @@ public class EventsNewsPage extends BasePage {
 
     @Step("Verify Events and News page is displayed")
     public boolean isPageDisplayed() {
-        return wait.until(
-                ExpectedConditions.visibilityOf(pageTitle)
-        ).isDisplayed();
+        return isVisible(pageTitle);
     }
 
     @Step("Get page title")
     public String getPageTitleText() {
-        return pageTitle.getText()
-                .replaceAll("\\s+", " ")
-                .trim();
+        return getText(pageTitle).replaceAll("\\s+", " ");
     }
 
     @Step("Get page description")
     public String getPageDescriptionText() {
-        return pageDescription.getText().trim();
+        return getText(pageDescription);
     }
 
     // Events Methods
 
     @Step("Get events section title")
     public String getEventsTitleText() {
-        return eventsTitle.getText().trim();
+        return getText(eventsTitle);
     }
 
     @Step("Click News button")
     public void clickNewsButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(newsButton)
-        ).click();
+        click(newsButton);
     }
 
     @Step("Click Media button")
     public void clickMediaButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(mediaButton)
-        ).click();
+        click(mediaButton);
     }
 
     @Step("Click Programs button")
     public void clickProgramsButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(programsButton)
-        ).click();
+        click(programsButton);
     }
 
     @Step("Click All Materials button")
     public void clickAllMaterialsButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(allMaterialsButton)
-        ).click();
+        click(allMaterialsButton);
     }
 
     // Event Cards Methods
@@ -127,29 +114,24 @@ public class EventsNewsPage extends BasePage {
 
     @Step("Click Show More button")
     public void clickShowMoreButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(showMoreButton)
-        ).click();
+        click(showMoreButton);
     }
 
     // ChooseProgram Methods
 
     @Step("Get Choose Program title")
     public String getChooseProgramTitleText() {
-        return chooseProgramTitle.getText().trim();
+        return getText(chooseProgramTitle);
     }
 
     @Step("Click Choose Program button")
     public void clickChooseProgramButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(chooseProgramButton)
-        ).click();
+        click(chooseProgramButton);
     }
 
     @Step("Click Support button")
     public void clickSupportButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(supportButton)
-        ).click();
+        click(supportButton);
     }
 }
+

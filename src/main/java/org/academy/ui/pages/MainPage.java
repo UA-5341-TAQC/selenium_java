@@ -5,7 +5,6 @@ import org.academy.ui.components.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MainPage extends BasePublicPage {
 
@@ -30,31 +29,27 @@ public class MainPage extends BasePublicPage {
 
     @Step("Get IntroSection component")
     public IntroSectionComponent getIntroSection() {
-        wait.until(ExpectedConditions.visibilityOf(introSectionElement));
-        return new IntroSectionComponent(introSectionElement);
+        return new IntroSectionComponent(waitUntilVisible(introSectionElement));
     }
 
     @Step("Get AboutUsSection component")
     public AboutUsSectionComponent getAboutUsSection() {
-        wait.until(ExpectedConditions.visibilityOf(aboutUsSectionElement));
-        return new AboutUsSectionComponent(aboutUsSectionElement);
+        return new AboutUsSectionComponent(waitUntilVisible(aboutUsSectionElement));
     }
 
     @Step("Get MainProgramsSection component")
     public MainProgramsSectionComponent getProgramsSection() {
-        wait.until(ExpectedConditions.visibilityOf(mainProgramsSectionElement));
-        return new MainProgramsSectionComponent(mainProgramsSectionElement);
+        return new MainProgramsSectionComponent(waitUntilVisible(mainProgramsSectionElement));
     }
 
     @Step("Get MainStatisticsSection component")
     public MainStatisticsSectionComponent getStatisticsSection() {
-        wait.until(ExpectedConditions.visibilityOf(mainStatisticsSectionElement));
-        return new MainStatisticsSectionComponent(mainStatisticsSectionElement);
+        return new MainStatisticsSectionComponent(waitUntilVisible(mainStatisticsSectionElement));
     }
 
     @Step("Get DonationSection component")
     public DonationSectionComponent getDonationSection() {
-        wait.until(ExpectedConditions.visibilityOf(donationSectionElement));
-        return new DonationSectionComponent(donationSectionElement);
+        return new DonationSectionComponent(waitUntilVisible(donationSectionElement));
     }
 }
+

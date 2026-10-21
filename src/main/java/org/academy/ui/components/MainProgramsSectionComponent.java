@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +21,7 @@ public class MainProgramsSectionComponent extends BaseComponent {
 
     @Step("Get Programs section heading")
     public String getHeadingText() {
-        wait.until(ExpectedConditions.visibilityOf(heading));
-        return heading.getText().trim();
+        return getText(heading);
     }
 
     @Step("Get program cards count")
@@ -57,3 +55,4 @@ public class MainProgramsSectionComponent extends BaseComponent {
         throw new IllegalArgumentException("ProgramCard not found with name containing: " + cardName);
     }
 }
+
