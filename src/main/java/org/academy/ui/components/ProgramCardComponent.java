@@ -1,6 +1,7 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,6 +25,9 @@ public class ProgramCardComponent extends BaseComponent {
 
     @FindBy(css = "[class*='ProgramCardProgramsPage_link'], [class*='ProgramCardAboutUsPage_link']")
     private WebElement learnMoreLink;
+
+    @FindBy(css = "[class*='ProgramCardProgramsPage_arrow'], [class*='ProgramCardAboutUsPage_arrow']")
+    private WebElement arrowElement;
 
     public ProgramCardComponent(WebElement element) {
         super(element);
@@ -69,4 +73,38 @@ public class ProgramCardComponent extends BaseComponent {
     public void clickLearnMore() {
         wait.until(ExpectedConditions.elementToBeClickable(learnMoreLink)).click();
     }
+
+
+    @Step("Hover over ProgramCard")
+    public ProgramCardComponent hover() {
+        actions.moveToElement(rootElement).perform();
+        return this;
+    }
+
+    @Step("Check if ProgramCard description is displayed")
+    public boolean isDescriptionDisplayed() {
+        return descriptionElement.isDisplayed();
+    }
+
+    @Step("Check if ProgramCard description appears on hover")
+    public boolean isDescriptionShownOnHover() {
+        hover();
+        try {
+            waitUntilVisible(descriptionElement);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    @Step("Check if ProgramCard arrow is displayed")
+    public boolean isArrowDisplayed() {
+        return arrowElement.isDisplayed();
+    }
+
+    @Step("Click ProgramCard")
+    public void clickCard() {
+        click(rootElement);
+    }
 }
+
