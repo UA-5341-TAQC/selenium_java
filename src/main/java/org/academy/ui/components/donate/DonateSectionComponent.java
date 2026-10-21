@@ -1,6 +1,7 @@
-package org.academy.ui.components;
+package org.academy.ui.components.donate;
 
 import io.qameta.allure.Step;
+import org.academy.ui.components.BaseComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
