@@ -11,11 +11,9 @@ import java.util.List;
 
 public class AddSectionModal extends BaseModal {
 
-    private static final String ACTIVE_TEMPLATE_CLASS = "swiper-slide-active";
-
     public static final String ROOT_SELECTOR =
             ".modal-container:has([data-testid='add-section-modal-content'])";
-
+    private static final String ACTIVE_TEMPLATE_CLASS = "swiper-slide-active";
     @FindBy(css = ".swiper-slide:has([data-testid='add-section-modal-content'])")
     private List<WebElement> templateSlides;
 
@@ -40,7 +38,9 @@ public class AddSectionModal extends BaseModal {
         return templateSlides.size();
     }
 
-    /** Indexes follow the current UI order, starting at zero. */
+    /**
+     * Indexes follow the current UI order, starting at zero.
+     */
     @Step("Read active section template index")
     public int getActiveTemplateIndex() {
         return readActiveTemplateIndex();

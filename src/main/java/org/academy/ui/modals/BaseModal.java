@@ -14,13 +14,17 @@ public abstract class BaseModal extends BaseComponent {
         super(rootElement);
     }
 
-    /** May open an unsaved-changes confirmation instead of closing. */
+    /**
+     * May open an unsaved-changes confirmation instead of closing.
+     */
     @Step("Request modal close")
     public void requestClose() {
         click(closeButton);
     }
 
-    /** Call after handling any confirmation; does not click or confirm anything. */
+    /**
+     * Call after handling any confirmation; does not click or confirm anything.
+     */
     public void waitUntilClosed() {
         waitUntilInvisible(rootElement);
     }

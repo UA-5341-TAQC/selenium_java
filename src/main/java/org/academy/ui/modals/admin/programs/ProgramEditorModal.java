@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** Shared editor for creating and editing programs. */
+/**
+ * Shared editor for creating and editing programs.
+ */
 public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
 
     public static final String ROOT_SELECTOR = ".program-modal .modal-container";
@@ -180,7 +182,9 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
                 .get(0).getDomAttribute(HtmlAttribute.SRC.getValue());
     }
 
-    /** File selection may open the cropper or show a validation error. */
+    /**
+     * File selection may open the cropper or show a validation error.
+     */
     @Step("Choose program preview image")
     public ProgramEditorModal choosePreviewImage(Path file) {
         uploadFile(previewImageInput, file);
@@ -188,7 +192,9 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
         return this;
     }
 
-    /** File selection may open the cropper or show a validation error. */
+    /**
+     * File selection may open the cropper or show a validation error.
+     */
     @Step("Choose program background image")
     public ProgramEditorModal chooseBackgroundImage(Path file) {
         uploadFile(backgroundImageInput, file);

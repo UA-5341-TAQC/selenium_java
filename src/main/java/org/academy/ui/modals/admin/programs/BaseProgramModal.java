@@ -80,30 +80,15 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
         return getValue(name);
     }
 
-    @Step("Read program description")
-    public String getDescription() {
-        return getValue(description);
-    }
-
-    @Step("Read program location")
-    public String getLocation() {
-        return getValue(location);
-    }
-
-    @Step("Read program participant count")
-    public String getParticipantsCount() {
-        return getValue(participantsCount);
-    }
-
-    @Step("Read program meeting count")
-    public String getMeetingCount() {
-        return getValue(meetingCount);
-    }
-
     @Step("Set program name")
     public T setName(String value) {
         fillInput(name, value);
         return self();
+    }
+
+    @Step("Read program description")
+    public String getDescription() {
+        return getValue(description);
     }
 
     @Step("Set program description")
@@ -112,10 +97,20 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
         return self();
     }
 
+    @Step("Read program location")
+    public String getLocation() {
+        return getValue(location);
+    }
+
     @Step("Set program location")
     public T setLocation(String value) {
         fillInput(location, value);
         return self();
+    }
+
+    @Step("Read program participant count")
+    public String getParticipantsCount() {
+        return getValue(participantsCount);
     }
 
     @Step("Set program participant count")
@@ -124,13 +119,20 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
         return self();
     }
 
+    @Step("Read program meeting count")
+    public String getMeetingCount() {
+        return getValue(meetingCount);
+    }
+
     @Step("Set program meeting count")
     public T setMeetingCount(String value) {
         fillInput(meetingCount, value);
         return self();
     }
 
-    /** Dirty forms require shared confirmation handling. */
+    /**
+     * Dirty forms require shared confirmation handling.
+     */
     @Step("Close program modal")
     public AdminProgramsPage close() {
         requestClose();
