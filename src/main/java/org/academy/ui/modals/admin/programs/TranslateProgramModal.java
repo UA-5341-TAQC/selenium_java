@@ -34,7 +34,7 @@ public class TranslateProgramModal extends BaseProgramModal<TranslateProgramModa
         return saveButton.isEnabled();
     }
 
-    // TODO: Model translation sections with template-specific components.
+    // TODO: Add template-specific translation section components.
 
     @Step("Save program translation")
     public AdminProgramsPage save() {

@@ -3,6 +3,7 @@ package org.academy.ui.modals.admin;
 import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
+import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -43,6 +44,23 @@ public class AddSectionModal extends BaseModal {
     @Step("Read active section template index")
     public int getActiveTemplateIndex() {
         return readActiveTemplateIndex();
+    }
+
+    @Step("Read active section template type")
+    public ProgramSectionTemplate getActiveTemplate() {
+        return ProgramSectionTemplate.fromRoot(activeTemplateContent);
+    }
+
+    /** Finds the slide by template, independently of enum order. */
+    @Step("Show section template {template}")
+    public AddSectionModal showTemplate(ProgramSectionTemplate template) {
+        java.util.Objects.requireNonNull(template, "Template must not be null");
+        for (int index = 0; index < templateSlides.size(); index++) {
+            if (ProgramSectionTemplate.fromRoot(templateSlides.get(index)) == template) {
+                return showTemplate(index);
+            }
+        }
+        throw new IllegalArgumentException("Template is unavailable: " + template);
     }
 
     @Step("Read active section template preview")
@@ -93,6 +111,7 @@ public class AddSectionModal extends BaseModal {
         return this;
     }
 
+    /** Chooses the template and closes the picker. Re-read the section from its form. */
     @Step("Choose the selected section template")
     public void chooseCurrentTemplate() {
         click(chooseButton);

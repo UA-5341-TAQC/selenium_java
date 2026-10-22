@@ -2,6 +2,9 @@ package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;
+import org.academy.ui.components.admin.programs.sections.BaseProgramSection;
+import org.academy.ui.components.admin.programs.sections.ProgramSectionComponentFactory;
+import org.academy.ui.types.ProgramSectionTemplate;
 import org.academy.ui.modals.admin.AddSectionModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -53,6 +56,9 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @FindBy(css = "[class*='ProgramForm_header-right'] button")
     private WebElement addSectionButton;
 
+    @FindBy(css = BaseProgramSection.ROOT_SELECTOR)
+    private List<WebElement> sectionRoots;
+
     public ProgramEditorModal(WebElement rootElement) {
         super(rootElement);
     }
@@ -60,6 +66,39 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @Override
     protected ProgramEditorModal self() {
         return this;
+    }
+
+    /** Sections in DOM order. Re-read after replacing, removing or reordering. */
+    @Step("Read program sections in display order")
+    public List<BaseProgramSection> getSections() {
+        return sectionRoots.stream()
+                .map(ProgramSectionComponentFactory::create).toList();
+    }
+
+    /** Newly created sections are returned in edit mode. */
+    @Step("Add program section using template {template}")
+    public BaseProgramSection addSection(ProgramSectionTemplate template) {
+        int count = getSections().size();
+        openAddSectionModal().showTemplate(template).chooseCurrentTemplate();
+        wait.until(d -> getSections().size() == count + 1);
+        return getSections().get(count);
+    }
+
+    /**
+     * Gets a zero-based section and checks its component type; does not change its template.
+     * <pre>{@code
+     * var images = editor.getSection(1, ImageSectionComponent.class);
+     * images.edit();
+     * images.chooseImage(0, imagePath);
+     * }</pre>
+     */
+    public <T extends BaseProgramSection> T getSection(int index, Class<T> type) {
+        BaseProgramSection section = getSections().get(index);
+        if (!type.isInstance(section)) {
+            throw new IllegalArgumentException("Template " + section.getTemplate()
+                    + " uses " + section.getClass().getSimpleName());
+        }
+        return type.cast(section);
     }
 
     @Step("Open add section modal")
