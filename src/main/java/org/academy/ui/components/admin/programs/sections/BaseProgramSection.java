@@ -2,7 +2,7 @@ package org.academy.ui.components.admin.programs.sections;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
-import org.academy.ui.components.admin.programs.sections.components.SectionFieldComponent;
+import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
 import org.academy.ui.modals.admin.AddSectionModal;
 import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;

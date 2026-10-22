@@ -1,4 +1,4 @@
-package org.academy.ui.components.admin.programs.sections.components;
+package org.academy.ui.components.admin.programs.sections.elements;
 
 import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;

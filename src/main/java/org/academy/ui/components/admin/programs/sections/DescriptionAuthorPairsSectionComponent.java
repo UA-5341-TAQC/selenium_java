@@ -1,8 +1,8 @@
 package org.academy.ui.components.admin.programs.sections;
 
 import io.qameta.allure.Step;
-import org.academy.ui.components.admin.programs.sections.components.SectionFieldComponent;
-import org.academy.ui.components.admin.programs.sections.components.DescriptionAuthorCardComponent;
+import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
+import org.academy.ui.components.admin.programs.sections.elements.DescriptionAuthorCardComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
