@@ -2,6 +2,7 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.ContactFormPopUpComponent;
+import org.academy.ui.components.ContactSectionComponent;
 import org.academy.ui.components.FaqSectionComponent;
 import org.academy.ui.components.hippotherapy.*;
 import org.openqa.selenium.WebDriver;
