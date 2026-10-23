@@ -1,4 +1,4 @@
-package org.academy.ui.components.admin.programs.sections;
+package org.academy.ui.components.admin.programs.sections.content;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 /** Fixed 2/3/4-card layout. Matching title/description indexes belong to the same card. */
-public class TitleDescriptionCardsSectionComponent extends BaseProgramSection {
+public class TitleDescriptionCardsSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "input[id*='-card-title-']")
     private List<WebElement> titleInputs;
@@ -16,7 +16,7 @@ public class TitleDescriptionCardsSectionComponent extends BaseProgramSection {
     @FindBy(css = "textarea[id*='-card-description-']")
     private List<WebElement> descriptionInputs;
 
-    public TitleDescriptionCardsSectionComponent(WebElement root) {
+    public TitleDescriptionCardsSectionContent(WebElement root) {
         super(root);
     }
 
@@ -39,13 +39,13 @@ public class TitleDescriptionCardsSectionComponent extends BaseProgramSection {
     }
 
     @Step("Set title of card at index {index}")
-    public TitleDescriptionCardsSectionComponent setTitle(int index, String value) {
+    public TitleDescriptionCardsSectionContent setTitle(int index, String value) {
         getTitle(index).setValue(value).blur();
         return this;
     }
 
     @Step("Set description of card at index {index}")
-    public TitleDescriptionCardsSectionComponent setDescription(int index, String value) {
+    public TitleDescriptionCardsSectionContent setDescription(int index, String value) {
         getDescription(index).setValue(value).blur();
         return this;
     }

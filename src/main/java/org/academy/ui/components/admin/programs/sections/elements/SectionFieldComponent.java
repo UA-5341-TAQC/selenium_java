@@ -22,18 +22,15 @@ public class SectionFieldComponent extends BaseComponent {
     private static final String MAX_LENGTH_PROPERTY = "maxLength";
 
     private static final By FIELD_CONTAINER = By.xpath("ancestor::div[.//output][1]");
+    private static final By VALIDATION_CONTAINER = By.xpath(
+            "ancestor::div[contains(@class, 'InputErrorWithCharacterCounter_container__')][1]");
+    private static final By VALIDATION_ERRORS = By.cssSelector(".input-error");
 
     @FindBy(css = "input:not([type='file']), textarea")
     private WebElement textInput;
 
     @FindBy(css = "output")
-    private WebElement counter;
-
-    @FindBy(css = ".input-error")
-    private List<WebElement> validationErrors;
-
-    @FindBy(css = "label .required-field")
-    private List<WebElement> requiredMarkers;
+    private List<WebElement> counters;
 
     public SectionFieldComponent(WebElement root) {
         super(root);
@@ -41,7 +38,10 @@ public class SectionFieldComponent extends BaseComponent {
 
     /** Finds the input's field container; PageFactory handles its controls. */
     public static SectionFieldComponent fromInput(WebElement input) {
-        return new SectionFieldComponent(input.findElement(FIELD_CONTAINER));
+        SectionFieldComponent field = new SectionFieldComponent(input.findElement(FIELD_CONTAINER));
+        // A card can share a container with several inputs and counters.
+        field.textInput = input;
+        return field;
     }
 
     @Step("Read section field value")
@@ -77,7 +77,10 @@ public class SectionFieldComponent extends BaseComponent {
     public boolean isRequired() {
         return textInput.getDomAttribute(HtmlAttribute.REQUIRED.getValue()) != null
                 || Boolean.parseBoolean(textInput.getDomAttribute(HtmlAttribute.ARIA_REQUIRED.getValue()))
-                || requiredMarkers.stream().anyMatch(element -> Objects.requireNonNull(element).isDisplayed());
+                || rootElement.findElements(By.tagName("label")).stream()
+                .filter(label -> Objects.equals(textInput.getDomAttribute("id"), label.getDomAttribute("for")))
+                .flatMap(label -> label.findElements(By.cssSelector(".required-field")).stream())
+                .anyMatch(WebElement::isDisplayed);
     }
 
     /** Returns the DOM limit, or -1 when the input has no HTML maxlength constraint. */
@@ -97,7 +100,7 @@ public class SectionFieldComponent extends BaseComponent {
 
     @Step("Read section field character counter")
     public String getCharacterCounter() {
-        return getText(counter);
+        return getText(counter());
     }
 
     public boolean isInvalid() {
@@ -108,9 +111,18 @@ public class SectionFieldComponent extends BaseComponent {
         return textInput.isEnabled() && textInput.getDomAttribute(HtmlAttribute.READ_ONLY.getValue()) == null;
     }
 
+    private WebElement counter() {
+        String id = textInput.getDomAttribute("id");
+        return counters.stream()
+                .filter(output -> Objects.equals(id, output.getDomAttribute("for")))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No character counter for section field: " + id));
+    }
+
     @Step("Read section field validation errors")
     public List<String> getValidationErrors() {
-        return validationErrors.stream()
+        return counter().findElement(VALIDATION_CONTAINER)
+                .findElements(VALIDATION_ERRORS).stream()
                 .filter(element -> Objects.requireNonNull(element).isDisplayed())
                 .map(element -> Objects.requireNonNull(element).getText())
                 .toList();

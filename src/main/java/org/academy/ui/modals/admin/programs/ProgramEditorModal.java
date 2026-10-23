@@ -2,8 +2,7 @@ package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;
-import org.academy.ui.components.admin.programs.sections.BaseProgramSection;
-import org.academy.ui.components.admin.programs.sections.ProgramSectionComponentFactory;
+import org.academy.ui.components.admin.programs.sections.ProgramSectionEditor;
 import org.academy.ui.types.ProgramSectionTemplate;
 import org.academy.ui.modals.admin.AddSectionModal;
 import org.openqa.selenium.By;
@@ -58,7 +57,7 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @FindBy(css = "[class*='ProgramForm_header-right'] button")
     private WebElement addSectionButton;
 
-    @FindBy(css = BaseProgramSection.ROOT_SELECTOR)
+    @FindBy(css = ProgramSectionEditor.ROOT_SELECTOR)
     private List<WebElement> sectionRoots;
 
     public ProgramEditorModal(WebElement rootElement) {
@@ -72,35 +71,30 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
 
     /** Sections in DOM order. Re-read after replacing, removing or reordering. */
     @Step("Read program sections in display order")
-    public List<BaseProgramSection> getSections() {
+    public List<ProgramSectionEditor> getSections() {
         return sectionRoots.stream()
-                .map(ProgramSectionComponentFactory::create).toList();
+                .map(ProgramSectionEditor::new).toList();
     }
 
     /** Newly created sections are returned in edit mode. */
     @Step("Add program section using template {template}")
-    public BaseProgramSection addSection(ProgramSectionTemplate template) {
-        int count = getSections().size();
+    public ProgramSectionEditor addSection(ProgramSectionTemplate template) {
+        int count = sectionRoots.size();
         openAddSectionModal().showTemplate(template).chooseCurrentTemplate();
-        wait.until(d -> getSections().size() == count + 1);
-        return getSections().get(count);
+        wait.until(d -> sectionRoots.size() == count + 1);
+        return getSection(count);
     }
 
     /**
-     * Gets a zero-based section and checks its component type; does not change its template.
+     * Zero-based editor section. Re-read after replacement, removal or reordering.
      * <pre>{@code
-     * var images = editor.getSection(1, ImageSectionComponent.class);
-     * images.edit();
-     * images.chooseImage(0, imagePath);
+     * var section = editor.getSection(1);
+     * section.edit();
+     * section.getContent(ImageSectionContent.class).chooseImage(0, imagePath);
      * }</pre>
      */
-    public <T extends BaseProgramSection> T getSection(int index, Class<T> type) {
-        BaseProgramSection section = getSections().get(index);
-        if (!type.isInstance(section)) {
-            throw new IllegalArgumentException("Template " + section.getTemplate()
-                    + " uses " + section.getClass().getSimpleName());
-        }
-        return type.cast(section);
+    public ProgramSectionEditor getSection(int index) {
+        return new ProgramSectionEditor(sectionRoots.get(index));
     }
 
     @Step("Open add section modal")

@@ -1,4 +1,4 @@
-package org.academy.ui.components.admin.programs.sections;
+package org.academy.ui.components.admin.programs.sections.content;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.elements.ProgramFaqCardComponent;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 /** Program FAQ template: title and editable question/answer cards. */
-public class ProgramFaqSectionComponent extends BaseProgramSection {
+public class ProgramFaqSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id$='-faq-title']")
     private WebElement titleInput;
@@ -20,7 +20,7 @@ public class ProgramFaqSectionComponent extends BaseProgramSection {
     @FindBy(css = "[class*='FaqProgramSection_add-button__']")
     private WebElement addCardButton;
 
-    public ProgramFaqSectionComponent(WebElement root) {
+    public ProgramFaqSectionContent(WebElement root) {
         super(root);
     }
 
@@ -41,7 +41,7 @@ public class ProgramFaqSectionComponent extends BaseProgramSection {
 
     /** Adds an empty card when the current questions/answers pass frontend validation. */
     @Step("Add program FAQ card")
-    public ProgramFaqSectionComponent addFaqCard() {
+    public ProgramFaqSectionContent addFaqCard() {
         if (!canAddFaqCard()) {
             throw new IllegalStateException("Complete the existing FAQ cards before adding another");
         }
@@ -56,7 +56,7 @@ public class ProgramFaqSectionComponent extends BaseProgramSection {
     }
 
     @Step("Set FAQ section title")
-    public ProgramFaqSectionComponent setTitle(String value) {
+    public ProgramFaqSectionContent setTitle(String value) {
         getTitle().setValue(value).blur();
         return this;
     }

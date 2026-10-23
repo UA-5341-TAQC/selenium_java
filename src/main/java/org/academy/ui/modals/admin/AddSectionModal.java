@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
 import org.academy.ui.types.ProgramSectionTemplate;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,11 +15,15 @@ public class AddSectionModal extends BaseModal {
     public static final String ROOT_SELECTOR =
             ".modal-container:has([data-testid='add-section-modal-content'])";
     private static final String ACTIVE_TEMPLATE_CLASS = "swiper-slide-active";
+    private static final By SLIDE_LAYOUT = By.cssSelector("[data-testid='add-section-modal-content'] > *");
     @FindBy(css = ".swiper-slide:has([data-testid='add-section-modal-content'])")
     private List<WebElement> templateSlides;
 
     @FindBy(css = "." + ACTIVE_TEMPLATE_CLASS + " [data-testid='add-section-modal-content']")
     private WebElement activeTemplateContent;
+
+    @FindBy(css = "." + ACTIVE_TEMPLATE_CLASS + " [data-testid='add-section-modal-content'] > *")
+    private WebElement activeTemplateLayout;
 
     @FindBy(css = "button[aria-label='previous'][data-icon-position='only']")
     private WebElement previousButton;
@@ -48,7 +53,7 @@ public class AddSectionModal extends BaseModal {
 
     @Step("Read active section template type")
     public ProgramSectionTemplate getActiveTemplate() {
-        return ProgramSectionTemplate.fromRoot(activeTemplateContent);
+        return ProgramSectionTemplate.fromRoot(activeTemplateLayout);
     }
 
     /** Finds the slide by template, independently of enum order. */
@@ -56,7 +61,7 @@ public class AddSectionModal extends BaseModal {
     public AddSectionModal showTemplate(ProgramSectionTemplate template) {
         java.util.Objects.requireNonNull(template, "Template must not be null");
         for (int index = 0; index < templateSlides.size(); index++) {
-            if (ProgramSectionTemplate.fromRoot(templateSlides.get(index)) == template) {
+            if (ProgramSectionTemplate.fromRoot(templateSlides.get(index).findElement(SLIDE_LAYOUT)) == template) {
                 return showTemplate(index);
             }
         }
@@ -97,15 +102,11 @@ public class AddSectionModal extends BaseModal {
             throw new IllegalArgumentException("Template index out of range: " + index);
         }
         int activeIndex = readActiveTemplateIndex();
-        for (int transitions = 0; activeIndex != index && transitions < templateCount - 1; transitions++) {
-            int previousDistance = Math.abs(activeIndex - index);
+        int steps = Math.abs(index - activeIndex);
+        for (int step = 0; step < steps; step++) {
             changeTemplate(activeIndex < index ? nextButton : previousButton);
-            activeIndex = readActiveTemplateIndex();
-            if (Math.abs(activeIndex - index) >= previousDistance) {
-                throw new IllegalStateException("Carousel did not advance toward template: " + index);
-            }
         }
-        if (activeIndex != index) {
+        if (readActiveTemplateIndex() != index) {
             throw new IllegalStateException("Could not reach template: " + index);
         }
         return this;

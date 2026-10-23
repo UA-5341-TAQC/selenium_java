@@ -1,4 +1,4 @@
-package org.academy.ui.components.admin.programs.sections;
+package org.academy.ui.components.admin.programs.sections.content;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 /** Program section with a title and dynamic description/author pairs. */
-public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
+public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id='single-title-description-author-pairs-title']")
     private WebElement titleInput;
@@ -26,7 +26,7 @@ public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
     @FindBy(css = "button[aria-label='previous']")
     private List<WebElement> previousButtons;
 
-    public DescriptionAuthorPairsSectionComponent(WebElement root) {
+    public DescriptionAuthorPairsSectionContent(WebElement root) {
         super(root);
     }
 
@@ -49,7 +49,7 @@ public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
 
     /** Adds an empty author block. Re-read indexed fields after adding or removing blocks. */
     @Step("Add description/author block")
-    public DescriptionAuthorPairsSectionComponent addAuthorBlock() {
+    public DescriptionAuthorPairsSectionContent addAuthorBlock() {
         if (!canAddAuthorBlock()) {
             throw new IllegalStateException("Adding an author block is currently disabled");
         }
@@ -61,7 +61,7 @@ public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
 
     /** Scrolls the author-card carousel; does not change the order of its blocks. */
     @Step("Show next section carousel items")
-    public DescriptionAuthorPairsSectionComponent nextItems() {
+    public DescriptionAuthorPairsSectionContent nextItems() {
         click(nextButtons.get(0));
         return this;
     }
@@ -71,7 +71,7 @@ public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
     }
 
     @Step("Set section title")
-    public DescriptionAuthorPairsSectionComponent setTitle(String value) {
+    public DescriptionAuthorPairsSectionContent setTitle(String value) {
         getTitle().setValue(value).blur();
         return this;
     }
@@ -85,7 +85,7 @@ public class DescriptionAuthorPairsSectionComponent extends BaseProgramSection {
     }
 
     @Step("Show previous section carousel items")
-    public DescriptionAuthorPairsSectionComponent previousItems() {
+    public DescriptionAuthorPairsSectionContent previousItems() {
         click(previousButtons.get(0));
         return this;
     }

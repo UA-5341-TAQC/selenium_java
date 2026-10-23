@@ -1,80 +1,60 @@
 package org.academy.ui.types;
 
 import org.academy.ui.constants.HtmlAttribute;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-/** The 13 layouts, recognised by CSS class fragments without generated suffixes. */
+/** The 13 program layouts and their editor/preview CSS class prefixes. */
 public enum ProgramSectionTemplate {
-
-    TITLE_DESCRIPTION_WITH_FOUR_IMAGES_BELOW("QuadImagesBottom_"),
-    TITLE_DESCRIPTION_WITH_TWO_IMAGES_BELOW("DualImagesBottom_"),
-    TITLE_AND_DESCRIPTION("TextOnly_"),
-    TITLE_DESCRIPTION_WITH_THREE_IMAGES_BELOW("TripleImagesBottom_"),
-    TITLE_DESCRIPTION_WITH_IMAGE_BELOW("SingleImageBottom_"),
-    TITLE_DESCRIPTION_WITH_IMAGE_ABOVE("SingleImageTop_"),
-    TITLE_DESCRIPTION_WITH_IMAGE_RIGHT("SingleImageRight_"),
-    TITLE_WITH_FIVE_DESCRIPTIONS("SingleTitleQuintupleDescription_"),
-    TITLE_WITH_DESCRIPTION_AUTHOR_PAIRS("SingleTitleDescriptionAuthorPairs_"),
+    TITLE_DESCRIPTION_WITH_FOUR_IMAGES_BELOW("QuadImagesBottom_container__", "ViewQuadImagesBottom_container__"),
+    TITLE_DESCRIPTION_WITH_TWO_IMAGES_BELOW("DualImagesBottom_container__", "ViewDualImagesBottom_container__"),
+    TITLE_AND_DESCRIPTION("TextOnly_container__", "ViewTitleDescriptionSection_container__"),
+    TITLE_DESCRIPTION_WITH_THREE_IMAGES_BELOW("TripleImagesBottom_container__", "TripleImagesBottom_form-container__", "ViewTripleImagesBottom_container__"),
+    TITLE_DESCRIPTION_WITH_IMAGE_BELOW("SingleImageBottom_container__", "ViewSingleImageBottom_container__"),
+    TITLE_DESCRIPTION_WITH_IMAGE_ABOVE("SingleImageTop_container__", "ViewSingleImageTop_container__"),
+    TITLE_DESCRIPTION_WITH_IMAGE_RIGHT("SingleImageRight_container__", "ViewSingleImageRight_container__"),
+    TITLE_WITH_FIVE_DESCRIPTIONS("SingleTitleQuintupleDescription_container__"),
+    TITLE_WITH_DESCRIPTION_AUTHOR_PAIRS("SingleTitleDescriptionAuthorPairs_container__"),
     TWO_CARDS("TitleDescriptionCardsWrapper_container--cards-2__"),
     THREE_CARDS("TitleDescriptionCardsWrapper_container--cards-3__"),
     FOUR_CARDS("TitleDescriptionCardsWrapper_container--cards-4__"),
-    FAQ("FaqProgramSection_");
+    FAQ("FaqProgramSection_faq-section__", "ViewFaqProgramSection_faq-section__");
 
-    private static final String TEXT_PREVIEW_MARKER = "ViewTitleDescriptionSection_";
+    private final List<String> classPrefixes;
 
-    // A single lookup avoids an implicit-wait delay for every non-matching template.
-    private static final By TEMPLATE_MARKERS = By.cssSelector(Arrays.stream(values())
-            .map(template -> "[class*='" + template.classPrefix + "']")
-            .collect(Collectors.joining(", ")) + ", [class*='" + TEXT_PREVIEW_MARKER + "']");
-
-    private final String classPrefix;
-
-    ProgramSectionTemplate(String classPrefix) {
-        this.classPrefix = classPrefix;
+    ProgramSectionTemplate(String... classPrefixes) {
+        this.classPrefixes = List.of(classPrefixes);
     }
 
     /**
-     * Recognises one section or picker slide, including its descendants.
-     * Do not pass a whole form containing multiple templates.
-     * @throws IllegalStateException if no supported template is found
+     * Identifies one layout by the classes on its root element, ignoring generated CSS suffixes.
+     * The editor, translation form or picker must locate the layout before calling this method.
+     * Wrappers and descendants are not searched.
+     *
+     * @throws IllegalStateException if the classes match no template or more than one template
      */
-    public static ProgramSectionTemplate fromRoot(WebElement root) {
-        String rootClass = root.getDomAttribute(HtmlAttribute.CLASS.getValue());
-        for (ProgramSectionTemplate template : values()) {
-            if (rootClass != null && rootClass.contains(template.classPrefix)) {
-                return template;
-            }
+    public static ProgramSectionTemplate fromRoot(WebElement layoutRoot) {
+        Objects.requireNonNull(layoutRoot, "Layout root must not be null");
+        String classes = layoutRoot.getDomAttribute(HtmlAttribute.CLASS.getValue());
+        String[] cssClasses = classes == null ? new String[0] : classes.split("\\s+");
+        EnumSet<ProgramSectionTemplate> matches = Arrays.stream(values())
+                .filter(template -> template.matches(cssClasses))
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(ProgramSectionTemplate.class)));
+        if (matches.size() != 1) {
+            throw new IllegalStateException("Expected one program layout, found " + matches
+                    + "; layout root classes: " + classes);
         }
+        return matches.iterator().next();
+    }
 
-        List<String> markerClasses = root.findElements(TEMPLATE_MARKERS).stream()
-                .map(element -> element.getDomAttribute(HtmlAttribute.CLASS.getValue()))
-                .toList();
-        for (ProgramSectionTemplate template : values()) {
-            if (markerClasses.stream().anyMatch(classes ->
-                    classes != null && classes.contains(template.classPrefix))) {
-                return template;
-            }
-        }
-        // Text-only previews use the shared text renderer; image-layout markers take precedence.
-        if ((rootClass != null && rootClass.contains(TEXT_PREVIEW_MARKER))
-                || markerClasses.stream().anyMatch(classes ->
-                        classes != null && classes.contains(TEXT_PREVIEW_MARKER))) {
-            return TITLE_AND_DESCRIPTION;
-        }
-
-        String childClasses = root.findElements(By.cssSelector("[class]")).stream()
-                .map(element -> element.getDomAttribute(HtmlAttribute.CLASS.getValue()))
-                .filter(classes -> classes != null && !classes.startsWith("ProgramSectionForm_")
-                        && !classes.startsWith("IconButton_"))
-                .distinct()
-                .limit(20)
-                .collect(Collectors.joining("; "));
-        throw new IllegalStateException("Unsupported section template. Root: " + rootClass
-                + "; descendants: " + childClasses);
+    private boolean matches(String[] cssClasses) {
+        return classPrefixes.stream()
+                .anyMatch(prefix -> Arrays.stream(cssClasses)
+                        .anyMatch(cssClass -> cssClass.startsWith(prefix)));
     }
 }

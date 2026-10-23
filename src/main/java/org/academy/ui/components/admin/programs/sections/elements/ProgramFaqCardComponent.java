@@ -35,7 +35,11 @@ public class ProgramFaqCardComponent extends BaseComponent {
         return field(questionInput);
     }
 
-    /** Expands the card to render its answer. Re-read the answer after collapsing it. */
+    /**
+     * Opens this card if needed and returns its answer field.
+     * Opening another FAQ answer collapses this one and removes its field from the DOM.
+     * Call {@code getAnswer()} again before using it after switching cards; do not retain the field.
+     */
     public SectionFieldComponent getAnswer() {
         setExpanded(true);
         return field(answerInput);

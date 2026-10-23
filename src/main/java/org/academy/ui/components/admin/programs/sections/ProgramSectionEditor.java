@@ -2,25 +2,27 @@ package org.academy.ui.components.admin.programs.sections;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
-import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
-import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.components.admin.programs.sections.content.ProgramSectionContent;
 import org.academy.ui.types.ProgramSectionTemplate;
+import org.academy.ui.modals.admin.AddSectionModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * One section in the create/edit form. All controls are scoped to its outer root.
  */
-public abstract class BaseProgramSection extends BaseComponent {
+public class ProgramSectionEditor extends BaseComponent {
 
     public static final String ROOT_SELECTOR = "[class*='ProgramSectionForm_container__']";
 
     @FindBy(css = "[class*='ProgramSectionForm_content__']")
-    private WebElement content;
+    private WebElement previewContent;
+
+    @FindBy(css = "[class*='ProgramSectionForm_content__'] > *")
+    private WebElement layoutRoot;
 
     @FindBy(css = "button[aria-label='Edit section']")
     private WebElement editButton;
@@ -43,19 +45,37 @@ public abstract class BaseProgramSection extends BaseComponent {
     @FindBy(css = "button[aria-label='Move down section']")
     private List<WebElement> moveDownButtons;
 
-    @FindBy(css = "input:not([type='file']), textarea")
-    private List<WebElement> textInputs;
-
-    protected BaseProgramSection(WebElement root) {
+    public ProgramSectionEditor(WebElement root) {
         super(root);
     }
 
     public ProgramSectionTemplate getTemplate() {
-        return ProgramSectionTemplate.fromRoot(rootElement);
+        return ProgramSectionTemplate.fromRoot(layoutRoot);
+    }
+
+    /** Creates content for the current layout; call again after editing or replacing the template. */
+    public ProgramSectionContent getContent() {
+        return ProgramSectionContentFactory.create(layoutRoot);
+    }
+
+    /**
+     * Returns this section's content in the requested type. Does not open editing automatically.
+     * <pre>{@code
+     * var section = editor.getSection(0);
+     * section.edit();
+     * section.getContent(TitleDescriptionSectionContent.class).setTitle("Section title");
+     * }</pre>
+     * Each call uses the current layout. Obtain content again after replacing the template;
+     * do not retain content or fields from the previous layout.
+     *
+     * @throws IllegalArgumentException if the section has a different content type
+     */
+    public <T extends ProgramSectionContent> T getContent(Class<T> type) {
+        return getContent().as(type);
     }
 
     public String getPreviewText() {
-        return getText(content);
+        return getText(previewContent);
     }
 
     public boolean isEditing() {
@@ -76,7 +96,7 @@ public abstract class BaseProgramSection extends BaseComponent {
 
     /** Opens editing unless the section is already editable. */
     @Step("Edit program section")
-    public BaseProgramSection edit() {
+    public ProgramSectionEditor edit() {
         if (!isEditing()) {
             click(editButton);
             wait.until(d -> isEditing());
@@ -136,23 +156,4 @@ public abstract class BaseProgramSection extends BaseComponent {
                 .anyMatch(e -> e.isDisplayed() && e.isEnabled());
     }
 
-    /** Visible editable fields in DOM order; excludes collapsed FAQ answers. */
-    @Step("Read editable section text fields")
-    public List<SectionFieldComponent> getTextFields() {
-        return textInputs.stream()
-                .filter(element -> Objects.requireNonNull(element).isDisplayed())
-                .map(SectionFieldComponent::fromInput)
-                .filter(field -> Objects.requireNonNull(field).isEnabled())
-                .toList();
-    }
-
-    /** Wraps the input and its counter/error container as one field. */
-    protected SectionFieldComponent field(WebElement input) {
-        return SectionFieldComponent.fromInput(input);
-    }
-
-    protected List<SectionFieldComponent> fields(List<WebElement> inputs) {
-        return inputs.stream()
-                .map(SectionFieldComponent::fromInput).toList();
-    }
 }

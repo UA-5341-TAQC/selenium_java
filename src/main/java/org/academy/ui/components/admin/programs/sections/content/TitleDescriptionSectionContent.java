@@ -1,4 +1,4 @@
-package org.academy.ui.components.admin.programs.sections;
+package org.academy.ui.components.admin.programs.sections.content;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /** Title/description editor, also used as the text part of image layouts. */
-public class TitleDescriptionSectionComponent extends BaseProgramSection {
+public class TitleDescriptionSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id$='section-title']")
     private WebElement titleInput;
@@ -14,7 +14,7 @@ public class TitleDescriptionSectionComponent extends BaseProgramSection {
     @FindBy(css = "textarea[id$='section-description']")
     private WebElement descriptionInput;
 
-    public TitleDescriptionSectionComponent(WebElement root) {
+    public TitleDescriptionSectionContent(WebElement root) {
         super(root);
     }
 
@@ -29,13 +29,13 @@ public class TitleDescriptionSectionComponent extends BaseProgramSection {
     }
 
     @Step("Set section title")
-    public TitleDescriptionSectionComponent setTitle(String value) {
+    public TitleDescriptionSectionContent setTitle(String value) {
         getTitle().setValue(value).blur();
         return this;
     }
 
     @Step("Set section description")
-    public TitleDescriptionSectionComponent setDescription(String value) {
+    public TitleDescriptionSectionContent setDescription(String value) {
         getDescription().setValue(value).blur();
         return this;
     }
