@@ -4,24 +4,30 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FaqCardComponent extends BaseComponent {
+public class FaqCardComponent extends BaseComponent{
+    @FindBy(css = "summary[class*='FaqCard_question-block']")
+    private WebElement questionBlock;
 
-    @FindBy(css = "summary, [class*='question-block']")
+    @FindBy(css = "summary[class*='FaqCard_question-block'] p")
     private WebElement questionSummary;
 
     @FindBy(css = "summary p, [class*='question-block'] p, summary")
     private WebElement questionText;
 
-    @FindBy(css = "[class*='FaqCard_answer-block']")
+    @FindBy(css = "div[class*='FaqCard_answer-block']")
     private WebElement answerBlock;
 
     public FaqCardComponent(WebElement element) {
         super(element);
     }
 
+    private String normalize(String text) {
+        return text.replaceAll("\\s+", " ").trim();
+    }
+
     @Step("Get FAQ question text")
     public String getQuestionText() {
-        return getText(questionText);
+        return normalize(getText(questionText));
     }
 
     @Step("Get FAQ answer text")
@@ -34,7 +40,12 @@ public class FaqCardComponent extends BaseComponent {
 
     @Step("Check if FAQ card is expanded")
     public boolean isExpanded() {
-        return getDomAttribute(rootElement, "open") != null;
+        return rootElement.getDomAttribute("open") != null;
+    }
+
+    @Step("Check if FAQ answer is displayed")
+    public boolean isAnswerDisplayed() {
+        return answerBlock.isDisplayed();
     }
 
     @Step("Toggle FAQ card")
@@ -62,4 +73,3 @@ public class FaqCardComponent extends BaseComponent {
         return this;
     }
 }
-
