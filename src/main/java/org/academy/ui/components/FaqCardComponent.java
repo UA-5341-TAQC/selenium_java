@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FaqCardComponent extends BaseComponent{
+public class FaqCardComponent extends BaseComponent {
     @FindBy(css = "summary[class*='FaqCard_question-block']")
     private WebElement questionBlock;
 

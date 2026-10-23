@@ -2,7 +2,10 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.FaqSectionComponent;
-import org.academy.ui.components.donate.*;
+import org.academy.ui.components.donate.AlternativeSupportWaysComponent;
+import org.academy.ui.components.donate.DonatePageIntroComponent;
+import org.academy.ui.components.donate.DonateSectionComponent;
+import org.academy.ui.components.donate.PaymentDetailsSectionComponent;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

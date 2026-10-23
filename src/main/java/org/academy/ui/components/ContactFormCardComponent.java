@@ -57,8 +57,6 @@ public class ContactFormCardComponent extends BaseComponent {
         return this;
     }
 
-    public record ContactFormData(String name, String email, String subject, String message) {}
-
     @Step("Fill complete contact form using data object")
     public ContactFormCardComponent fillForm(ContactFormData data) {
         return fillForm(data.name(), data.email(), data.subject(), data.message());
@@ -159,6 +157,9 @@ public class ContactFormCardComponent extends BaseComponent {
     @Step("Get submit button text")
     public String getSubmitButtonText() {
         return getText(submitButton);
+    }
+
+    public record ContactFormData(String name, String email, String subject, String message) {
     }
 }
 

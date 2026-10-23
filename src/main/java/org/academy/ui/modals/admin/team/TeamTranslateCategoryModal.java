@@ -34,7 +34,10 @@ public class TeamTranslateCategoryModal extends BaseModal {
     }
 
     // Повертає назву вибраної мови перекладу.
-    public String getLanguage() { return rootElement.findElement(By.cssSelector(".language-select .select-head")).getText(); }
+    public String getLanguage() {
+        return rootElement.findElement(By.cssSelector(".language-select .select-head")).getText();
+    }
+
     // Повертає заголовок модалки.
     public String getTitle() {
         return title.getText();
@@ -45,6 +48,11 @@ public class TeamTranslateCategoryModal extends BaseModal {
         return rootElement.isDisplayed();
     }
 
+    // Повертає поточне значення імені або назви.
+    public String getName() {
+        return nameField.getDomProperty("value");
+    }
+
     @Step("Enter translated Team category name: {name}")
     public TeamTranslateCategoryModal setName(String name) {
         nameField.click();
@@ -53,9 +61,9 @@ public class TeamTranslateCategoryModal extends BaseModal {
         return this;
     }
 
-    // Повертає поточне значення імені або назви.
-    public String getName() {
-        return nameField.getDomProperty("value");
+    // Повертає поточне значення опису.
+    public String getDescription() {
+        return descriptionField.getDomProperty("value");
     }
 
     @Step("Enter Team category translation description")
@@ -64,11 +72,6 @@ public class TeamTranslateCategoryModal extends BaseModal {
         descriptionField.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
         descriptionField.sendKeys(description);
         return this;
-    }
-
-    // Повертає поточне значення опису.
-    public String getDescription() {
-        return descriptionField.getDomProperty("value");
     }
 
     @Step("Leave the translation description field to trigger validation")

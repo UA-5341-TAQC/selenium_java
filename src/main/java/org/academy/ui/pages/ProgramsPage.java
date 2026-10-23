@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ProgramsPage extends BasePublicPage{
+public class ProgramsPage extends BasePublicPage {
 
     @FindBy(css = "div[class*='IntroSection_intro-section']")
     private WebElement introSectionElement;

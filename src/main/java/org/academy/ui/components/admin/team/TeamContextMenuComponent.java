@@ -54,6 +54,7 @@ public class TeamContextMenuComponent extends BaseComponent {
         clickOption(TeamCategoryAction.ADD);
         return new TeamAddCategoryModal(driver);
     }
+
     // Знаходить пункт меню за дією з enum і натискає його.
     private void clickOption(TeamCategoryAction action) {
         waitUntilOpen();
@@ -65,16 +66,19 @@ public class TeamContextMenuComponent extends BaseComponent {
         }
         throw new NoSuchElementException("Category menu option not found: " + action.getText());
     }
+
     @Step("Open the edit Team category dialog")
     public TeamEditCategoryModal clickEditCategory() {
         clickOption(TeamCategoryAction.EDIT);
         return new TeamEditCategoryModal(driver);
     }
+
     @Step("Open the Team category translation dialog")
     public TeamTranslateCategoryModal clickTranslateCategory() {
         clickOption(TeamCategoryAction.TRANSLATE);
         return new TeamTranslateCategoryModal(driver);
     }
+
     @Step("Open the delete Team category dialog")
     public TeamDeleteCategoryModal clickDeleteCategory() {
         clickOption(TeamCategoryAction.DELETE);

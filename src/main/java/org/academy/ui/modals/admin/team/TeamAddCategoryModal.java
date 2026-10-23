@@ -43,6 +43,11 @@ public class TeamAddCategoryModal extends BaseModal {
         return rootElement.isDisplayed();
     }
 
+    // Повертає поточне значення імені або назви.
+    public String getName() {
+        return nameField.getDomProperty("value");
+    }
+
     @Step("Enter Team category name: {name}")
     public TeamAddCategoryModal setName(String name) {
         nameField.click();
@@ -51,9 +56,9 @@ public class TeamAddCategoryModal extends BaseModal {
         return this;
     }
 
-    // Повертає поточне значення імені або назви.
-    public String getName() {
-        return nameField.getDomProperty("value");
+    // Повертає поточне значення опису.
+    public String getDescription() {
+        return descriptionField.getDomProperty("value");
     }
 
     @Step("Enter Team category description")
@@ -62,11 +67,6 @@ public class TeamAddCategoryModal extends BaseModal {
         descriptionField.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
         descriptionField.sendKeys(description);
         return this;
-    }
-
-    // Повертає поточне значення опису.
-    public String getDescription() {
-        return descriptionField.getDomProperty("value");
     }
 
     @Step("Leave the category description field to trigger validation")

@@ -23,15 +23,23 @@ public class TeamDeleteCategoryModal extends BaseModal {
     public TeamDeleteCategoryModal(WebDriver driver) {
         super(driver, MODAL);
     }
+
     // Повертає назву категорії, вибраної у формі.
-    public String getCategoryName() { return category.getText(); }
+    public String getCategoryName() {
+        return category.getText();
+    }
+
     @Step("Check whether Team category deletion is enabled")
-    public boolean isDeleteEnabled() { return deleteButton.isEnabled(); }
+    public boolean isDeleteEnabled() {
+        return deleteButton.isEnabled();
+    }
+
     // Повертає підказку форми або порожній рядок, якщо підказки немає.
     public String getHint() {
         var hints = rootElement.findElements(By.cssSelector(".hint-box"));
         return hints.isEmpty() ? "" : hints.getFirst().getText();
     }
+
     @Step("Delete the selected Team category and confirm")
     public TeamPageAdmin clickDelete() {
         wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
@@ -42,12 +50,14 @@ public class TeamDeleteCategoryModal extends BaseModal {
         wait.until(ExpectedConditions.stalenessOf(rootElement));
         return new TeamPageAdmin(driver);
     }
+
     @Step("Cancel Team category deletion")
     public TeamPageAdmin clickCancel() {
         wait.until(ExpectedConditions.elementToBeClickable(cancelButton)).click();
         wait.until(ExpectedConditions.stalenessOf(rootElement));
         return new TeamPageAdmin(driver);
     }
+
     @Step("Select category to delete: {name}")
     public TeamDeleteCategoryModal selectCategory(String name) {
         WebElement select = rootElement.findElement(By.id("delete-category-select"));
