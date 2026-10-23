@@ -4,7 +4,6 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
 public class EventsNewsCardComponent extends BaseComponent {
@@ -33,33 +32,32 @@ public class EventsNewsCardComponent extends BaseComponent {
 
     @Step("Get event news title")
     public String getTitle() {
-        return eventTitle.getText().trim();
+        return getText(eventTitle);
     }
 
     @Step("Get event news category")
     public String getCategory() {
-        return eventTag.getText().trim();
+        return getText(eventTag);
     }
 
     @Step("Get event news date")
     public String getDate() {
-        return eventDate.getText().trim();
+        return getText(eventDate);
     }
 
     @Step("Get event news description")
     public String getDescription() {
-        return eventDescription.getText().trim();
+        return getText(eventDescription);
     }
 
     @Step("Verify event news image is displayed")
     public boolean isImageDisplayed() {
-        return eventImage.isDisplayed();
+        return isDisplayed(eventImage);
     }
 
     @Step("Click article button")
     public void clickArticleButton() {
-        wait.until(
-                ExpectedConditions.elementToBeClickable(articleButton)
-        ).click();
+        click(articleButton);
     }
 }
+

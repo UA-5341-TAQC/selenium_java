@@ -2,8 +2,14 @@ package org.academy.ui.modals;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public abstract class BaseModal extends BaseComponent {
 
@@ -12,6 +18,12 @@ public abstract class BaseModal extends BaseComponent {
 
     protected BaseModal(WebElement rootElement) {
         super(rootElement);
+    }
+
+    // Чекає видимої модалки за локатором та передає її кореневий елемент іншому конструктору.
+    protected BaseModal(WebDriver driver, By modalLocator) {
+        this(new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(modalLocator)));
     }
 
     /**

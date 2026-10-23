@@ -45,6 +45,10 @@ public class Base {
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
+    protected void waitUntilInvisible(By locator) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
     protected void waitUntilAttributeEquals(WebElement element, String attribute, String value) {
         wait.until(ExpectedConditions.attributeToBe(element, attribute, value));
     }
@@ -63,6 +67,35 @@ public class Base {
         });
     }
 
+    protected boolean isDisplayed(WebElement element) {
+        try {
+            return element != null && element.isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
+    protected boolean isVisible(WebElement element) {
+        try {
+            return waitUntilVisible(element).isDisplayed();
+        } catch (TimeoutException | NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
+    protected void scrollIntoView(WebElement element) {
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", element);
+    }
+
+    protected void hover(WebElement element) {
+        scrollIntoView(element);
+        actions.moveToElement(waitUntilVisible(element)).perform();
+    }
+
+    protected void jsClick(WebElement element) {
+        js.executeScript("arguments[0].click();", element);
+    }
+
     protected void click(WebElement element) {
         waitUntilClickable(element).click();
     }
@@ -79,15 +112,27 @@ public class Base {
     }
 
     protected String getText(WebElement element) {
-        return waitUntilVisible(element).getText();
+        return waitUntilVisible(element).getText().trim();
+    }
+
+    protected List<String> getTexts(List<WebElement> elements) {
+        return elements.stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .toList();
     }
 
     protected String getValue(WebElement element) {
         return waitUntilVisible(element).getDomProperty("value");
     }
 
+    protected String getDomAttribute(WebElement element, String attribute) {
+        return waitUntilVisible(element).getDomAttribute(attribute);
+    }
+
     protected void fillInput(WebElement element, String value) {
         Objects.requireNonNull(value, "Input value must not be null");
+        scrollIntoView(element);
         WebElement input = waitUntilClickable(element);
         Keys modifier = System.getProperty("os.name").startsWith("Mac") ? Keys.COMMAND : Keys.CONTROL;
         input.sendKeys(Keys.chord(modifier, "a"), Keys.BACK_SPACE);
@@ -95,4 +140,13 @@ public class Base {
             input.sendKeys(value);
         }
     }
+
+    protected void clearInput(WebElement element) {
+        fillInput(element, "");
+    }
+
+    protected void blur(WebElement element) {
+        waitUntilVisible(element).sendKeys(Keys.TAB);
+    }
 }
+
