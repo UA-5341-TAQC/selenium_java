@@ -1,14 +1,16 @@
 package org.academy.ui.components.admin.programs.sections.content;
 
 import io.qameta.allure.Step;
-import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
 import org.academy.ui.components.admin.programs.sections.elements.DescriptionAuthorCardComponent;
+import org.academy.ui.components.admin.programs.sections.elements.SectionFieldComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** Program section with a title and dynamic description/author pairs. */
+/**
+ * Program section with a title and dynamic description/author pairs.
+ */
 public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id='single-title-description-author-pairs-title']")
@@ -35,6 +37,12 @@ public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent 
         return field(titleInput);
     }
 
+    @Step("Set section title")
+    public DescriptionAuthorPairsSectionContent setTitle(String value) {
+        getTitle().setValue(value).blur();
+        return this;
+    }
+
     @Step("Read description/author blocks")
     public List<DescriptionAuthorCardComponent> getBlocks() {
         return blockRoots.stream()
@@ -42,12 +50,16 @@ public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent 
                 .toList();
     }
 
-    /** Zero-based block position in the carousel. */
+    /**
+     * Zero-based block position in the carousel.
+     */
     public DescriptionAuthorCardComponent getBlock(int index) {
         return getBlocks().get(index);
     }
 
-    /** Adds an empty author block. Re-read indexed fields after adding or removing blocks. */
+    /**
+     * Adds an empty author block. Re-read indexed fields after adding or removing blocks.
+     */
     @Step("Add description/author block")
     public DescriptionAuthorPairsSectionContent addAuthorBlock() {
         if (!canAddAuthorBlock()) {
@@ -59,7 +71,9 @@ public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent 
         return this;
     }
 
-    /** Scrolls the author-card carousel; does not change the order of its blocks. */
+    /**
+     * Scrolls the author-card carousel; does not change the order of its blocks.
+     */
     @Step("Show next section carousel items")
     public DescriptionAuthorPairsSectionContent nextItems() {
         click(nextButtons.get(0));
@@ -68,12 +82,6 @@ public class DescriptionAuthorPairsSectionContent extends ProgramSectionContent 
 
     public boolean canAddAuthorBlock() {
         return addBlockButton.isEnabled();
-    }
-
-    @Step("Set section title")
-    public DescriptionAuthorPairsSectionContent setTitle(String value) {
-        getTitle().setValue(value).blur();
-        return this;
     }
 
     public boolean canShowPreviousItems() {

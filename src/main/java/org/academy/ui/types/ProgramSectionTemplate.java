@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/** The 13 program layouts and their editor/preview CSS class prefixes. */
+/**
+ * The 13 program layouts and their editor/preview CSS class prefixes.
+ */
 public enum ProgramSectionTemplate {
     TITLE_DESCRIPTION_WITH_FOUR_IMAGES_BELOW("QuadImagesBottom_container__", "ViewQuadImagesBottom_container__"),
     TITLE_DESCRIPTION_WITH_TWO_IMAGES_BELOW("DualImagesBottom_container__", "ViewDualImagesBottom_container__"),

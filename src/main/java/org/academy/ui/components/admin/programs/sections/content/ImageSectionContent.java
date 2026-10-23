@@ -39,7 +39,9 @@ public class ImageSectionContent extends TitleDescriptionSectionContent {
                 .map(SectionImageComponent::new).toList();
     }
 
-    /** May open cropping; handle it before continuing. */
+    /**
+     * May open cropping; handle it before continuing.
+     */
     @Step("Choose image at index {index}")
     public ImageSectionContent chooseImage(int index, Path file) {
         getImage(index).chooseFile(file);

@@ -3,8 +3,8 @@ package org.academy.ui.components.admin.programs.sections;
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
 import org.academy.ui.components.admin.programs.sections.content.ProgramSectionContent;
-import org.academy.ui.types.ProgramSectionTemplate;
 import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -53,7 +53,9 @@ public class ProgramSectionEditor extends BaseComponent {
         return ProgramSectionTemplate.fromRoot(layoutRoot);
     }
 
-    /** Creates content for the current layout; call again after editing or replacing the template. */
+    /**
+     * Creates content for the current layout; call again after editing or replacing the template.
+     */
     public ProgramSectionContent getContent() {
         return ProgramSectionContentFactory.create(layoutRoot);
     }
@@ -94,7 +96,9 @@ public class ProgramSectionEditor extends BaseComponent {
         return available(moveDownButtons);
     }
 
-    /** Opens editing unless the section is already editable. */
+    /**
+     * Opens editing unless the section is already editable.
+     */
     @Step("Edit program section")
     public ProgramSectionEditor edit() {
         if (!isEditing()) {
@@ -104,21 +108,27 @@ public class ProgramSectionEditor extends BaseComponent {
         return this;
     }
 
-    /** Opens the save confirmation; program persistence is a separate action. */
+    /**
+     * Opens the save confirmation; program persistence is a separate action.
+     */
     @Step("Request section save")
     public void requestSave() {
         click(saveButtons.get(0));
         // TODO: Return the shared confirmation component when available.
     }
 
-    /** Dirty sections require confirmation before returning to preview. */
+    /**
+     * Dirty sections require confirmation before returning to preview.
+     */
     @Step("Request section edit cancellation")
     public void requestCancel() {
         click(cancelButton);
         // TODO: Return the shared confirmation for new or dirty sections when available.
     }
 
-    /** Waits for preview after confirmation. Do not use for a removed new section. */
+    /**
+     * Waits for preview after confirmation. Do not use for a removed new section.
+     */
     public void waitUntilPreview() {
         wait.until(d -> !isEditing());
     }

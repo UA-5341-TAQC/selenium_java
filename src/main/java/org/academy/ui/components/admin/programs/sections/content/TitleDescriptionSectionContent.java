@@ -5,7 +5,9 @@ import org.academy.ui.components.admin.programs.sections.elements.SectionFieldCo
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/** Title/description editor, also used as the text part of image layouts. */
+/**
+ * Title/description editor, also used as the text part of image layouts.
+ */
 public class TitleDescriptionSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id$='section-title']")
@@ -23,15 +25,15 @@ public class TitleDescriptionSectionContent extends ProgramSectionContent {
         return field(titleInput);
     }
 
-    @Step("Read section description field")
-    public SectionFieldComponent getDescription() {
-        return field(descriptionInput);
-    }
-
     @Step("Set section title")
     public TitleDescriptionSectionContent setTitle(String value) {
         getTitle().setValue(value).blur();
         return this;
+    }
+
+    @Step("Read section description field")
+    public SectionFieldComponent getDescription() {
+        return field(descriptionInput);
     }
 
     @Step("Set section description")

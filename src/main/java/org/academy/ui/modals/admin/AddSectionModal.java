@@ -56,7 +56,9 @@ public class AddSectionModal extends BaseModal {
         return ProgramSectionTemplate.fromRoot(activeTemplateLayout);
     }
 
-    /** Finds the slide by template, independently of enum order. */
+    /**
+     * Finds the slide by template, independently of enum order.
+     */
     @Step("Show section template {template}")
     public AddSectionModal showTemplate(ProgramSectionTemplate template) {
         java.util.Objects.requireNonNull(template, "Template must not be null");
@@ -112,7 +114,9 @@ public class AddSectionModal extends BaseModal {
         return this;
     }
 
-    /** Chooses the template and closes the picker. Re-read the section from its form. */
+    /**
+     * Chooses the template and closes the picker. Re-read the section from its form.
+     */
     @Step("Choose the selected section template")
     public void chooseCurrentTemplate() {
         click(chooseButton);

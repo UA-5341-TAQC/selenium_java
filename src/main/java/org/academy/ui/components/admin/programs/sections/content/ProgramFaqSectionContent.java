@@ -8,7 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** Program FAQ template: title and editable question/answer cards. */
+/**
+ * Program FAQ template: title and editable question/answer cards.
+ */
 public class ProgramFaqSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id$='-faq-title']")
@@ -29,6 +31,12 @@ public class ProgramFaqSectionContent extends ProgramSectionContent {
         return field(titleInput);
     }
 
+    @Step("Set FAQ section title")
+    public ProgramFaqSectionContent setTitle(String value) {
+        getTitle().setValue(value).blur();
+        return this;
+    }
+
     @Step("Read program FAQ cards")
     public List<ProgramFaqCardComponent> getFaqCards() {
         return cardRoots.stream()
@@ -39,7 +47,9 @@ public class ProgramFaqSectionContent extends ProgramSectionContent {
         return addCardButton.isEnabled();
     }
 
-    /** Adds an empty card when the current questions/answers pass frontend validation. */
+    /**
+     * Adds an empty card when the current questions/answers pass frontend validation.
+     */
     @Step("Add program FAQ card")
     public ProgramFaqSectionContent addFaqCard() {
         if (!canAddFaqCard()) {
@@ -53,12 +63,6 @@ public class ProgramFaqSectionContent extends ProgramSectionContent {
 
     public ProgramFaqCardComponent getFaqCard(int index) {
         return getFaqCards().get(index);
-    }
-
-    @Step("Set FAQ section title")
-    public ProgramFaqSectionContent setTitle(String value) {
-        getTitle().setValue(value).blur();
-        return this;
     }
 
 }

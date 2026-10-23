@@ -1,10 +1,10 @@
 package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
-import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.components.admin.programs.sections.ProgramSectionEditor;
-import org.academy.ui.types.ProgramSectionTemplate;
+import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -69,14 +69,18 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
         return this;
     }
 
-    /** Sections in DOM order. Re-read after replacing, removing or reordering. */
+    /**
+     * Sections in DOM order. Re-read after replacing, removing or reordering.
+     */
     @Step("Read program sections in display order")
     public List<ProgramSectionEditor> getSections() {
         return sectionRoots.stream()
                 .map(ProgramSectionEditor::new).toList();
     }
 
-    /** Newly created sections are returned in edit mode. */
+    /**
+     * Newly created sections are returned in edit mode.
+     */
     @Step("Add program section using template {template}")
     public ProgramSectionEditor addSection(ProgramSectionTemplate template) {
         int count = sectionRoots.size();

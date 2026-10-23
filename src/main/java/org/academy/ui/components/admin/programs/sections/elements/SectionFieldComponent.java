@@ -36,7 +36,9 @@ public class SectionFieldComponent extends BaseComponent {
         super(root);
     }
 
-    /** Finds the input's field container; PageFactory handles its controls. */
+    /**
+     * Finds the input's field container; PageFactory handles its controls.
+     */
     public static SectionFieldComponent fromInput(WebElement input) {
         SectionFieldComponent field = new SectionFieldComponent(input.findElement(FIELD_CONTAINER));
         // A card can share a container with several inputs and counters.
@@ -49,7 +51,9 @@ public class SectionFieldComponent extends BaseComponent {
         return getValue(textInput);
     }
 
-    /** Replaces text. Call blur() to trigger validation. */
+    /**
+     * Replaces text. Call blur() to trigger validation.
+     */
     @Step("Set section field value")
     public SectionFieldComponent setValue(String value) {
         Objects.requireNonNull(value, "Field value must not be null");
@@ -57,7 +61,7 @@ public class SectionFieldComponent extends BaseComponent {
         if (!value.equals(getValue())) {
             // Fall back to settled keystrokes when a controlled input drops characters.
             fillInput(textInput, "");
-            for (int offset = 0; offset < value.length();) {
+            for (int offset = 0; offset < value.length(); ) {
                 int nextOffset = offset + Character.charCount(value.codePointAt(offset));
                 textInput.sendKeys(value.substring(offset, nextOffset));
                 String expected = value.substring(0, nextOffset);
@@ -73,7 +77,9 @@ public class SectionFieldComponent extends BaseComponent {
         return setValue("");
     }
 
-    /** Checks required attributes and the label marker. */
+    /**
+     * Checks required attributes and the label marker.
+     */
     public boolean isRequired() {
         return textInput.getDomAttribute(HtmlAttribute.REQUIRED.getValue()) != null
                 || Boolean.parseBoolean(textInput.getDomAttribute(HtmlAttribute.ARIA_REQUIRED.getValue()))
@@ -83,7 +89,9 @@ public class SectionFieldComponent extends BaseComponent {
                 .anyMatch(WebElement::isDisplayed);
     }
 
-    /** Returns the DOM limit, or -1 when the input has no HTML maxlength constraint. */
+    /**
+     * Returns the DOM limit, or -1 when the input has no HTML maxlength constraint.
+     */
     public int getMaxLength() {
         return Integer.parseInt(textInput.getDomProperty(MAX_LENGTH_PROPERTY));
     }

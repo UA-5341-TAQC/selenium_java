@@ -1,8 +1,8 @@
 package org.academy.ui.components.admin.programs.sections.elements;
 
 import io.qameta.allure.Step;
-import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.components.BaseComponent;
+import org.academy.ui.constants.HtmlAttribute;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -75,7 +75,9 @@ public class SectionImageComponent extends BaseComponent {
         return fileInput.getDomAttribute(HtmlAttribute.ACCEPT.getValue());
     }
 
-    /** Replaces an existing image; cropping may open. */
+    /**
+     * Replaces an existing image; cropping may open.
+     */
     @Step("Choose replacement section image")
     public SectionImageComponent replaceFile(Path file) {
         if (!hasImage()) {
@@ -84,7 +86,9 @@ public class SectionImageComponent extends BaseComponent {
         return chooseFile(file);
     }
 
-    /** Cropping is available only while the frontend retains the raw uploaded image. */
+    /**
+     * Cropping is available only while the frontend retains the raw uploaded image.
+     */
     public boolean canCrop() {
         return !cropButtons.isEmpty();
     }
@@ -96,17 +100,23 @@ public class SectionImageComponent extends BaseComponent {
         // TODO: Return the shared cropper component when available.
     }
 
-    /** Call after handling cropping, if required. */
+    /**
+     * Call after handling cropping, if required.
+     */
     public void waitUntilImagePresent() {
         wait.until(d -> hasImage());
     }
 
-    /** Call after handling a replacement cropper, if required. */
+    /**
+     * Call after handling a replacement cropper, if required.
+     */
     public void waitUntilImageSourceChanged(String previousSource) {
         wait.until(d -> hasImage() && !java.util.Objects.equals(previousSource, getImageSource()));
     }
 
-    /** Call only after confirming removal in the shared modal. */
+    /**
+     * Call only after confirming removal in the shared modal.
+     */
     public void waitUntilImageRemoved() {
         wait.until(d -> !hasImage());
     }

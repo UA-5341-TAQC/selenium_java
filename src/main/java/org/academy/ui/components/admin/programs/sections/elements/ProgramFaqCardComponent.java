@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** Editable question/answer pair inside a program's FAQ template. */
+/**
+ * Editable question/answer pair inside a program's FAQ template.
+ */
 public class ProgramFaqCardComponent extends BaseComponent {
 
     public static final String ROOT_SELECTOR = "[class*='EditableFaqCard_card__']";
@@ -35,6 +37,12 @@ public class ProgramFaqCardComponent extends BaseComponent {
         return field(questionInput);
     }
 
+    @Step("Set FAQ question")
+    public ProgramFaqCardComponent setQuestion(String value) {
+        getQuestion().setValue(value).blur();
+        return this;
+    }
+
     /**
      * Opens this card if needed and returns its answer field.
      * Opening another FAQ answer collapses this one and removes its field from the DOM.
@@ -45,18 +53,14 @@ public class ProgramFaqCardComponent extends BaseComponent {
         return field(answerInput);
     }
 
+    @Step("Set FAQ answer")
+    public ProgramFaqCardComponent setAnswer(String value) {
+        getAnswer().setValue(value).blur();
+        return this;
+    }
+
     public boolean isExpanded() {
         return !collapseButtons.isEmpty();
-    }
-
-    public boolean canDelete() {
-        return !deleteButtons.isEmpty();
-    }
-
-    @Step("Request program FAQ card deletion")
-    public void requestDelete() {
-        click(deleteButtons.get(0));
-        // TODO: Return the shared confirmation component when available.
     }
 
     @Step("Set FAQ answer expanded: {expanded}")
@@ -68,16 +72,14 @@ public class ProgramFaqCardComponent extends BaseComponent {
         return this;
     }
 
-    @Step("Set FAQ question")
-    public ProgramFaqCardComponent setQuestion(String value) {
-        getQuestion().setValue(value).blur();
-        return this;
+    public boolean canDelete() {
+        return !deleteButtons.isEmpty();
     }
 
-    @Step("Set FAQ answer")
-    public ProgramFaqCardComponent setAnswer(String value) {
-        getAnswer().setValue(value).blur();
-        return this;
+    @Step("Request program FAQ card deletion")
+    public void requestDelete() {
+        click(deleteButtons.get(0));
+        // TODO: Return the shared confirmation component when available.
     }
 
     private SectionFieldComponent field(WebElement input) {

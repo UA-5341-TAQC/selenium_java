@@ -10,7 +10,9 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Objects;
 
-/** Template content shared by the editor and translation form; no section toolbar actions. */
+/**
+ * Template content shared by the editor and translation form; no section toolbar actions.
+ */
 public abstract class ProgramSectionContent extends BaseComponent {
 
     @FindBy(css = "input:not([type='file']), textarea")
@@ -39,7 +41,9 @@ public abstract class ProgramSectionContent extends BaseComponent {
         return type.cast(this);
     }
 
-    /** Visible editable fields in DOM order; excludes collapsed FAQ answers. */
+    /**
+     * Visible editable fields in DOM order; excludes collapsed FAQ answers.
+     */
     @Step("Read editable section text fields")
     public List<SectionFieldComponent> getTextFields() {
         return textInputs.stream()
@@ -49,7 +53,9 @@ public abstract class ProgramSectionContent extends BaseComponent {
                 .toList();
     }
 
-    /** Wraps the input and its counter/error container as one field. */
+    /**
+     * Wraps the input and its counter/error container as one field.
+     */
     protected SectionFieldComponent field(WebElement input) {
         return SectionFieldComponent.fromInput(input);
     }

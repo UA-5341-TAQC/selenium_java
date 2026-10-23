@@ -94,7 +94,7 @@ public class TranslateProgramModal extends BaseProgramModal<TranslateProgramModa
      * faq.getFaqCard(0).setQuestion("Who can participate?").setAnswer("Veterans and their families.");
      * translation.save(); // Saves the whole translation.
      * }</pre>
-     *
+     * <p>
      * Re-read sections after switching languages.
      *
      * @throws IllegalArgumentException  if the section has a different content type

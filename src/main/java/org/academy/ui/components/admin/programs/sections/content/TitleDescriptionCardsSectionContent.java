@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** Fixed 2/3/4-card layout. Matching title/description indexes belong to the same card. */
+/**
+ * Fixed 2/3/4-card layout. Matching title/description indexes belong to the same card.
+ */
 public class TitleDescriptionCardsSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "input[id*='-card-title-']")

@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** One description/author block. All fields and actions stay inside its root. */
+/**
+ * One description/author block. All fields and actions stay inside its root.
+ */
 public class DescriptionAuthorCardComponent extends BaseComponent {
 
     public static final String ROOT_SELECTOR = "[class*='DescriptionAuthorPairCard_card__']";
@@ -29,14 +31,14 @@ public class DescriptionAuthorCardComponent extends BaseComponent {
         return SectionFieldComponent.fromInput(descriptionInput);
     }
 
-    public SectionFieldComponent getAuthor() {
-        return SectionFieldComponent.fromInput(authorInput);
-    }
-
     @Step("Set block description")
     public DescriptionAuthorCardComponent setDescription(String value) {
         getDescription().setValue(value).blur();
         return this;
+    }
+
+    public SectionFieldComponent getAuthor() {
+        return SectionFieldComponent.fromInput(authorInput);
     }
 
     @Step("Set block author")
@@ -50,7 +52,9 @@ public class DescriptionAuthorCardComponent extends BaseComponent {
                 .anyMatch(button -> button.isDisplayed() && button.isEnabled());
     }
 
-    /** Opens confirmation; does not delete the block immediately. */
+    /**
+     * Opens confirmation; does not delete the block immediately.
+     */
     @Step("Request description/author block deletion")
     public void requestDelete() {
         if (!canDelete()) {

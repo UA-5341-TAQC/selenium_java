@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-/** Program template with one title and five description fields. */
+/**
+ * Program template with one title and five description fields.
+ */
 public class QuintupleDescriptionSectionContent extends ProgramSectionContent {
 
     @FindBy(css = "textarea[id='single-title-quintuple-title']")
@@ -25,6 +27,12 @@ public class QuintupleDescriptionSectionContent extends ProgramSectionContent {
         return field(titleInput);
     }
 
+    @Step("Set section title")
+    public QuintupleDescriptionSectionContent setTitle(String value) {
+        getTitle().setValue(value).blur();
+        return this;
+    }
+
     @Step("Read section description fields")
     public List<SectionFieldComponent> getDescriptions() {
         return fields(descriptionInputs);
@@ -32,12 +40,6 @@ public class QuintupleDescriptionSectionContent extends ProgramSectionContent {
 
     public SectionFieldComponent getDescription(int index) {
         return getDescriptions().get(index);
-    }
-
-    @Step("Set section title")
-    public QuintupleDescriptionSectionContent setTitle(String value) {
-        getTitle().setValue(value).blur();
-        return this;
     }
 
     @Step("Set description at index {index}")
