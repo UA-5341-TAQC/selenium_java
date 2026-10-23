@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HeaderComponent extends BaseComponent {
 
@@ -43,34 +42,34 @@ public class HeaderComponent extends BaseComponent {
 
     @Step("Click Victory Center logo")
     public void clickLogo() {
-        wait.until(ExpectedConditions.elementToBeClickable(logoLink)).click();
+        click(logoLink);
     }
 
     @Step("Click 'About Us' dropdown trigger")
     public HeaderComponent clickAboutUsDropdown() {
-        wait.until(ExpectedConditions.elementToBeClickable(aboutUsDropdownButton)).click();
+        click(aboutUsDropdownButton);
         return this;
     }
 
     @Step("Click 'Hippotherapy' dropdown trigger")
     public HeaderComponent clickHippotherapyDropdown() {
-        wait.until(ExpectedConditions.elementToBeClickable(hippotherapyDropdownButton)).click();
+        click(hippotherapyDropdownButton);
         return this;
     }
 
     @Step("Click 'Reporting' link")
     public void clickReports() {
-        wait.until(ExpectedConditions.elementToBeClickable(reportsLink)).click();
+        click(reportsLink);
     }
 
     @Step("Click 'Stories of Victory' link")
     public void clickStories() {
-        wait.until(ExpectedConditions.elementToBeClickable(storiesLink)).click();
+        click(storiesLink);
     }
 
     @Step("Click 'How to Support' link")
     public void clickSupportUs() {
-        wait.until(ExpectedConditions.elementToBeClickable(supportUsLink)).click();
+        click(supportUsLink);
     }
 
     @Step("Get Language Switcher component")
@@ -80,17 +79,17 @@ public class HeaderComponent extends BaseComponent {
 
     @Step("Click 'Contact Us' button in header")
     public void clickContactUs() {
-        wait.until(ExpectedConditions.elementToBeClickable(contactUsButton)).click();
+        click(contactUsButton);
     }
 
     @Step("Click 'Donate' button in header")
     public void clickDonate() {
-        wait.until(ExpectedConditions.elementToBeClickable(donateButton)).click();
+        click(donateButton);
     }
 
     @Step("Open mobile menu via burger button")
     public MobileMenuComponent openMobileMenu() {
-        wait.until(ExpectedConditions.elementToBeClickable(burgerMenuButton)).click();
+        click(burgerMenuButton);
         MobileMenuComponent mobileMenu = new MobileMenuComponent(driver);
         mobileMenu.waitForOpened();
         return mobileMenu;
@@ -98,10 +97,7 @@ public class HeaderComponent extends BaseComponent {
 
     @Step("Check if burger menu button is displayed")
     public boolean isBurgerMenuDisplayed() {
-        try {
-            return burgerMenuButton.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return isDisplayed(burgerMenuButton);
     }
 }
+

@@ -6,7 +6,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ContactSectionComponent extends BaseComponent{
+public class ContactSectionComponent extends BaseComponent {
 
     @FindBy(css = "h2[class*='ContactSection_contact-title']")
     private WebElement title;

@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class OurMissionComponent extends BaseComponent {
@@ -24,19 +23,17 @@ public class OurMissionComponent extends BaseComponent {
 
     @Step("Get Our mission title text")
     public String getTitleText() {
-        wait.until(ExpectedConditions.visibilityOf(title));
-        return title.getText().trim();
+        return getText(title);
     }
 
     @Step("Get Our mission description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(description));
-        return description.getText().trim();
+        return getText(description);
     }
 
     @Step("Click Go To Programs button")
     public void clickGoToProgramsButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(goToProgramsButton)).click();
+        click(goToProgramsButton);
     }
 
-}
+}

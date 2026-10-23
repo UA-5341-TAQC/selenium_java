@@ -22,15 +22,15 @@ public class TeamCategoryComponent extends BaseComponent {
     }
 
     public String getTitle() {
-        return title.getText();
+        return getText(title);
     }
 
     public String getDescription() {
-        return description.getText();
+        return getText(description);
     }
 
     public boolean isDisplayed() {
-        return rootElement.isDisplayed();
+        return isDisplayed(rootElement);
     }
 
     public List<TeamMemberCardComponent> getMembers() {
@@ -66,3 +66,4 @@ public class TeamCategoryComponent extends BaseComponent {
         return false;
     }
 }
+

@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ContactModal extends BaseModal{
+public class ContactModal extends BaseModal {
 
     public static final By ROOT_LOCATOR = By.cssSelector("aside[class*='ContactFormPopUp_popup']");
     @FindBy(css = "button[class*='ContactFormPopUp_closeBtn']")

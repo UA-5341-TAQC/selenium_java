@@ -1,13 +1,17 @@
 package org.academy.ui.components;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FaqCardComponent extends BaseComponent{
+public class FaqCardComponent extends BaseComponent {
     @FindBy(css = "summary[class*='FaqCard_question-block']")
     private WebElement questionBlock;
 
     @FindBy(css = "summary[class*='FaqCard_question-block'] p")
+    private WebElement questionSummary;
+
+    @FindBy(css = "summary p, [class*='question-block'] p, summary")
     private WebElement questionText;
 
     @FindBy(css = "div[class*='FaqCard_answer-block']")
@@ -26,6 +30,14 @@ public class FaqCardComponent extends BaseComponent{
         return normalize(getText(questionText));
     }
 
+    @Step("Get FAQ answer text")
+    public String getAnswerText() {
+        if (!isExpanded()) {
+            expand();
+        }
+        return getText(answerBlock);
+    }
+
     @Step("Check if FAQ card is expanded")
     public boolean isExpanded() {
         return rootElement.getDomAttribute("open") != null;
@@ -36,12 +48,18 @@ public class FaqCardComponent extends BaseComponent{
         return answerBlock.isDisplayed();
     }
 
+    @Step("Toggle FAQ card")
+    public FaqCardComponent toggle() {
+        scrollIntoView(questionSummary);
+        click(questionSummary);
+        return this;
+    }
+
     @Step("Expand FAQ card")
     public FaqCardComponent expand() {
         if (!isExpanded()) {
-            click(questionBlock);
-            wait.until(driver -> isExpanded());
-            waitUntilVisible(answerBlock);
+            toggle();
+            wait.until(d -> isExpanded());
         }
         return this;
     }
@@ -49,15 +67,9 @@ public class FaqCardComponent extends BaseComponent{
     @Step("Collapse FAQ card")
     public FaqCardComponent collapse() {
         if (isExpanded()) {
-            click(questionBlock);
-            wait.until(driver -> !isExpanded());
+            toggle();
+            wait.until(d -> !isExpanded());
         }
         return this;
-    }
-
-    @Step("Get FAQ answer text")
-    public String getAnswerText() {
-        expand();
-        return normalize(getText(answerBlock));
     }
 }

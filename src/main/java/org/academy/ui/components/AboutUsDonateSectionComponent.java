@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AboutUsDonateSectionComponent extends BaseComponent {
 
@@ -28,29 +27,26 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
 
     @Step("Get AboutUs Donation section title")
     public String getTitleText() {
-        wait.until(ExpectedConditions.visibilityOf(titleElement));
-        return titleElement.getText().trim();
+        return getText(titleElement);
     }
 
     @Step("Get AboutUs Donation section description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(describtionElement));
-        return describtionElement.getText().trim();
+        return getText(describtionElement);
     }
 
     @Step("Check if Background Image is displayed")
     public boolean isBackgroundImageDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(backgroundImageElement));
-        return backgroundImageElement.isDisplayed();
+        return isVisible(backgroundImageElement);
     }
 
     @Step("Click Donate CTA button")
     public void clickDonateCtaButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(donateButtonElement)).click();
+        click(donateButtonElement);
     }
 
     @Step("Click Become Partner CTA button")
     public void clickBecomePartnerCtaButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(becomePartnerButtonElement)).click();
+        click(becomePartnerButtonElement);
     }
-}
+}

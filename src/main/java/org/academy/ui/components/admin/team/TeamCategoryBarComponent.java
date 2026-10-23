@@ -1,11 +1,9 @@
 package org.academy.ui.components.admin.team;
 
 import io.qameta.allure.Step;
-
 import org.academy.ui.components.BaseComponent;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 

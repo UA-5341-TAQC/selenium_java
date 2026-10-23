@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class OurTeamSectionComponent extends BaseComponent {
@@ -23,18 +22,16 @@ public class OurTeamSectionComponent extends BaseComponent {
 
     @Step("Check if OurTeam section image is displayed")
     public boolean isImageDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(imageElement));
-        return imageElement.isDisplayed();
+        return isVisible(imageElement);
     }
 
     @Step("Get Our Team Section description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(descriptionElement));
-        return descriptionElement.getText().trim();
+        return getText(descriptionElement);
     }
 
     @Step("Click View Team button")
     public void clickViewTeamButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(viewTeamButton)).click();
+        click(viewTeamButton);
     }
-}
+}

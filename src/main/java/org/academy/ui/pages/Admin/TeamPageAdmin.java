@@ -1,18 +1,15 @@
 package org.academy.ui.pages.Admin;
 
+import io.qameta.allure.Step;
 import org.academy.ui.components.admin.team.TeamCategoryBarComponent;
 import org.academy.ui.components.admin.team.TeamMemberItemComponent;
 import org.academy.ui.modals.admin.team.TeamMemberModal;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.List;
-import io.qameta.allure.Step;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeamPageAdmin extends BaseAdminPage {
     @FindBy(css = "[data-testid='team-page-content'] .category-bar")
@@ -34,7 +31,9 @@ public class TeamPageAdmin extends BaseAdminPage {
         return new TeamMemberModal(driver);
     }
 
-    /** Returns the currently loaded member rows; use search to locate a member in a long list. */
+    /**
+     * Returns the currently loaded member rows; use search to locate a member in a long list.
+     */
     public List<TeamMemberItemComponent> getMembers() {
         List<TeamMemberItemComponent> members = new ArrayList<>();
         for (WebElement element : driver.findElements(By.cssSelector(".members-item"))) {

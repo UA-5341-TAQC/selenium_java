@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class IntroSectionComponent extends BaseComponent {
 
@@ -25,24 +24,22 @@ public class IntroSectionComponent extends BaseComponent {
 
     @Step("Get Hero title")
     public String getTitleText() {
-        wait.until(ExpectedConditions.visibilityOf(title));
-        return title.getText().trim();
+        return getText(title);
     }
 
     @Step("Get Hero description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(description));
-        return description.getText().trim();
+        return getText(description);
     }
 
     @Step("Click Hero CTA button")
     public void clickCtaButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(ctaButton)).click();
+        click(ctaButton);
     }
 
     @Step("Check if Hero image is displayed")
     public boolean isImageDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(image));
-        return image.isDisplayed();
+        return isVisible(image);
     }
 }
+

@@ -1,4 +1,5 @@
 package org.academy.ui.components;
+
 import io.qameta.allure.Step;
 import org.academy.ui.types.ProgramTypes;
 import org.openqa.selenium.WebElement;
@@ -7,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProgramsSectionComponent extends BaseComponent{
+public class ProgramsSectionComponent extends BaseComponent {
     private static final String ACTIVE_BUTTON_CLASS = "black-button";
 
     @FindBy(css = "div[class*='ProgramCardProgramsPage_root']")

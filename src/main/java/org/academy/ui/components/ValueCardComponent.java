@@ -3,7 +3,6 @@ package org.academy.ui.components;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ValueCardComponent extends BaseComponent {
 
@@ -20,14 +19,12 @@ public class ValueCardComponent extends BaseComponent {
 
     @Step("Get Value Card description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(descriptionElement));
-        return descriptionElement.getText().trim();
+        return getText(descriptionElement);
     }
 
     @Step("Get Value Card name")
     public String getNameText() {
-        wait.until(ExpectedConditions.visibilityOf(nameElement));
-        return nameElement.getText().trim();
+        return getText(nameElement);
     }
 
-}
+}
