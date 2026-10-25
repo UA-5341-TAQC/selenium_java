@@ -135,7 +135,9 @@ public class Base {
         scrollIntoView(element);
         WebElement input = waitUntilClickable(element);
         Keys modifier = System.getProperty("os.name").startsWith("Mac") ? Keys.COMMAND : Keys.CONTROL;
-        input.sendKeys(Keys.chord(modifier, "a"), Keys.BACK_SPACE);
+        input.click();
+        actions.keyDown(modifier).sendKeys("a").keyUp(modifier).perform();
+        input.sendKeys(Keys.BACK_SPACE);
         if (!value.isEmpty()) {
             input.sendKeys(value);
         }

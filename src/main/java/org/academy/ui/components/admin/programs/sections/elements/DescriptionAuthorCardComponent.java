@@ -2,6 +2,7 @@ package org.academy.ui.components.admin.programs.sections.elements;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
+import org.academy.ui.modals.admin.ConfirmationModal;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -56,11 +57,11 @@ public class DescriptionAuthorCardComponent extends BaseComponent {
      * Opens confirmation; does not delete the block immediately.
      */
     @Step("Request description/author block deletion")
-    public void requestDelete() {
+    public ConfirmationModal requestDelete() {
         if (!canDelete()) {
             throw new IllegalStateException("Cannot delete block: the control is absent, hidden or disabled");
         }
         click(deleteButtons.get(0));
-        // TODO: Return the shared confirmation component when available.
+        return ConfirmationModal.waitFor(wait);
     }
 }

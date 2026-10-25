@@ -2,6 +2,7 @@ package org.academy.ui.components.admin.programs.sections.elements;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
+import org.academy.ui.modals.admin.ConfirmationModal;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -77,9 +78,9 @@ public class ProgramFaqCardComponent extends BaseComponent {
     }
 
     @Step("Request program FAQ card deletion")
-    public void requestDelete() {
+    public ConfirmationModal requestDelete() {
         click(deleteButtons.get(0));
-        // TODO: Return the shared confirmation component when available.
+        return ConfirmationModal.waitFor(wait);
     }
 
     private SectionFieldComponent field(WebElement input) {

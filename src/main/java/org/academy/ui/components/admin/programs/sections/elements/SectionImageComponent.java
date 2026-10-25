@@ -3,6 +3,8 @@ package org.academy.ui.components.admin.programs.sections.elements;
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
 import org.academy.ui.constants.HtmlAttribute;
+import org.academy.ui.modals.admin.ConfirmationModal;
+import org.academy.ui.modals.admin.CropperModal;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,7 +16,7 @@ import java.util.Objects;
  * One image slot with its validation errors, scoped to the PhotoInputGroup container.
  * <pre>{@code
  * image.replaceFile(imagePath);
- * // Handle cropping if it opens.
+ * image.getCropper().confirmCrop(); // Only when cropping is expected.
  * image.waitUntilImageSourceChanged(previousSource);
  * }</pre>
  */
@@ -45,10 +47,11 @@ public class SectionImageComponent extends BaseComponent {
         super(root);
     }
 
+    /** May accept the image directly or show a validation error; use getCropper() when expected. */
     @Step("Choose section image")
     public SectionImageComponent chooseFile(Path file) {
+        actions.moveToElement(imageInput).perform();
         uploadFile(fileInput, file);
-        // TODO: Return the shared cropper component when available.
         return this;
     }
 
@@ -94,10 +97,15 @@ public class SectionImageComponent extends BaseComponent {
     }
 
     @Step("Open section image cropper")
-    public void openCropper() {
+    public CropperModal openCropper() {
         actions.moveToElement(imageInput).perform();
         click(cropButtons.get(0));
-        // TODO: Return the shared cropper component when available.
+        return getCropper();
+    }
+
+    /** Waits for cropping after selection; do not call for invalid or exact-size images. */
+    public CropperModal getCropper() {
+        return CropperModal.waitFor(wait);
     }
 
     /**
@@ -122,9 +130,9 @@ public class SectionImageComponent extends BaseComponent {
     }
 
     @Step("Open section image removal confirmation")
-    public void openRemovalConfirmation() {
+    public ConfirmationModal openRemovalConfirmation() {
         actions.moveToElement(imageInput).perform();
         click(removeButton);
-        // TODO: Connect the shared image-removal confirmation component.
+        return ConfirmationModal.waitFor(wait);
     }
 }

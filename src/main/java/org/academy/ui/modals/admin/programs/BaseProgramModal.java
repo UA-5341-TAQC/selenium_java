@@ -3,14 +3,18 @@ package org.academy.ui.modals.admin.programs;
 import io.qameta.allure.Step;
 import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
+import org.academy.ui.modals.admin.ConfirmationModal;
 import org.academy.ui.pages.Admin.AdminProgramsPage;
 import org.academy.ui.types.ProgramField;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends BaseModal {
 
@@ -130,9 +134,21 @@ public abstract class BaseProgramModal<T extends BaseProgramModal<T>> extends Ba
         return self();
     }
 
-    /**
-     * Dirty forms require shared confirmation handling.
-     */
+    /** Requests closing without discarding changes automatically. Empty means the clean form closed. */
+    @Step("Request program modal close and inspect confirmation")
+    public Optional<ConfirmationModal> requestCloseWithConfirmation() {
+        requestClose();
+        return wait.until(d -> {
+            WebElement confirmation = ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector(ConfirmationModal.ROOT_SELECTOR)).apply(d);
+            if (confirmation != null) {
+                return Optional.of(new ConfirmationModal(confirmation));
+            }
+            return ExpectedConditions.invisibilityOf(rootElement).apply(d) ? Optional.empty() : null;
+        });
+    }
+
+    /** Closes a clean form. For dirty forms use requestCloseWithConfirmation() and choose explicitly. */
     @Step("Close program modal")
     public AdminProgramsPage close() {
         requestClose();

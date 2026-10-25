@@ -52,7 +52,9 @@ public class TranslateProgramModal extends BaseProgramModal<TranslateProgramModa
     @Step("Read available program translation languages")
     public List<String> getAvailableLanguages() {
         openLanguages();
-        List<String> languages = languageOptions.stream().map(WebElement::getText).toList();
+        List<String> languages = languageOptions.stream()
+                .map(option -> Objects.requireNonNull(option).getText())
+                .toList();
         click(languageButton);
         wait.until(d -> !isLanguageSelectOpen());
         return languages;

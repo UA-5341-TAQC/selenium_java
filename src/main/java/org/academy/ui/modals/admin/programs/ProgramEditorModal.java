@@ -4,6 +4,8 @@ import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.ProgramSectionEditor;
 import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.modals.admin.ConfirmationModal;
+import org.academy.ui.modals.admin.CropperModal;
 import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -19,7 +21,7 @@ import java.util.Objects;
  */
 public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
 
-    public static final String ROOT_SELECTOR = ".program-modal .modal-container";
+    public static final String ROOT_SELECTOR = ".program-modal > .modal-overlay > .modal-container.fullscreen";
 
     @FindBy(css = "#toolbar-categories")
     private WebElement categoriesButton;
@@ -27,10 +29,10 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @FindBy(css = "[role='option']")
     private List<WebElement> categoryOptions;
 
-    @FindBy(css = ".modal-footer .btn-secondary")
+    @FindBy(css = ":scope > .modal-footer > .btn-secondary")
     private WebElement saveDraftButton;
 
-    @FindBy(css = ".modal-footer .btn-primary")
+    @FindBy(css = ":scope > .modal-footer > .btn-primary")
     private WebElement publishButton;
 
     @FindBy(css = "#previewImage")
@@ -39,16 +41,22 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @FindBy(css = "#backgroundImage")
     private WebElement backgroundImageInput;
 
-    @FindBy(css = "[role='button']:has(#previewImage) button[aria-label='Remove image']")
+    @FindBy(css = "[role='button']:has(> #previewImage)")
+    private WebElement previewImageControl;
+
+    @FindBy(css = "[role='button']:has(> #backgroundImage)")
+    private WebElement backgroundImageControl;
+
+    @FindBy(css = "[role='button']:has(> #previewImage) button[aria-label='Remove image']")
     private WebElement removePreviewImageButton;
 
-    @FindBy(css = "[role='button']:has(#backgroundImage) button[aria-label='Remove image']")
+    @FindBy(css = "[role='button']:has(> #backgroundImage) button[aria-label='Remove image']")
     private WebElement removeBackgroundImageButton;
 
-    @FindBy(css = "[role='button']:has(#previewImage) [data-testid='preview-image']")
+    @FindBy(css = "[role='button']:has(> #previewImage) [data-testid='preview-image']")
     private List<WebElement> previewImages;
 
-    @FindBy(css = "[role='button']:has(#backgroundImage) [data-testid='preview-image']")
+    @FindBy(css = "[role='button']:has(> #backgroundImage) [data-testid='preview-image']")
     private List<WebElement> backgroundImages;
 
     @FindBy(css = "[class*='ProgramForm_empty-sections-text']")
@@ -91,6 +99,7 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
 
     /**
      * Zero-based editor section. Re-read after replacement, removal or reordering.
+     *
      * <pre>{@code
      * var section = editor.getSection(1);
      * section.edit();
@@ -181,47 +190,62 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     }
 
     /**
-     * File selection may open the cropper or show a validation error.
+     * File selection may open cropping, accept the image directly, or show a
+     * validation error.
+     * Call {@link #getCropper()} only when cropping is expected; raw selection
+     * remains
+     * available for validation tests and images that already have the requested
+     * size.
      */
     @Step("Choose program preview image")
     public ProgramEditorModal choosePreviewImage(Path file) {
         uploadFile(previewImageInput, file);
-        // TODO: Return the shared cropper component when available.
         return this;
     }
 
     /**
-     * File selection may open the cropper or show a validation error.
+     * File selection may open cropping, accept the image directly, or show a
+     * validation error.
+     * Call {@link #getCropper()} only when cropping is expected; raw selection
+     * remains
+     * available for validation tests and images that already have the requested
+     * size.
      */
     @Step("Choose program background image")
     public ProgramEditorModal chooseBackgroundImage(Path file) {
         uploadFile(backgroundImageInput, file);
-        // TODO: Return the shared cropper component when available.
         return this;
     }
 
     @Step("Open preview image removal confirmation")
-    public void openPreviewImageRemovalConfirmation() {
+    public ConfirmationModal openPreviewImageRemovalConfirmation() {
+        actions.moveToElement(previewImageControl).perform();
         click(removePreviewImageButton);
-        // TODO: Connect the shared image-removal confirmation component.
+        return ConfirmationModal.waitFor(wait);
     }
 
     @Step("Open background image removal confirmation")
-    public void openBackgroundImageRemovalConfirmation() {
+    public ConfirmationModal openBackgroundImageRemovalConfirmation() {
+        actions.moveToElement(backgroundImageControl).perform();
         click(removeBackgroundImageButton);
-        // TODO: Connect the shared image-removal confirmation component.
+        return ConfirmationModal.waitFor(wait);
     }
 
     @Step("Open program draft confirmation")
-    public void openSaveDraftConfirmation() {
+    public ConfirmationModal openSaveDraftConfirmation() {
         click(saveDraftButton);
-        // TODO: Return the shared confirmation component.
+        return ConfirmationModal.waitFor(wait);
     }
 
     @Step("Open program publication confirmation")
-    public void openPublishConfirmation() {
+    public ConfirmationModal openPublishConfirmation() {
         click(publishButton);
-        // TODO: Return the shared confirmation component.
+        return ConfirmationModal.waitFor(wait);
+    }
+
+    /** Waits for the cropper opened by a valid image with different dimensions. */
+    public CropperModal getCropper() {
+        return CropperModal.waitFor(wait);
     }
 
     private void openCategories() {
