@@ -1,7 +1,8 @@
-package org.academy.ui.modals;
+package org.academy.ui.modals.admin.events;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
+import org.academy.ui.modals.BaseModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
