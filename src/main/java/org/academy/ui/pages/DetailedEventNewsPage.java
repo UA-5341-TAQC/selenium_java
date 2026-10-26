@@ -1,9 +1,10 @@
 package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.net.URLEncoder;
@@ -15,61 +16,100 @@ public class DetailedEventNewsPage extends BasePublicPage {
     private static final String PAGE_PATH = "/events-and-news/";
     private static final String ENGLISH_PAGE_PATH = "/en/events-and-news/";
 
-    private static final By PAGE_ROOT = By.cssSelector("[class*='DetailedEventNewsPage_detailed-event-news-page']");
+    @FindBy(css = "[class*='DetailedEventNewsPage_detailed-event-news-page']")
+    private WebElement pageRoot;
 
-    private static final By ARTICLE_HEADER = By.cssSelector("[class*='DetailedProgramHeader_background-section']");
-    private static final By ARTICLE_TITLE = By.cssSelector("[class*='DetailedProgramHeader_program-name']");
-    private static final By ARTICLE_DESCRIPTION = By.cssSelector("[class*='DetailedProgramHeader_description']");
-    private static final By ARTICLE_HEADER_MEDIA = By.cssSelector(
-            "[class*='DetailedProgramHeader_background-media-wrapper']"
-    );
-    private static final By ARTICLE_HEADER_BACKGROUND_MEDIA = By.cssSelector(
-            "[class*='DetailedProgramHeader_background-media-wrapper'] [class*='BackgroundMedia_media']"
-    );
+    @FindBy(css = "[class*='DetailedProgramHeader_background-section']")
+    private WebElement articleHeader;
 
-    private static final By ARTICLE_SECTIONS = By.cssSelector(
+    @FindBy(css = "[class*='DetailedProgramHeader_background-section']")
+    private List<WebElement> articleHeaderElements;
+
+    @FindBy(css = "[class*='DetailedProgramHeader_program-name']")
+    private WebElement articleTitle;
+
+    @FindBy(css = "[class*='DetailedProgramHeader_description']")
+    private WebElement articleDescription;
+
+    @FindBy(css = "[class*='DetailedProgramHeader_background-media-wrapper']")
+    private WebElement articleHeaderMedia;
+
+    @FindBy(css = "[class*='DetailedProgramHeader_background-media-wrapper'] [class*='BackgroundMedia_media']")
+    private WebElement articleHeaderBackgroundMedia;
+
+    @FindBy(css =
             "[class*='DetailedProgramSection_'], [class*='SingleImageBottom_'], [class*='SingleImageTop_'], "
                     + "[class*='SingleImageRight_'], [class*='DualImagesBottom_'], [class*='TripleImagesBottom_'], "
                     + "[class*='QuadImagesBottom_'], [class*='TextOnly_'], [class*='TitleDescriptionCardsSection_']"
-    );
-    private static final By SINGLE_IMAGE_BOTTOM_SECTIONS = By.cssSelector("[class*='SingleImageBottom_']");
-    private static final By SINGLE_IMAGE_TOP_SECTIONS = By.cssSelector("[class*='SingleImageTop_']");
-    private static final By SINGLE_IMAGE_RIGHT_SECTIONS = By.cssSelector("[class*='SingleImageRight_']");
-    private static final By DUAL_IMAGES_BOTTOM_SECTIONS = By.cssSelector("[class*='DualImagesBottom_']");
-    private static final By TRIPLE_IMAGES_BOTTOM_SECTIONS = By.cssSelector("[class*='TripleImagesBottom_']");
-    private static final By QUAD_IMAGES_BOTTOM_SECTIONS = By.cssSelector("[class*='QuadImagesBottom_']");
-    private static final By TEXT_ONLY_SECTIONS = By.cssSelector("[class*='TextOnly_']");
-    private static final By TITLE_DESCRIPTION_CARDS_SECTIONS =
-            By.cssSelector("[class*='TitleDescriptionCardsSection_']");
+    )
+    private List<WebElement> articleSections;
 
-    private static final By RECOMMENDED_ARTICLES = By.cssSelector(
-            "[class*='RecommendedArticles_recommendations-container']"
-    );
-    private static final By RECOMMENDED_ARTICLES_TITLE = By.cssSelector("[class*='RecommendedArticles_heading']");
-    private static final By RECOMMENDED_ARTICLE_CARDS = By.cssSelector(
-            "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-card']"
-    );
-    private static final By RECOMMENDED_ARTICLE_IMAGES = By.cssSelector(
-            "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-image']"
-    );
-    private static final By RECOMMENDED_ARTICLE_TITLES = By.cssSelector(
-            "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-title']"
-    );
-    private static final By RECOMMENDED_ARTICLE_DESCRIPTIONS = By.cssSelector(
-            "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-description']"
-    );
-    private static final By RECOMMENDED_ARTICLE_BUTTONS = By.cssSelector(
-            "[class*='RecommendedArticles_cards-grid'] button[class*='Button_tertiary']"
-    );
+    @FindBy(css = "[class*='SingleImageBottom_']")
+    private List<WebElement> singleImageBottomSections;
 
-    private static final By NOT_FOUND = By.cssSelector("[class*='NotFound_root']");
-    private static final By NOT_FOUND_CODE = By.cssSelector("[class*='NotFoundIntro_text']");
-    private static final By NOT_FOUND_TITLE = By.cssSelector("[class*='NotFoundMessage_title']");
-    private static final By NOT_FOUND_DESCRIPTION = By.cssSelector("[class*='NotFoundMessage_description']");
-    private static final By NOT_FOUND_HOME_LINK = By.cssSelector("[class*='NotFoundMessage_actions'] a[href='/']");
+    @FindBy(css = "[class*='SingleImageTop_']")
+    private List<WebElement> singleImageTopSections;
+
+    @FindBy(css = "[class*='SingleImageRight_']")
+    private List<WebElement> singleImageRightSections;
+
+    @FindBy(css = "[class*='DualImagesBottom_']")
+    private List<WebElement> dualImagesBottomSections;
+
+    @FindBy(css = "[class*='TripleImagesBottom_']")
+    private List<WebElement> tripleImagesBottomSections;
+
+    @FindBy(css = "[class*='QuadImagesBottom_']")
+    private List<WebElement> quadImagesBottomSections;
+
+    @FindBy(css = "[class*='TextOnly_']")
+    private List<WebElement> textOnlySections;
+
+    @FindBy(css = "[class*='TitleDescriptionCardsSection_']")
+    private List<WebElement> titleDescriptionCardsSections;
+
+    @FindBy(css = "[class*='RecommendedArticles_recommendations-container']")
+    private WebElement recommendedArticles;
+
+    @FindBy(css = "[class*='RecommendedArticles_heading']")
+    private WebElement recommendedArticlesTitle;
+
+    @FindBy(css = "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-card']")
+    private List<WebElement> recommendedArticleCards;
+
+    @FindBy(css = "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-image']")
+    private List<WebElement> recommendedArticleImages;
+
+    @FindBy(css = "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-title']")
+    private List<WebElement> recommendedArticleTitles;
+
+    @FindBy(css = "[class*='RecommendedArticles_cards-grid'] [class*='SingleEventNews_event-description']")
+    private List<WebElement> recommendedArticleDescriptions;
+
+    @FindBy(css = "[class*='RecommendedArticles_cards-grid'] button[class*='Button_tertiary']")
+    private List<WebElement> recommendedArticleButtons;
+
+    @FindBy(css = "[class*='NotFound_root']")
+    private WebElement notFound;
+
+    @FindBy(css = "[class*='NotFound_root']")
+    private List<WebElement> notFoundElements;
+
+    @FindBy(css = "[class*='NotFoundIntro_text']")
+    private WebElement notFoundCode;
+
+    @FindBy(css = "[class*='NotFoundMessage_title']")
+    private WebElement notFoundTitle;
+
+    @FindBy(css = "[class*='NotFoundMessage_description']")
+    private WebElement notFoundDescription;
+
+    @FindBy(css = "[class*='NotFoundMessage_actions'] a[href='/']")
+    private WebElement notFoundHomeLink;
 
     public DetailedEventNewsPage(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     @Step("Open the Ukrainian detailed event/news page: {slug}")
@@ -87,145 +127,145 @@ public class DetailedEventNewsPage extends BasePublicPage {
     @Step("Wait for detailed event/news page or Not Found fallback")
     public DetailedEventNewsPage waitUntilLoaded() {
         wait.until(driver ->
-                !driver.findElements(ARTICLE_HEADER).isEmpty()
-                        || !driver.findElements(NOT_FOUND).isEmpty()
+                !articleHeaderElements.isEmpty()
+                        || !notFoundElements.isEmpty()
         );
         return this;
     }
 
     @Step("Get detailed event/news page root element")
     public WebElement getPageRootElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(PAGE_ROOT));
+        return wait.until(ExpectedConditions.visibilityOf(pageRoot));
     }
 
     @Step("Get article header element")
     public WebElement getArticleHeaderElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(ARTICLE_HEADER));
+        return wait.until(ExpectedConditions.visibilityOf(articleHeader));
     }
 
     @Step("Get article title element")
     public WebElement getArticleTitleElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(ARTICLE_TITLE));
+        return wait.until(ExpectedConditions.visibilityOf(articleTitle));
     }
 
     @Step("Get article description element")
     public WebElement getArticleDescriptionElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(ARTICLE_DESCRIPTION));
+        return wait.until(ExpectedConditions.visibilityOf(articleDescription));
     }
 
     @Step("Get article header media element")
     public WebElement getArticleHeaderMediaElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(ARTICLE_HEADER_MEDIA));
+        return wait.until(ExpectedConditions.visibilityOf(articleHeaderMedia));
     }
 
     @Step("Get article header background media element")
     public WebElement getArticleHeaderBackgroundMediaElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(ARTICLE_HEADER_BACKGROUND_MEDIA));
+        return wait.until(ExpectedConditions.visibilityOf(articleHeaderBackgroundMedia));
     }
 
     @Step("Get detailed article content sections")
     public List<WebElement> getArticleSections() {
-        return driver.findElements(ARTICLE_SECTIONS);
+        return articleSections;
     }
 
     @Step("Get SingleImageBottom template sections")
     public List<WebElement> getSingleImageBottomSections() {
-        return driver.findElements(SINGLE_IMAGE_BOTTOM_SECTIONS);
+        return singleImageBottomSections;
     }
 
     @Step("Get SingleImageTop template sections")
     public List<WebElement> getSingleImageTopSections() {
-        return driver.findElements(SINGLE_IMAGE_TOP_SECTIONS);
+        return singleImageTopSections;
     }
 
     @Step("Get SingleImageRight template sections")
     public List<WebElement> getSingleImageRightSections() {
-        return driver.findElements(SINGLE_IMAGE_RIGHT_SECTIONS);
+        return singleImageRightSections;
     }
 
     @Step("Get DualImagesBottom template sections")
     public List<WebElement> getDualImagesBottomSections() {
-        return driver.findElements(DUAL_IMAGES_BOTTOM_SECTIONS);
+        return dualImagesBottomSections;
     }
 
     @Step("Get TripleImagesBottom template sections")
     public List<WebElement> getTripleImagesBottomSections() {
-        return driver.findElements(TRIPLE_IMAGES_BOTTOM_SECTIONS);
+        return tripleImagesBottomSections;
     }
 
     @Step("Get QuadImagesBottom template sections")
     public List<WebElement> getQuadImagesBottomSections() {
-        return driver.findElements(QUAD_IMAGES_BOTTOM_SECTIONS);
+        return quadImagesBottomSections;
     }
 
     @Step("Get TextOnly template sections")
     public List<WebElement> getTextOnlySections() {
-        return driver.findElements(TEXT_ONLY_SECTIONS);
+        return textOnlySections;
     }
 
     @Step("Get TitleDescriptionCardsSection template sections")
     public List<WebElement> getTitleDescriptionCardsSections() {
-        return driver.findElements(TITLE_DESCRIPTION_CARDS_SECTIONS);
+        return titleDescriptionCardsSections;
     }
 
     @Step("Get recommended articles section element")
     public WebElement getRecommendedArticlesElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(RECOMMENDED_ARTICLES));
+        return wait.until(ExpectedConditions.visibilityOf(recommendedArticles));
     }
 
     @Step("Get recommended articles title element")
     public WebElement getRecommendedArticlesTitleElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(RECOMMENDED_ARTICLES_TITLE));
+        return wait.until(ExpectedConditions.visibilityOf(recommendedArticlesTitle));
     }
 
     @Step("Get recommended article card elements")
     public List<WebElement> getRecommendedArticleCards() {
-        return driver.findElements(RECOMMENDED_ARTICLE_CARDS);
+        return recommendedArticleCards;
     }
 
     @Step("Get recommended article image elements")
     public List<WebElement> getRecommendedArticleImages() {
-        return driver.findElements(RECOMMENDED_ARTICLE_IMAGES);
+        return recommendedArticleImages;
     }
 
     @Step("Get recommended article title elements")
     public List<WebElement> getRecommendedArticleTitles() {
-        return driver.findElements(RECOMMENDED_ARTICLE_TITLES);
+        return recommendedArticleTitles;
     }
 
     @Step("Get recommended article description elements")
     public List<WebElement> getRecommendedArticleDescriptions() {
-        return driver.findElements(RECOMMENDED_ARTICLE_DESCRIPTIONS);
+        return recommendedArticleDescriptions;
     }
 
     @Step("Get recommended article button elements")
     public List<WebElement> getRecommendedArticleButtons() {
-        return driver.findElements(RECOMMENDED_ARTICLE_BUTTONS);
+        return recommendedArticleButtons;
     }
 
     @Step("Get Not Found fallback element")
     public WebElement getNotFoundElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(NOT_FOUND));
+        return wait.until(ExpectedConditions.visibilityOf(notFound));
     }
 
     @Step("Get Not Found status code element")
     public WebElement getNotFoundCodeElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(NOT_FOUND_CODE));
+        return wait.until(ExpectedConditions.visibilityOf(notFoundCode));
     }
 
     @Step("Get Not Found title element")
     public WebElement getNotFoundTitleElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(NOT_FOUND_TITLE));
+        return wait.until(ExpectedConditions.visibilityOf(notFoundTitle));
     }
 
     @Step("Get Not Found description element")
     public WebElement getNotFoundDescriptionElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(NOT_FOUND_DESCRIPTION));
+        return wait.until(ExpectedConditions.visibilityOf(notFoundDescription));
     }
 
     @Step("Get Not Found home link element")
     public WebElement getNotFoundHomeLinkElement() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(NOT_FOUND_HOME_LINK));
+        return wait.until(ExpectedConditions.visibilityOf(notFoundHomeLink));
     }
 
     private String normalizeBaseUrl(String baseUrl) {
