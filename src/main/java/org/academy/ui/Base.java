@@ -122,6 +122,27 @@ public class Base {
                 .toList();
     }
 
+    protected WebElement findByText(List<WebElement> elements, String text) {
+        Objects.requireNonNull(text, "Text must not be null");
+        String expected = text.trim();
+        try {
+            return wait.until(currentDriver -> elements.stream()
+                    .filter(element -> hasText(element, expected))
+                    .findFirst()
+                    .orElse(null));
+        } catch (TimeoutException e) {
+            throw new NoSuchElementException("Element with text not found: " + text);
+        }
+    }
+
+    private boolean hasText(WebElement element, String expected) {
+        try {
+            return element.getText().trim().equalsIgnoreCase(expected);
+        } catch (StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
     protected String getValue(WebElement element) {
         return waitUntilVisible(element).getDomProperty("value");
     }
