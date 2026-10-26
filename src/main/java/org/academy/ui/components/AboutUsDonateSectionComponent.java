@@ -1,7 +1,6 @@
-package org.academy.ui.components.aboutus;
+package org.academy.ui.components;
 
 import io.qameta.allure.Step;
-import org.academy.ui.components.BaseComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;

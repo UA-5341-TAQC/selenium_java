@@ -2,8 +2,8 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.*;
-import org.academy.ui.components.aboutus.AboutUsDonateSectionComponent;
-import org.academy.ui.components.aboutus.AboutUsProgramsSectionComponent;
+import org.academy.ui.components.AboutUsDonateSectionComponent;
+import org.academy.ui.components.AboutUsProgramsSectionComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
