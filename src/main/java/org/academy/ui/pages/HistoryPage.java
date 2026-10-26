@@ -136,11 +136,6 @@ public class HistoryPage extends BasePublicPage {
         return getText(activeTimelineDateElement);
     }
 
-    @Step("Click timeline date: {date}")
-    public void clickTimelineDate(String date) {
-        click(findByText(timelineDateElements, date));
-    }
-
     @Step("Get timeline photo cards count")
     public int getTimelinePhotoCardsCount() {
         return timelinePhotoCardElements.size();
