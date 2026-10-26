@@ -2,6 +2,7 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.*;
+import org.academy.ui.components.aboutus.AboutUsSectionComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

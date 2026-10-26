@@ -5,43 +5,45 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class AboutUsDonateSectionComponent extends BaseComponent {
 
-    @FindBy(css = "div[class*='CtaSection_title']")
+public class CtaSectionComponent extends BaseComponent {
+
+    @FindBy(css = "h2[class*='CtaSection_title']")
     private WebElement titleElement;
 
-    @FindBy(css = "div[class*='CtaSection_description']")
-    private WebElement describtionElement;
+    @FindBy(css = "p[class*='CtaSection_description']")
+    private WebElement descriptionElement;
 
-    @FindBy(css = "img[class*='BackgroundMedia_media']")
-    private WebElement backgroundImageElement;
+    @FindBy(css = "video[class*='BackgroundMedia_media']")
+    private WebElement backgroundMediaElement;
 
-    @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][href*='donate']")
+    @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][class*='Button_primary'][href*='donate']")
     private WebElement donateButtonElement;
 
     @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][class*='Button_secondary'][href*='donate']")
     private WebElement becomePartnerButtonElement;
 
-    public AboutUsDonateSectionComponent(WebElement element) {
+
+    public CtaSectionComponent(WebElement element) {
         super(element);
     }
 
-    @Step("Get AboutUs Donation section title")
+    @Step("Get CTA title")
     public String getTitleText() {
         wait.until(ExpectedConditions.visibilityOf(titleElement));
         return titleElement.getText().trim();
     }
 
-    @Step("Get AboutUs Donation section description")
+    @Step("Get CTA description")
     public String getDescriptionText() {
-        wait.until(ExpectedConditions.visibilityOf(describtionElement));
-        return describtionElement.getText().trim();
+        wait.until(ExpectedConditions.visibilityOf(descriptionElement));
+        return descriptionElement.getText().trim();
     }
 
-    @Step("Check if Background Image is displayed")
-    public boolean isBackgroundImageDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(backgroundImageElement));
-        return backgroundImageElement.isDisplayed();
+    @Step("Check if CTA Section video is displayed")
+    public boolean isCTAVideoDisplayed() {
+        wait.until(ExpectedConditions.visibilityOf(backgroundMediaElement));
+        return backgroundMediaElement.isDisplayed();
     }
 
     @Step("Click Donate CTA button")
@@ -53,4 +55,5 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
     public void clickBecomePartnerCtaButton() {
         wait.until(ExpectedConditions.elementToBeClickable(becomePartnerButtonElement)).click();
     }
+
 }
