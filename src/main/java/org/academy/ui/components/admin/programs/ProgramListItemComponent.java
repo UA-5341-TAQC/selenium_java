@@ -36,7 +36,9 @@ public class ProgramListItemComponent extends BaseComponent {
         super(rootElement);
     }
 
-    /** No wait: called inside the page's lookup wait. */
+    /**
+     * No wait: called inside the page's lookup wait.
+     */
     public String getTitle() {
         return title.getText();
     }

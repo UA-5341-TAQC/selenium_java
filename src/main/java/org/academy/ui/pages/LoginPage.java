@@ -4,7 +4,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -26,34 +25,30 @@ public class LoginPage extends BasePage {
 
     @Step("Enter email: {email}")
     public LoginPage enterEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOf(emailField));
-        emailField.clear();
-        emailField.sendKeys(email);
+        fillInput(emailField, email);
         return this;
     }
 
     @Step("Enter password: {password}")
     public LoginPage enterPassword(String password) {
-        wait.until(ExpectedConditions.visibilityOf(passwordField));
-        passwordField.clear();
-        passwordField.sendKeys(password);
+        fillInput(passwordField, password);
         return this;
     }
 
     @Step("Click login button")
     public void clickLoginButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        click(loginButton);
     }
 
     @Step("Toggle password visibility")
     public LoginPage togglePasswordVisibility() {
-        wait.until(ExpectedConditions.elementToBeClickable(passwordVisibilityToggle)).click();
+        click(passwordVisibilityToggle);
         return this;
     }
 
     @Step("Get password field input type")
     public String getPasswordFieldType() {
-        return passwordField.getAttribute("type");
+        return getDomAttribute(passwordField, "type");
     }
 
     @Step("Check if password is visible as plain text")
@@ -61,3 +56,4 @@ public class LoginPage extends BasePage {
         return "text".equalsIgnoreCase(getPasswordFieldType());
     }
 }
+

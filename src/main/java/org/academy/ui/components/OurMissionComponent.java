@@ -1,0 +1,39 @@
+package org.academy.ui.components;
+
+import io.qameta.allure.Step;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+
+public class OurMissionComponent extends BaseComponent {
+
+    @FindBy(css = "h2[class*='OurMission_title'], [class*='OurMission_title']")
+    private WebElement title;
+
+    @FindBy(css = "p[class*='OurMission_text']")
+    private WebElement description;
+
+    @FindBy(css = "div[class*='OurMission_actions'] a[class*='Button_button'][href*='programs']")
+    private WebElement goToProgramsButton;
+
+
+    public OurMissionComponent(WebElement element) {
+        super(element);
+    }
+
+    @Step("Get Our mission title text")
+    public String getTitleText() {
+        return getText(title);
+    }
+
+    @Step("Get Our mission description")
+    public String getDescriptionText() {
+        return getText(description);
+    }
+
+    @Step("Click Go To Programs button")
+    public void clickGoToProgramsButton() {
+        click(goToProgramsButton);
+    }
+
+}

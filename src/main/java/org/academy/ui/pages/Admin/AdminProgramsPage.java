@@ -39,7 +39,9 @@ public class AdminProgramsPage extends BaseAdminPage {
         return new ProgramEditorModal(modal);
     }
 
-    /** Matches loaded items only; does not scroll or change filters. */
+    /**
+     * Matches loaded items only; does not scroll or change filters.
+     */
     @Step("Find loaded program by title: {title}")
     public ProgramListItemComponent getProgramByTitle(String title) {
         Objects.requireNonNull(title, "Program title must not be null");

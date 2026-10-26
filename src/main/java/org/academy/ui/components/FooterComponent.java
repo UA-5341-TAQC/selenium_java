@@ -4,10 +4,8 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FooterComponent extends BaseComponent {
 
@@ -53,57 +51,49 @@ public class FooterComponent extends BaseComponent {
         if (logoLinks.isEmpty()) {
             throw new NoSuchElementException("Footer logo link is missing from DOM");
         }
-        wait.until(ExpectedConditions.elementToBeClickable(logoLinks.get(0))).click();
+        click(logoLinks.get(0));
     }
 
     @Step("Check if newsletter subscription block is displayed")
     public boolean isNewsletterDisplayed() {
-        try {
-            return newsletterTitle.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return isDisplayed(newsletterTitle);
     }
 
     @Step("Get newsletter subscription title")
     public String getNewsletterTitle() {
-        wait.until(ExpectedConditions.visibilityOf(newsletterTitle));
-        return newsletterTitle.getText().trim();
+        return getText(newsletterTitle);
     }
 
     @Step("Enter newsletter email: {email}")
     public FooterComponent enterNewsletterEmail(String email) {
-        wait.until(ExpectedConditions.visibilityOf(newsletterEmailInput));
-        newsletterEmailInput.clear();
-        newsletterEmailInput.sendKeys(email);
+        fillInput(newsletterEmailInput, email);
         return this;
     }
 
     @Step("Submit newsletter subscription")
     public FooterComponent submitNewsletter() {
-        wait.until(ExpectedConditions.elementToBeClickable(newsletterSubmitButton)).click();
+        click(newsletterSubmitButton);
         return this;
     }
 
     @Step("Get Menu column links")
     public List<String> getMenuColumnLinkTexts() {
-        return menuColumnLinks.stream().map(WebElement::getText).map(String::trim).collect(Collectors.toList());
+        return getTexts(menuColumnLinks);
     }
 
     @Step("Get About Us column links")
     public List<String> getAboutUsColumnLinkTexts() {
-        return aboutUsColumnLinks.stream().map(WebElement::getText).map(String::trim).collect(Collectors.toList());
+        return getTexts(aboutUsColumnLinks);
     }
 
     @Step("Get Hippotherapy column links")
     public List<String> getHippotherapyColumnLinkTexts() {
-        return hippotherapyColumnLinks.stream().map(WebElement::getText).map(String::trim).collect(Collectors.toList());
+        return getTexts(hippotherapyColumnLinks);
     }
 
     @Step("Get email contact text")
     public String getEmailContactText() {
-        wait.until(ExpectedConditions.visibilityOf(emailContactButton));
-        return emailContactButton.getText().trim();
+        return getText(emailContactButton);
     }
 
     @Step("Click email contact button to copy")
@@ -113,8 +103,7 @@ public class FooterComponent extends BaseComponent {
 
     @Step("Get phone contact text")
     public String getPhoneContactText() {
-        wait.until(ExpectedConditions.visibilityOf(phoneContactButton));
-        return phoneContactButton.getText().trim();
+        return getText(phoneContactButton);
     }
 
     @Step("Click phone contact button to copy")
@@ -129,12 +118,13 @@ public class FooterComponent extends BaseComponent {
 
     @Step("Get social media button texts")
     public List<String> getSocialMediaTexts() {
-        return socialMediaButtons.stream().map(WebElement::getText).map(String::trim).collect(Collectors.toList());
+        return getTexts(socialMediaButtons);
     }
 
     @Step("Get scrolling motto ticker text")
     public String getScrollingMottoText() {
-        wait.until(ExpectedConditions.visibilityOf(scrollingTextElement));
-        return scrollingTextElement.getText().trim();
+        return getText(scrollingTextElement);
     }
 }
+
+

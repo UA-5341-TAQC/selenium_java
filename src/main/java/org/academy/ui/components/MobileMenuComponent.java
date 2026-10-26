@@ -1,19 +1,17 @@
-package org.academy.ui.modals;
+package org.academy.ui.components;
 
 import io.qameta.allure.Step;
 import org.academy.ui.Base;
-import org.academy.ui.components.LanguageSwitcherComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HeaderModal extends Base {
+public class MobileMenuComponent extends Base {
 
     @FindBy(css = ".mobile-menu")
     private WebElement mobileMenuContainer;
@@ -27,29 +25,25 @@ public class HeaderModal extends Base {
     @FindBy(css = "button.burger-menu-icon")
     private WebElement burgerMenuButton;
 
-    public HeaderModal(WebDriver driver) {
+    public MobileMenuComponent(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
     @Step("Check if mobile header menu drawer is displayed")
     public boolean isDisplayed() {
-        try {
-            return mobileMenuContainer.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return isDisplayed(mobileMenuContainer);
     }
 
     @Step("Wait for mobile header menu drawer to open")
-    public HeaderModal waitForOpened() {
-        wait.until(ExpectedConditions.visibilityOf(mobileMenuContainer));
+    public MobileMenuComponent waitForOpened() {
+        waitUntilVisible(mobileMenuContainer);
         return this;
     }
 
     @Step("Wait for mobile header menu drawer to close")
-    public HeaderModal waitForClosed() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".mobile-menu")));
+    public MobileMenuComponent waitForClosed() {
+        waitUntilInvisible(By.cssSelector(".mobile-menu"));
         return this;
     }
 
@@ -57,7 +51,7 @@ public class HeaderModal extends Base {
     public List<String> getNavigationLinkTexts() {
         waitForOpened();
         return navigationLinks.stream()
-                .filter(WebElement::isDisplayed)
+                .filter(this::isDisplayed)
                 .map(WebElement::getText)
                 .map(String::trim)
                 .collect(Collectors.toList());
@@ -67,8 +61,8 @@ public class HeaderModal extends Base {
     public void clickNavLink(String linkText) {
         waitForOpened();
         for (WebElement link : navigationLinks) {
-            if (link.isDisplayed() && link.getText().trim().equalsIgnoreCase(linkText)) {
-                wait.until(ExpectedConditions.elementToBeClickable(link)).click();
+            if (isDisplayed(link) && link.getText().trim().equalsIgnoreCase(linkText)) {
+                click(link);
                 return;
             }
         }
@@ -83,7 +77,8 @@ public class HeaderModal extends Base {
 
     @Step("Close mobile menu via burger button")
     public void closeByBurgerButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(burgerMenuButton)).click();
+        click(burgerMenuButton);
         waitForClosed();
     }
 }
+

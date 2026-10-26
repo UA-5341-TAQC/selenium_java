@@ -1,0 +1,30 @@
+package org.academy.ui.components;
+
+import io.qameta.allure.Step;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class ValueCardComponent extends BaseComponent {
+
+    @FindBy(css = "h3[class*='ValueCard_name']")
+    private WebElement nameElement;
+
+    @FindBy(css = "div[class*='ValueCard_description']")
+    private WebElement descriptionElement;
+
+
+    public ValueCardComponent(WebElement element) {
+        super(element);
+    }
+
+    @Step("Get Value Card description")
+    public String getDescriptionText() {
+        return getText(descriptionElement);
+    }
+
+    @Step("Get Value Card name")
+    public String getNameText() {
+        return getText(nameElement);
+    }
+
+}
