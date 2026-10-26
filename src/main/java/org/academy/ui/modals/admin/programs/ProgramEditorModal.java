@@ -1,8 +1,10 @@
 package org.academy.ui.modals.admin.programs;
 
 import io.qameta.allure.Step;
+import org.academy.ui.components.admin.programs.sections.ProgramSectionEditor;
 import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -55,6 +57,9 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @FindBy(css = "[class*='ProgramForm_header-right'] button")
     private WebElement addSectionButton;
 
+    @FindBy(css = ProgramSectionEditor.ROOT_SELECTOR)
+    private List<WebElement> sectionRoots;
+
     public ProgramEditorModal(WebElement rootElement) {
         super(rootElement);
     }
@@ -62,6 +67,38 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @Override
     protected ProgramEditorModal self() {
         return this;
+    }
+
+    /**
+     * Sections in DOM order. Re-read after replacing, removing or reordering.
+     */
+    @Step("Read program sections in display order")
+    public List<ProgramSectionEditor> getSections() {
+        return sectionRoots.stream()
+                .map(ProgramSectionEditor::new).toList();
+    }
+
+    /**
+     * Newly created sections are returned in edit mode.
+     */
+    @Step("Add program section using template {template}")
+    public ProgramSectionEditor addSection(ProgramSectionTemplate template) {
+        int count = sectionRoots.size();
+        openAddSectionModal().showTemplate(template).chooseCurrentTemplate();
+        wait.until(d -> sectionRoots.size() == count + 1);
+        return getSection(count);
+    }
+
+    /**
+     * Zero-based editor section. Re-read after replacement, removal or reordering.
+     * <pre>{@code
+     * var section = editor.getSection(1);
+     * section.edit();
+     * section.getContent(ImageSectionContent.class).chooseImage(0, imagePath);
+     * }</pre>
+     */
+    public ProgramSectionEditor getSection(int index) {
+        return new ProgramSectionEditor(sectionRoots.get(index));
     }
 
     @Step("Open add section modal")

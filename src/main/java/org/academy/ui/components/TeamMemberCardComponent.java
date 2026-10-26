@@ -21,15 +21,15 @@ public class TeamMemberCardComponent extends BaseComponent {
     }
 
     public String getName() {
-        return name.getText();
+        return getText(name);
     }
 
     public String getRole() {
-        return role.getText();
+        return getText(role);
     }
 
     public boolean isDisplayed() {
-        return rootElement.isDisplayed();
+        return isDisplayed(rootElement);
     }
 
     /**
@@ -39,3 +39,4 @@ public class TeamMemberCardComponent extends BaseComponent {
         return photos.isEmpty() ? "" : photos.getFirst().getDomAttribute("src");
     }
 }
+

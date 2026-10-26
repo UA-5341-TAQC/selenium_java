@@ -2,8 +2,8 @@ package org.academy.ui.components;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CopyTextButtonComponent extends BaseComponent {
 
@@ -13,14 +13,13 @@ public class CopyTextButtonComponent extends BaseComponent {
 
     @Step("Click copy button")
     public CopyTextButtonComponent clickCopy() {
-        wait.until(ExpectedConditions.elementToBeClickable(rootElement));
-        rootElement.click();
+        click(rootElement);
         return this;
     }
 
     @Step("Check if copy button is displayed")
     public boolean isDisplayed() {
-        return rootElement.isDisplayed();
+        return isDisplayed(rootElement);
     }
 
     @Step("Check if copy button is enabled")
@@ -33,18 +32,19 @@ public class CopyTextButtonComponent extends BaseComponent {
         try {
             WebElement label = rootElement.findElement(By.xpath("./preceding-sibling::span[contains(@class, 'label')]"));
             return label.getText().trim();
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             return "";
         }
     }
 
     @Step("Get aria-label")
     public String getAriaLabel() {
-        return rootElement.getAttribute("aria-label");
+        return getDomAttribute(rootElement, "aria-label");
     }
 
     @Step("Get class name")
     public String getClassName() {
-        return rootElement.getAttribute("class");
+        return getDomAttribute(rootElement, "class");
     }
 }
+
