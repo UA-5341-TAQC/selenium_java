@@ -3,10 +3,10 @@ package org.academy.ui;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.academy.ui.components.ContactFormCardComponent;
+import org.academy.ui.components.CopyTextButtonComponent;
 import org.academy.ui.components.contact.ContactDetailsSectionComponent;
 import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
-import org.openqa.selenium.Dimension;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,12 +50,9 @@ public class TestContactUsPage extends BaseUiTestRunner {
 
     @BeforeMethod
     public void openContactUsPage() {
-        if (driver != null) {
-            driver.manage().window().setSize(new Dimension(1920, 1080));
-            String contactUsUrl = URI.create(testEnvProvider.getBaseUrl()).resolve(CONTACT_US_PATH).toString();
-            driver.get(contactUsUrl);
-            contactUsPage = new ContactUsPage(driver);
-        }
+        String contactUsUrl = URI.create(testEnvProvider.getBaseUrl()).resolve(CONTACT_US_PATH).toString();
+        driver.get(contactUsUrl);
+        contactUsPage = new ContactUsPage(driver);
     }
 
     @Test(description = "Verify contacts form UI elements on the public 'Зв'язатися' web-page")
@@ -114,9 +111,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 VALID_MESSAGE
         );
 
-        form.fillForm(expectedData);
-
-        Assert.assertEquals(form.getFormData(), expectedData,
+        Assert.assertEquals(form.fillForm(expectedData).getFormData(), expectedData,
                 "Entered form values should match expected ContactFormData");
         Assert.assertTrue(form.isSubmitButtonDisplayed(), "Submit button should be displayed");
         Assert.assertEquals(form.getSubmitButtonText(), SUBMIT_BUTTON_TEXT, "Submit button text should match expected");
@@ -129,28 +124,28 @@ public class TestContactUsPage extends BaseUiTestRunner {
         ContactFormCardComponent form = contactUsPage.getContactFormCard();
 
         // Step 1: Enter 4 characters and blur -> error message should appear
-        form.enterSubject(SHORT_SUBJECT_4_CHARS);
-        form.triggerSubjectBlur();
-        form.waitForValidationError(SUBJECT_MIN_LENGTH_ERROR);
-        Assert.assertTrue(form.getValidationErrors().contains(SUBJECT_MIN_LENGTH_ERROR),
+        List<String> errorsAfterShortInput = form.enterSubject(SHORT_SUBJECT_4_CHARS)
+                .triggerSubjectBlur()
+                .waitForValidationError(SUBJECT_MIN_LENGTH_ERROR)
+                .getValidationErrors();
+        Assert.assertTrue(errorsAfterShortInput.contains(SUBJECT_MIN_LENGTH_ERROR),
                 "Error should be displayed for under-minimum subject input");
 
         // Step 2: Enter 5 characters and blur -> validation error should disappear
-        form.enterSubject(VALID_SUBJECT_5_CHARS);
-        form.triggerSubjectBlur();
-        form.waitForValidationErrorToDisappear(SUBJECT_MIN_LENGTH_ERROR);
-        Assert.assertFalse(form.getValidationErrors().contains(SUBJECT_MIN_LENGTH_ERROR),
+        List<String> errorsAfterValidInput = form.enterSubject(VALID_SUBJECT_5_CHARS)
+                .triggerSubjectBlur()
+                .waitForValidationErrorToDisappear(SUBJECT_MIN_LENGTH_ERROR)
+                .getValidationErrors();
+        Assert.assertFalse(errorsAfterValidInput.contains(SUBJECT_MIN_LENGTH_ERROR),
                 "Validation error should disappear for 5-character subject input");
 
         // Step 3: Enter 100 characters -> all 100 characters accepted
         String hundredChars = "A".repeat(100);
-        form.enterSubject(hundredChars);
-        Assert.assertEquals(form.getSubjectValue().length(), 100,
+        Assert.assertEquals(form.enterSubject(hundredChars).getSubjectValue().length(), 100,
                 "Subject field should accept 100 characters");
 
         // Step 4: Attempt to enter 101st character -> 101st character blocked
-        form.enterSubject(hundredChars + "B");
-        Assert.assertEquals(form.getSubjectValue().length(), 100,
+        Assert.assertEquals(form.enterSubject(hundredChars + "B").getSubjectValue().length(), 100,
                 "101st character should be blocked by field maximum length");
     }
 
@@ -161,28 +156,28 @@ public class TestContactUsPage extends BaseUiTestRunner {
         ContactFormCardComponent form = contactUsPage.getContactFormCard();
 
         // Step 1: Enter 9 characters and blur -> error message should appear
-        form.enterMessage(SHORT_MESSAGE_9_CHARS);
-        form.triggerMessageBlur();
-        form.waitForValidationError(MESSAGE_MIN_LENGTH_ERROR);
-        Assert.assertTrue(form.getValidationErrors().contains(MESSAGE_MIN_LENGTH_ERROR),
+        List<String> errorsAfterShortInput = form.enterMessage(SHORT_MESSAGE_9_CHARS)
+                .triggerMessageBlur()
+                .waitForValidationError(MESSAGE_MIN_LENGTH_ERROR)
+                .getValidationErrors();
+        Assert.assertTrue(errorsAfterShortInput.contains(MESSAGE_MIN_LENGTH_ERROR),
                 "Error should be displayed for under-minimum message input");
 
         // Step 2: Enter 10 characters and blur -> validation error should disappear
-        form.enterMessage(VALID_MESSAGE_10_CHARS);
-        form.triggerMessageBlur();
-        form.waitForValidationErrorToDisappear(MESSAGE_MIN_LENGTH_ERROR);
-        Assert.assertFalse(form.getValidationErrors().contains(MESSAGE_MIN_LENGTH_ERROR),
+        List<String> errorsAfterValidInput = form.enterMessage(VALID_MESSAGE_10_CHARS)
+                .triggerMessageBlur()
+                .waitForValidationErrorToDisappear(MESSAGE_MIN_LENGTH_ERROR)
+                .getValidationErrors();
+        Assert.assertFalse(errorsAfterValidInput.contains(MESSAGE_MIN_LENGTH_ERROR),
                 "Validation error should disappear for 10-character message input");
 
         // Step 3: Enter 2000 characters -> all 2000 characters accepted
         String twoThousandChars = "M".repeat(2000);
-        form.enterMessage(twoThousandChars);
-        Assert.assertEquals(form.getMessageValue().length(), 2000,
+        Assert.assertEquals(form.enterMessage(twoThousandChars).getMessageValue().length(), 2000,
                 "Message textarea should accept 2000 characters");
 
         // Step 4: Attempt to enter 2001st character -> 2001st character blocked
-        form.enterMessage(twoThousandChars + "X");
-        Assert.assertEquals(form.getMessageValue().length(), 2000,
+        Assert.assertEquals(form.enterMessage(twoThousandChars + "X").getMessageValue().length(), 2000,
                 "2001st character should be blocked by textarea maximum length");
     }
 
@@ -192,18 +187,17 @@ public class TestContactUsPage extends BaseUiTestRunner {
     public void testUnderMinimumInputValidationErrors() {
         ContactFormCardComponent form = contactUsPage.getContactFormCard();
 
-        // 1. Subject under-minimum input
-        form.enterSubject(SHORT_SUBJECT_2_CHARS);
-        form.triggerSubjectBlur();
-        form.waitForValidationError(SUBJECT_MIN_LENGTH_ERROR);
-        Assert.assertTrue(form.getValidationErrors().contains(SUBJECT_MIN_LENGTH_ERROR),
-                "Should display minimum length error when subject is shorter than 5 chars");
+        List<String> validationErrors = form.enterSubject(SHORT_SUBJECT_2_CHARS)
+                .triggerSubjectBlur()
+                .waitForValidationError(SUBJECT_MIN_LENGTH_ERROR)
+                .enterMessage(SHORT_MESSAGE_5_CHARS)
+                .triggerMessageBlur()
+                .waitForValidationError(MESSAGE_MIN_LENGTH_ERROR)
+                .getValidationErrors();
 
-        // 2. Message under-minimum input
-        form.enterMessage(SHORT_MESSAGE_5_CHARS);
-        form.triggerMessageBlur();
-        form.waitForValidationError(MESSAGE_MIN_LENGTH_ERROR);
-        Assert.assertTrue(form.getValidationErrors().contains(MESSAGE_MIN_LENGTH_ERROR),
+        Assert.assertTrue(validationErrors.contains(SUBJECT_MIN_LENGTH_ERROR),
+                "Should display minimum length error when subject is shorter than 5 chars");
+        Assert.assertTrue(validationErrors.contains(MESSAGE_MIN_LENGTH_ERROR),
                 "Should display minimum length error when message is shorter than 10 chars");
     }
 
@@ -236,12 +230,12 @@ public class TestContactUsPage extends BaseUiTestRunner {
     public void testCopyEmailAndPhoneButtons() {
         ContactDetailsSectionComponent detailsSection = contactUsPage.getContactDetailsSection();
 
-        Assert.assertTrue(detailsSection.getEmailCopyButton().isDisplayed(), "Email copy button should be displayed");
-        Assert.assertTrue(detailsSection.getEmailCopyButton().isEnabled(), "Email copy button should be enabled");
-        detailsSection.getEmailCopyButton().clickCopy();
+        CopyTextButtonComponent emailCopyButton = detailsSection.getEmailCopyButton().clickCopy();
+        Assert.assertTrue(emailCopyButton.isDisplayed(), "Email copy button should be displayed");
+        Assert.assertTrue(emailCopyButton.isEnabled(), "Email copy button should be enabled");
 
-        Assert.assertTrue(detailsSection.getPhoneCopyButton().isDisplayed(), "Phone copy button should be displayed");
-        Assert.assertTrue(detailsSection.getPhoneCopyButton().isEnabled(), "Phone copy button should be enabled");
-        detailsSection.getPhoneCopyButton().clickCopy();
+        CopyTextButtonComponent phoneCopyButton = detailsSection.getPhoneCopyButton().clickCopy();
+        Assert.assertTrue(phoneCopyButton.isDisplayed(), "Phone copy button should be displayed");
+        Assert.assertTrue(phoneCopyButton.isEnabled(), "Phone copy button should be enabled");
     }
 }
