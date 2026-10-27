@@ -4,12 +4,16 @@ import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
 import org.academy.ui.components.admin.programs.sections.content.ProgramSectionContent;
 import org.academy.ui.modals.admin.AddSectionModal;
+import org.academy.ui.modals.admin.ConfirmationModal;
 import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * One section in the create/edit form. All controls are scoped to its outer root.
@@ -109,21 +113,21 @@ public class ProgramSectionEditor extends BaseComponent {
     }
 
     /**
-     * Opens the save confirmation; program persistence is a separate action.
+     * Returns confirmation if needed, or empty after returning to preview. Does not persist the program.
      */
     @Step("Request section save")
-    public void requestSave() {
+    public Optional<ConfirmationModal> requestSave() {
         click(saveButtons.get(0));
-        // TODO: Return the shared confirmation component when available.
+        return waitForConfirmationOrPreview();
     }
 
     /**
-     * Dirty sections require confirmation before returning to preview.
+     * New, replaced or dirty sections require confirmation; a clean section returns straight to preview.
      */
     @Step("Request section edit cancellation")
-    public void requestCancel() {
+    public Optional<ConfirmationModal> requestCancel() {
         click(cancelButton);
-        // TODO: Return the shared confirmation for new or dirty sections when available.
+        return waitForConfirmationOrPreview();
     }
 
     /**
@@ -134,15 +138,15 @@ public class ProgramSectionEditor extends BaseComponent {
     }
 
     @Step("Open section deletion confirmation")
-    public void openDeleteConfirmation() {
+    public ConfirmationModal openDeleteConfirmation() {
         click(deleteButton);
-        // TODO: Return the shared confirmation component when available.
+        return ConfirmationModal.waitFor(wait);
     }
 
     @Step("Replace section template")
     public AddSectionModal openReplacement() {
         click(replaceButton);
-        return new AddSectionModal(waitUntilVisible(By.cssSelector(AddSectionModal.ROOT_SELECTOR)));
+        return AddSectionModal.waitFor(wait);
     }
 
     @Step("Move section up")
@@ -164,6 +168,21 @@ public class ProgramSectionEditor extends BaseComponent {
     private boolean available(List<WebElement> buttons) {
         return buttons.stream()
                 .anyMatch(e -> e.isDisplayed() && e.isEnabled());
+    }
+
+    private Optional<ConfirmationModal> waitForConfirmationOrPreview() {
+        return wait.until(d -> {
+            WebElement confirmation = ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector(ConfirmationModal.ROOT_SELECTOR)).apply(d);
+            if (confirmation != null) {
+                return Optional.of(new ConfirmationModal(confirmation));
+            }
+            try {
+                return !rootElement.isDisplayed() || !isEditing() ? Optional.empty() : null;
+            } catch (StaleElementReferenceException removedSection) {
+                return Optional.empty();
+            }
+        });
     }
 
 }

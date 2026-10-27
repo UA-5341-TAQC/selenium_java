@@ -13,7 +13,7 @@ import java.time.Duration;
 
 public abstract class BaseModal extends BaseComponent {
 
-    @FindBy(css = "button[aria-label='Close modal']")
+    @FindBy(css = ":scope > .modal-header button[aria-label='Close modal']")
     private WebElement closeButton;
 
     protected BaseModal(WebElement rootElement) {

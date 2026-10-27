@@ -4,8 +4,11 @@ import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.sections.ProgramSectionContentFactory;
 import org.academy.ui.components.admin.programs.sections.content.ProgramSectionContent;
 import org.academy.ui.pages.Admin.AdminProgramsPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +37,12 @@ public class TranslateProgramModal extends BaseProgramModal<TranslateProgramModa
         super(rootElement);
     }
 
+    public static TranslateProgramModal waitFor(WebDriverWait wait) {
+        WebElement root = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(ROOT_SELECTOR)));
+        return new TranslateProgramModal(root);
+    }
+
     @Override
     protected TranslateProgramModal self() {
         return this;
@@ -52,7 +61,9 @@ public class TranslateProgramModal extends BaseProgramModal<TranslateProgramModa
     @Step("Read available program translation languages")
     public List<String> getAvailableLanguages() {
         openLanguages();
-        List<String> languages = languageOptions.stream().map(WebElement::getText).toList();
+        List<String> languages = languageOptions.stream()
+                .map(option -> Objects.requireNonNull(option).getText())
+                .toList();
         click(languageButton);
         wait.until(d -> !isLanguageSelectOpen());
         return languages;

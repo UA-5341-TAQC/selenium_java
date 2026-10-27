@@ -3,6 +3,7 @@ package org.academy.ui.components.admin.programs;
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
 import org.academy.ui.constants.HtmlAttribute;
+import org.academy.ui.modals.admin.ConfirmationModal;
 import org.academy.ui.modals.admin.programs.ProgramEditorModal;
 import org.academy.ui.modals.admin.programs.TranslateProgramModal;
 import org.openqa.selenium.By;
@@ -10,6 +11,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ProgramListItemComponent extends BaseComponent {
+
+    // Program deletion has no confirmation-modal class or unique DOM attribute.
+    private static final By DELETE_CONFIRMATION = By.xpath(
+            "//span[@class='modal-header-text' and normalize-space()='Видалити програму?']"
+                    + "/ancestor::div[contains(@class,'modal-container')][1]");
 
     @FindBy(css = ".program-info-identity > p")
     private WebElement title;
@@ -82,22 +88,21 @@ public class ProgramListItemComponent extends BaseComponent {
     }
 
     @Step("Open program deletion confirmation")
-    public void openDeleteConfirmation() {
+    public ConfirmationModal openDeleteConfirmation() {
         click(deleteButton);
-        // TODO: Return the shared confirmation component when available.
+        WebElement modal = waitUntilVisible(DELETE_CONFIRMATION);
+        return new ConfirmationModal(modal);
     }
 
     @Step("Open program editor")
     public ProgramEditorModal openEditModal() {
         click(editButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(ProgramEditorModal.ROOT_SELECTOR));
-        return new ProgramEditorModal(modal);
+        return ProgramEditorModal.waitFor(wait);
     }
 
     @Step("Open program translation")
     public TranslateProgramModal openTranslateModal() {
         click(translateButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(TranslateProgramModal.ROOT_SELECTOR));
-        return new TranslateProgramModal(modal);
+        return TranslateProgramModal.waitFor(wait);
     }
 }

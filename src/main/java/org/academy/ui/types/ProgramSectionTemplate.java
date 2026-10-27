@@ -16,7 +16,8 @@ public enum ProgramSectionTemplate {
     TITLE_DESCRIPTION_WITH_FOUR_IMAGES_BELOW("QuadImagesBottom_container__", "ViewQuadImagesBottom_container__"),
     TITLE_DESCRIPTION_WITH_TWO_IMAGES_BELOW("DualImagesBottom_container__", "ViewDualImagesBottom_container__"),
     TITLE_AND_DESCRIPTION("TextOnly_container__", "ViewTitleDescriptionSection_container__"),
-    TITLE_DESCRIPTION_WITH_THREE_IMAGES_BELOW("TripleImagesBottom_container__", "TripleImagesBottom_form-container__", "ViewTripleImagesBottom_container__"),
+    TITLE_DESCRIPTION_WITH_THREE_IMAGES_BELOW("TripleImagesBottom_container__", "TripleImagesBottom_form-container__",
+            "TripleImagesBottom_template__", "ViewTripleImagesBottom_container__"),
     TITLE_DESCRIPTION_WITH_IMAGE_BELOW("SingleImageBottom_container__", "ViewSingleImageBottom_container__"),
     TITLE_DESCRIPTION_WITH_IMAGE_ABOVE("SingleImageTop_container__", "ViewSingleImageTop_container__"),
     TITLE_DESCRIPTION_WITH_IMAGE_RIGHT("SingleImageRight_container__", "ViewSingleImageRight_container__"),
@@ -34,11 +35,14 @@ public enum ProgramSectionTemplate {
     }
 
     /**
-     * Identifies one layout by the classes on its root element, ignoring generated CSS suffixes.
-     * The editor, translation form or picker must locate the layout before calling this method.
+     * Identifies one layout by the classes on its root element, ignoring generated
+     * CSS suffixes.
+     * The editor, translation form or picker must locate the layout before calling
+     * this method.
      * Wrappers and descendants are not searched.
      *
-     * @throws IllegalStateException if the classes match no template or more than one template
+     * @throws IllegalStateException if the classes match no template or more than
+     *                               one template
      */
     public static ProgramSectionTemplate fromRoot(WebElement layoutRoot) {
         Objects.requireNonNull(layoutRoot, "Layout root must not be null");
