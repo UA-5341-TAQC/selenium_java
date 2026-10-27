@@ -25,4 +25,18 @@ public class BasePublicPage extends BasePage {
         WebElement footer = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".footer-container")));
         return new FooterComponent(footer);
     }
+
+    @Step("Switch to another browser tab")
+    public void switchToOtherTab() {
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        String currentTab = driver.getWindowHandle();
+
+        driver.switchTo().window(
+                driver.getWindowHandles().stream()
+                        .filter(tab -> !tab.equals(currentTab))
+                        .findFirst()
+                        .orElseThrow()
+        );
+    }
 }

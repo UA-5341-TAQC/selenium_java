@@ -32,14 +32,33 @@ public class IntroSectionComponent extends BaseComponent {
         return getText(description);
     }
 
+    @Step("Get Hero CTA button text")
+    public String getCtaButtonText() {
+        return getText(ctaButton);
+    }
+
     @Step("Click Hero CTA button")
     public void clickCtaButton() {
         click(ctaButton);
+    }
+
+    @Step("Check if Hero title is displayed")
+    public boolean isTitleDisplayed() {
+        return isVisible(title);
+    }
+
+    @Step("Check if Hero description is displayed")
+    public boolean isDescriptionDisplayed() {
+        return isVisible(description);
     }
 
     @Step("Check if Hero image is displayed")
     public boolean isImageDisplayed() {
         return isVisible(image);
     }
-}
 
+    @Step("Check if Hero CTA button is displayed")
+    public boolean isCtaButtonDisplayed() {
+        return isVisible(ctaButton);
+    }
+}
