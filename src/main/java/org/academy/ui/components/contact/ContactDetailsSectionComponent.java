@@ -82,4 +82,18 @@ public class ContactDetailsSectionComponent extends BaseComponent {
     public List<String> getSocialMediaNames() {
         return getTexts(socialMediaLinks);
     }
+
+    @Step("Get social media link URLs")
+    public List<String> getSocialMediaUrls() {
+        return socialMediaLinks.stream()
+                .map(link -> getDomAttribute(link, "href"))
+                .toList();
+    }
+
+    @Step("Get social media link target attributes")
+    public List<String> getSocialMediaTargets() {
+        return socialMediaLinks.stream()
+                .map(link -> getDomAttribute(link, "target"))
+                .toList();
+    }
 }
