@@ -32,7 +32,7 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
 
     @Step("Get AboutUs Donation section description")
     public String getDescriptionText() {
-        return getText(describtionElement);
+        return getText(descriptionElement);
     }
 
     @Step("Check if Background Image is displayed")
