@@ -146,7 +146,7 @@ public class ProgramSectionEditor extends BaseComponent {
     @Step("Replace section template")
     public AddSectionModal openReplacement() {
         click(replaceButton);
-        return new AddSectionModal(waitUntilVisible(By.cssSelector(AddSectionModal.ROOT_SELECTOR)));
+        return AddSectionModal.waitFor(wait);
     }
 
     @Step("Move section up")

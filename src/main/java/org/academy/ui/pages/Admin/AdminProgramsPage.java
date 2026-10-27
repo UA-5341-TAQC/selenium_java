@@ -3,7 +3,6 @@ package org.academy.ui.pages.Admin;
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.programs.ProgramListItemComponent;
 import org.academy.ui.modals.admin.programs.ProgramEditorModal;
-import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,8 +34,7 @@ public class AdminProgramsPage extends BaseAdminPage {
     @Step("Open add program modal")
     public ProgramEditorModal openAddProgramModal() {
         click(addProgramButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(ProgramEditorModal.ROOT_SELECTOR));
-        return new ProgramEditorModal(modal);
+        return ProgramEditorModal.waitFor(wait);
     }
 
     /**

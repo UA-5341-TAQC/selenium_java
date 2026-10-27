@@ -97,14 +97,12 @@ public class ProgramListItemComponent extends BaseComponent {
     @Step("Open program editor")
     public ProgramEditorModal openEditModal() {
         click(editButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(ProgramEditorModal.ROOT_SELECTOR));
-        return new ProgramEditorModal(modal);
+        return ProgramEditorModal.waitFor(wait);
     }
 
     @Step("Open program translation")
     public TranslateProgramModal openTranslateModal() {
         click(translateButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(TranslateProgramModal.ROOT_SELECTOR));
-        return new TranslateProgramModal(modal);
+        return TranslateProgramModal.waitFor(wait);
     }
 }

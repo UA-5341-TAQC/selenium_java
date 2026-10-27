@@ -10,6 +10,8 @@ import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -72,6 +74,12 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
         super(rootElement);
     }
 
+    public static ProgramEditorModal waitFor(WebDriverWait wait) {
+        WebElement root = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(ROOT_SELECTOR)));
+        return new ProgramEditorModal(root);
+    }
+
     @Override
     protected ProgramEditorModal self() {
         return this;
@@ -113,8 +121,7 @@ public class ProgramEditorModal extends BaseProgramModal<ProgramEditorModal> {
     @Step("Open add section modal")
     public AddSectionModal openAddSectionModal() {
         click(addSectionButton);
-        WebElement modal = waitUntilVisible(By.cssSelector(AddSectionModal.ROOT_SELECTOR));
-        return new AddSectionModal(modal);
+        return AddSectionModal.waitFor(wait);
     }
 
     @Step("Check whether the sections empty state is visible")
