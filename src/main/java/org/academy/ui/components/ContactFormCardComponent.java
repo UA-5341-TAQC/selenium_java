@@ -1,13 +1,11 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ContactFormCardComponent extends BaseComponent {
 
@@ -119,39 +117,27 @@ public class ContactFormCardComponent extends BaseComponent {
     public List<String> getValidationErrors() {
         return validationErrors.stream()
                 .filter(this::isDisplayed)
-                .map(WebElement::getText)
-                .map(String::trim)
-                .collect(Collectors.toList());
+                .map(element -> {
+                    try {
+                        return element.getText().trim();
+                    } catch (StaleElementReferenceException e) {
+                        return "";
+                    }
+                })
+                .filter(text -> !text.isEmpty())
+                .toList();
     }
 
-    private String getFieldError(String tagName, String fieldName) {
-        try {
-            String xpath = String.format(".//%s[@name='%s']/ancestor::div[contains(@class, 'contact-form-field-wrapper')]//span[@role='alert']", tagName, fieldName);
-            WebElement err = rootElement.findElement(By.xpath(xpath));
-            return err.getText().trim();
-        } catch (NoSuchElementException e) {
-            return "";
-        }
+    @Step("Wait for validation error: {expectedError}")
+    public ContactFormCardComponent waitForValidationError(String expectedError) {
+        wait.until(driver -> getValidationErrors().contains(expectedError));
+        return this;
     }
 
-    @Step("Get error for name field if displayed")
-    public String getNameError() {
-        return getFieldError("input", "name");
-    }
-
-    @Step("Get error for email field if displayed")
-    public String getEmailError() {
-        return getFieldError("input", "email");
-    }
-
-    @Step("Get error for subject field if displayed")
-    public String getSubjectError() {
-        return getFieldError("input", "subject");
-    }
-
-    @Step("Get error for message field if displayed")
-    public String getMessageError() {
-        return getFieldError("textarea", "message");
+    @Step("Wait for validation error to disappear: {expectedError}")
+    public ContactFormCardComponent waitForValidationErrorToDisappear(String expectedError) {
+        wait.until(driver -> !getValidationErrors().contains(expectedError));
+        return this;
     }
 
     @Step("Get submit button text")
@@ -159,7 +145,70 @@ public class ContactFormCardComponent extends BaseComponent {
         return getText(submitButton);
     }
 
+    @Step("Get value of name input")
+    public String getNameValue() {
+        return getValue(nameInput);
+    }
+
+    @Step("Get value of email input")
+    public String getEmailValue() {
+        return getValue(emailInput);
+    }
+
+    @Step("Get value of subject input")
+    public String getSubjectValue() {
+        return getValue(subjectInput);
+    }
+
+    @Step("Get value of message textarea")
+    public String getMessageValue() {
+        return getValue(messageTextarea);
+    }
+
+    @Step("Get current contact form data")
+    public ContactFormData getFormData() {
+        return new ContactFormData(
+                getNameValue(),
+                getEmailValue(),
+                getSubjectValue(),
+                getMessageValue()
+        );
+    }
+
+    @Step("Check if name input is displayed")
+    public boolean isNameInputDisplayed() {
+        return isDisplayed(nameInput);
+    }
+
+    @Step("Check if email input is displayed")
+    public boolean isEmailInputDisplayed() {
+        return isDisplayed(emailInput);
+    }
+
+    @Step("Check if subject input is displayed")
+    public boolean isSubjectInputDisplayed() {
+        return isDisplayed(subjectInput);
+    }
+
+    @Step("Check if message textarea is displayed")
+    public boolean isMessageTextareaDisplayed() {
+        return isDisplayed(messageTextarea);
+    }
+
+    @Step("Check if submit button is displayed")
+    public boolean isSubmitButtonDisplayed() {
+        return isDisplayed(submitButton);
+    }
+
+    @Step("Check if all contact form fields and submit button are displayed")
+    public boolean areAllFieldsDisplayed() {
+        return isNameInputDisplayed()
+                && isEmailInputDisplayed()
+                && isSubjectInputDisplayed()
+                && isMessageTextareaDisplayed()
+                && isSubmitButtonDisplayed();
+    }
+
     public record ContactFormData(String name, String email, String subject, String message) {
     }
 }
-
