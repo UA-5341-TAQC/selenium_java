@@ -1,16 +1,15 @@
-package org.academy.ui.modals;
+package org.academy.ui.modals.admin.events;
 
 import io.qameta.allure.Step;
 import lombok.Getter;
-import org.academy.ui.pages.Admin.BaseAdminPage;
+import org.academy.ui.modals.BaseModal;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
-public class EventCategoryModalAdmin extends BaseAdminPage {
+public class EventCategoryModalAdmin extends BaseModal {
 
     // Add category
 
@@ -77,8 +76,8 @@ public class EventCategoryModalAdmin extends BaseAdminPage {
     @FindBy(css = ".modal-container:has(#translate-event-category-form) .localization-modal .btn-primary")
     private WebElement saveTranslationButton;
 
-    public EventCategoryModalAdmin(WebDriver driver) {
-        super(driver);
+    public EventCategoryModalAdmin(WebElement rootElement) {
+        super(rootElement);
     }
 
     // Add category
