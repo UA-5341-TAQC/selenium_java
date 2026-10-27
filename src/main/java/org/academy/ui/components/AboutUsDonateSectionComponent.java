@@ -10,12 +10,12 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
     private WebElement titleElement;
 
     @FindBy(css = "div[class*='CtaSection_description']")
-    private WebElement describtionElement;
+    private WebElement descriptionElement;
 
     @FindBy(css = "img[class*='BackgroundMedia_media']")
     private WebElement backgroundImageElement;
 
-    @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][href*='donate']")
+    @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][class*='Button_primary'][href*='donate']")
     private WebElement donateButtonElement;
 
     @FindBy(css = "div[class*='CtaSection_actions'] a[class*='Button_button'][class*='Button_secondary'][href*='donate']")
@@ -32,7 +32,7 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
 
     @Step("Get AboutUs Donation section description")
     public String getDescriptionText() {
-        return getText(describtionElement);
+        return getText(descriptionElement);
     }
 
     @Step("Check if Background Image is displayed")
@@ -49,4 +49,4 @@ public class AboutUsDonateSectionComponent extends BaseComponent {
     public void clickBecomePartnerCtaButton() {
         click(becomePartnerButtonElement);
     }
-}
+}
