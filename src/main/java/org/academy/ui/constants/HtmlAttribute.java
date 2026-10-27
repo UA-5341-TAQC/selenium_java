@@ -14,6 +14,8 @@ public enum HtmlAttribute {
     CLASS("class"),
     NAME("name"),
     FOR("for"),
+    MAX_LENGTH("maxlength"),
+    DRAGGABLE("draggable"),
     SRC("src");
 
     private final String value;
