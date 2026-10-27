@@ -19,8 +19,6 @@ import java.util.Objects;
  */
 public class SectionFieldComponent extends BaseComponent {
 
-    private static final String MAX_LENGTH_PROPERTY = "maxLength";
-
     private static final By FIELD_CONTAINER = By.xpath("ancestor::div[.//output][1]");
     private static final By VALIDATION_CONTAINER = By.xpath(
             "ancestor::div[contains(@class, 'InputErrorWithCharacterCounter_container__')][1]");
@@ -93,7 +91,8 @@ public class SectionFieldComponent extends BaseComponent {
      * Returns the DOM limit, or -1 when the input has no HTML maxlength constraint.
      */
     public int getMaxLength() {
-        return Integer.parseInt(textInput.getDomProperty(MAX_LENGTH_PROPERTY));
+        String maxLength = textInput.getDomAttribute(HtmlAttribute.MAX_LENGTH.getValue());
+        return maxLength == null ? -1 : Integer.parseInt(maxLength);
     }
 
     public String getPlaceholder() {
