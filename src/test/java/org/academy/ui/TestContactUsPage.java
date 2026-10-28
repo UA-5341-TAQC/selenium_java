@@ -61,6 +61,8 @@ public class TestContactUsPage extends BaseUiTestRunner {
 
     private static final String EXPECTED_ADDRESS_EN =
             "Kyiv, Khreshchatyk str., 1";
+    private static final String EXPECTED_ADDRESS_UA =
+            "м. Київ, вул. Хрещатик, 1";
     private static final String SUBMIT_BUTTON_TEXT_EN = "Send";
 
     private static final String YOUR_NAME_PLACEHOLDER_EN = "Your name";
@@ -320,4 +322,26 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertAll();
 
     }
+
+    @Test(description = "Verify Contact Us page displays company address from Admin Panel field when EN is selected")
+    @Issue("822")
+    @Story("Contact Us page in English")
+    public void testContactAddressEN() {
+        HeaderComponent headerComponent =contactUsPage.getHeader();
+        LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
+        languageSwitcher.switchToEn();
+
+        ContactDetailsSectionComponent detailsSection = contactUsPage.getContactDetailsSection();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertFalse(detailsSection.getAddressText().isBlank(),
+                "Contact address should be displayed");
+
+        softAssert.assertEquals(detailsSection.getAddressText(),EXPECTED_ADDRESS_EN,
+                "The displayed address exactly matches the value saved in Адреса/ENG.");
+
+        softAssert.assertNotEquals(detailsSection.getAddressText(),EXPECTED_ADDRESS_UA,
+                "The displayed address should not match the value saved in Адреса/UA.");
+
+    }
+
 }
