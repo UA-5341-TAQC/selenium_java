@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.net.URI;
 
 public class FooterComponent extends BaseComponent {
 
@@ -30,6 +31,9 @@ public class FooterComponent extends BaseComponent {
     @FindBy(css = ".main-block .hippotherapy a")
     private List<WebElement> hippotherapyColumnLinks;
 
+    @FindBy(css = ".main-block .menu a, .main-block .about-us a, .main-block .hippotherapy a")
+    private List<WebElement> navigationLinks;
+
     @FindBy(xpath = ".//div[contains(@class, 'main-contacts')]//button[contains(., '@')]")
     private WebElement emailContactButton;
 
@@ -44,6 +48,30 @@ public class FooterComponent extends BaseComponent {
 
     public FooterComponent(WebElement element) {
         super(element);
+    }
+
+    @Step("Get footer navigation paths")
+    public List<String> getNavigationPaths() {
+        return waitUntilAllVisible(navigationLinks).stream()
+                .map(link -> URI.create(link.getDomProperty("href")).getPath())
+                .toList();
+    }
+
+    @Step("Click footer navigation link: {path}")
+    public void clickNavigationLink(String path) {
+        WebElement link = waitUntilAllVisible(navigationLinks).stream()
+                .filter(item -> path.equals(URI.create(item.getDomProperty("href")).getPath()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Footer link not found: " + path));
+        scrollIntoView(link);
+        click(link);
+    }
+
+    @Step("Click footer social media button: {name}")
+    public void clickSocialMedia(String name) {
+        WebElement button = findByText(socialMediaButtons, name);
+        scrollIntoView(button);
+        click(button);
     }
 
     @Step("Click footer logo")
