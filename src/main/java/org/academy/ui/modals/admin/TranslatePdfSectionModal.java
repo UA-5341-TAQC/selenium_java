@@ -26,7 +26,6 @@ public class TranslatePdfSectionModal extends BaseModal {
     @FindBy(css = "[class*='TranslationControls_container__']")
     private WebElement translationControlsElement;
 
-
     @FindBy(css = ".select.language-select > button.select-head")
     private WebElement languageSelectButtonElement;
 
@@ -76,7 +75,6 @@ public class TranslatePdfSectionModal extends BaseModal {
     public TranslatePdfSectionModal(WebElement rootElement) {
         super(rootElement);
     }
-
 
     public boolean isModalDisplayed() {
         try {
