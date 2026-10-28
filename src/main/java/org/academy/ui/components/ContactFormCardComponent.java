@@ -27,6 +27,9 @@ public class ContactFormCardComponent extends BaseComponent {
     @FindBy(css = "span[role='alert'], [class*='contact-form-message--error']")
     private List<WebElement> validationErrors;
 
+    @FindBy(css = "input[placeholder], textarea[placeholder]")
+    private List<WebElement> placeholdersText;
+
     public ContactFormCardComponent(WebElement element) {
         super(element);
     }
@@ -211,4 +214,13 @@ public class ContactFormCardComponent extends BaseComponent {
 
     public record ContactFormData(String name, String email, String subject, String message) {
     }
+
+    @Step("Get placeholders text")
+    public List<String> getFormPlaceholdersText() {
+        return placeholdersText.stream()
+                .map(element -> element.getDomAttribute("placeholder"))
+                .filter(placeholder -> placeholder != null && !placeholder.isBlank())
+                .toList();
+    }
+
 }

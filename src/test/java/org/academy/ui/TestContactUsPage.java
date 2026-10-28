@@ -2,8 +2,10 @@ package org.academy.ui;
 
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
+import org.academy.ui.components.HeaderComponent;
 import org.academy.ui.components.ContactFormCardComponent;
 import org.academy.ui.components.CopyTextButtonComponent;
+import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.components.contact.ContactDetailsSectionComponent;
 import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
@@ -45,6 +47,26 @@ public class TestContactUsPage extends BaseUiTestRunner {
     private static final String VALID_MESSAGE_10_CHARS = "1234567890";
     private static final String SHORT_SUBJECT_2_CHARS = "Hi";
     private static final String SHORT_MESSAGE_5_CHARS = "Short";
+
+
+    private static final String EXPECTED_PAGE_TITLE_EN = "WE ARE ALWAYS OPEN FOR YOU";
+    private static final String EXPECTED_PAGE_DESCRIPTION_EN =
+            "If you have questions, suggestions, or are looking for support, our team is always ready to help.";
+
+    private static final String EXPECTED_OUR_CONTACTS_US_EN =
+            "Our contacts:";
+
+    private static final String EXPECTED_OUR_SOCIAL_MEDIA_EN =
+            "Social media:";
+
+    private static final String EXPECTED_ADDRESS_EN =
+            "Kyiv, Khreshchatyk str., 1";
+    private static final String SUBMIT_BUTTON_TEXT_EN = "Send";
+
+    private static final String YOUR_NAME_PLACEHOLDER_EN = "Your name";
+    private static final String EMAIL_PLACEHOLDER_EN = "E-mail";
+    private static final String SUBJECT_PLACEHOLDER_EN = "Subject";
+    private static final String WRITE_MESSAGE_PLACEHOLDER_EN = "Write your message";
 
     private ContactUsPage contactUsPage;
 
@@ -237,5 +259,65 @@ public class TestContactUsPage extends BaseUiTestRunner {
         CopyTextButtonComponent phoneCopyButton = detailsSection.getPhoneCopyButton().clickCopy();
         Assert.assertTrue(phoneCopyButton.isDisplayed(), "Phone copy button should be displayed");
         Assert.assertTrue(phoneCopyButton.isEnabled(), "Phone copy button should be enabled");
+    }
+
+    @Test(description = "Verify Contact Us page displays all localized content in English after selecting")
+    @Issue("820")
+    @Story("Contact Us page in English")
+    public void testLocalizationPageEN() {
+        HeaderComponent headerComponent =contactUsPage.getHeader();
+        LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
+        languageSwitcher.switchToEn();
+
+        ContactDetailsSectionComponent detailsSection = contactUsPage.getContactDetailsSection();
+        SoftAssert softAssert = new SoftAssert();
+
+        // 1. Left Contact Information Section
+        softAssert.assertEquals(detailsSection.getTitleText(), EXPECTED_PAGE_TITLE_EN,
+                "Heading text should strictly match mockup");
+        softAssert.assertEquals(detailsSection.getDescriptionText(), EXPECTED_PAGE_DESCRIPTION_EN,
+                "Description text should match mockup");
+
+        softAssert.assertTrue(detailsSection.getEmailText().contains("@"),
+                "Contact email should contain @ symbol");
+        softAssert.assertTrue(detailsSection.getEmailCopyButton().isDisplayed(),
+                "Email copy button should be displayed");
+
+        softAssert.assertTrue(detailsSection.getPhoneText().contains("+"),
+                "Contact phone number should contain + symbol");
+        softAssert.assertTrue(detailsSection.getPhoneCopyButton().isDisplayed(),
+                "Phone copy button should be displayed");
+
+        softAssert.assertFalse(detailsSection.getAddressText().isBlank(),
+                "Contact address should be displayed");
+
+        List<String> secondTitles = detailsSection.getSecondTitles();
+        softAssert.assertTrue(secondTitles.contains(EXPECTED_OUR_CONTACTS_US_EN), "Second title should contain expected contact us text");
+        softAssert.assertTrue(secondTitles.contains(EXPECTED_OUR_SOCIAL_MEDIA_EN), "Social links should expected our social media text");
+
+        softAssert.assertEquals(detailsSection.getAddressText(),EXPECTED_ADDRESS_EN,
+                "Contact address text should strictly match mockup");
+
+        softAssert.assertEquals(detailsSection.getSocialMediaLinksCount(), 3,
+                "Should display 3 social media links (Facebook, Telegram, Instagram)");
+        List<String> socialNames = detailsSection.getSocialMediaNames();
+        softAssert.assertTrue(socialNames.contains(FACEBOOK_NAME), "Social links should contain Facebook");
+        softAssert.assertTrue(socialNames.contains(TELEGRAM_NAME), "Social links should contain Telegram");
+        softAssert.assertTrue(socialNames.contains(INSTAGRAM_NAME), "Social links should contain Instagram");
+
+        // 2. Right Contact Form Section
+        ContactFormCardComponent form = contactUsPage.getContactFormCard();
+        softAssert.assertTrue(form.areAllFieldsDisplayed(), "All contact form fields and submit button should be displayed");
+        softAssert.assertEquals(form.getSubmitButtonText(), SUBMIT_BUTTON_TEXT_EN,
+                "Submit button text should match expected");
+
+        List<String> placeholdersText = form.getFormPlaceholdersText();
+        softAssert.assertTrue(placeholdersText.contains(YOUR_NAME_PLACEHOLDER_EN), "Placeholder for name should contain translated text");
+        softAssert.assertTrue(placeholdersText.contains(EMAIL_PLACEHOLDER_EN), "Placeholder for email should contain translated text");
+        softAssert.assertTrue(placeholdersText.contains(SUBJECT_PLACEHOLDER_EN), "Placeholder for subject should contain translated text");
+        softAssert.assertTrue(placeholdersText.contains(WRITE_MESSAGE_PLACEHOLDER_EN), "Placeholder for write message field should contain translated text");
+
+        softAssert.assertAll();
+
     }
 }
