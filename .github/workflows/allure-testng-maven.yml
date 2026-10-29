@@ -1,220 +1,389 @@
-name: PR Tests with Allure Report
+  name: PR Tests with Allure Report
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
 
-env:
-  BASE_URL: ${{ secrets.BASE_URL }}
-  ADMIN_LOGIN_URL: ${{ secrets.ADMIN_LOGIN_URL }}
-  ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-  HEADLESS: true
-  IMPLICITLY_WAIT: ${{ secrets.IMPLICITLY_WAIT }}
+  permissions:
+    contents: write
+    pull-requests: write
 
-permissions:
-  contents: write
-  pull-requests: write
+  concurrency:
+    group: allure-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: false
 
-jobs:
-  test-and-report:
-    runs-on: ubuntu-latest
+  env:
+    BASE_URL: ${{ secrets.BASE_URL }}
+    ADMIN_LOGIN_URL: ${{ secrets.ADMIN_LOGIN_URL }}
+    ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+    ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+    HEADLESS: "true"
+    IMPLICITLY_WAIT: ${{ secrets.IMPLICITLY_WAIT }}
 
-    steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  jobs:
+    test-and-report:
+      runs-on: ubuntu-latest
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
+      steps:
+        # --------------------------------------------------
+        # Checkout source code
+        # --------------------------------------------------
+        - name: Checkout source branch
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
 
-      - name: Cache Maven
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: maven-${{ hashFiles('**/pom.xml') }}
+        # --------------------------------------------------
+        # Java and Maven
+        # --------------------------------------------------
+        - name: Set up JDK
+          uses: actions/setup-java@v4
+          with:
+            distribution: temurin
+            java-version: "21"
+            cache: maven
 
-      - name: Build and Compile Project
-        run: mvn test-compile
+        - name: Build and compile project
+          id: compile
+          run: mvn --batch-mode test-compile
 
-      - name: Run all tests (UI & Cucumber)
-        run: mvn test
-        continue-on-error: true
+        # --------------------------------------------------
+        # Run tests
+        # --------------------------------------------------
+        - name: Run all tests (UI & Cucumber)
+          id: tests
+          run: mvn --batch-mode test
+          continue-on-error: true
 
-      - name: Get Allure history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+        # --------------------------------------------------
+        # Restore previous GitHub Pages content
+        # --------------------------------------------------
+        - name: Checkout Allure history
+          id: history
+          if: always()
+          continue-on-error: true
+          uses: actions/checkout@v4
+          with:
+            ref: gh-pages
+            path: gh-pages
+            fetch-depth: 1
 
-      - name: Allure Report action from marketplace
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        id: allure-report
-        continue-on-error: true
-        with:
-          allure_results: allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
+        - name: Set up Node.js
+          if: always()
+          uses: actions/setup-node@v4
+          with:
+            node-version: "22"
 
-      - name: Fix permissions
-        if: always() && steps.allure-report.outcome == 'success'
-        run: sudo chmod -R 777 allure-history
+        - name: Install Allure CLI
+          if: always()
+          run: npm install --global allure-commandline@2.34.1
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Fail PR if tests failed
-        if: always() && github.event_name == 'pull_request' && steps.allure-report.outcome == 'success'
-        run: |
-          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
-
-          if [ -f "$SUMMARY_FILE" ]; then
-            FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
-            echo "Failed tests: $FAILED"
-
-            if [ "$FAILED" -gt 0 ]; then
-              echo "❌ Tests failed"
-              exit 1
+        # --------------------------------------------------
+        # Prepare report paths and history
+        # --------------------------------------------------
+        - name: Prepare Allure directories
+          id: prepare
+          if: always()
+          shell: bash
+          run: |
+            set -euo pipefail
+            
+            if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+              SUBFOLDER="pr-${{ github.event.number }}"
             else
-              echo "✅ All tests passed"
+              SUBFOLDER="main"
             fi
-          else
-            echo "⚠️ Summary file not found. Skipping fail check."
-          fi
+            
+            echo "subfolder=${SUBFOLDER}" >> "$GITHUB_OUTPUT"
+            
+            mkdir -p allure-results allure-history
+            
+            # Preserve existing reports and dashboard.
+            if [[ -d gh-pages ]]; then
+              cp -a gh-pages/. allure-history/
+            fi
+            
+            # Restore history only for this report.
+            PREVIOUS_HISTORY="allure-history/${SUBFOLDER}/history"
+            
+            if [[ -d "$PREVIOUS_HISTORY" ]]; then
+              mkdir -p allure-results/history
+              cp -a "${PREVIOUS_HISTORY}/." allure-results/history/
+              echo "Previous Allure history restored."
+            else
+              echo "No previous history found for ${SUBFOLDER}."
+            fi
 
-      - name: Generate DevOps Allure Dashboard
-        if: always() && steps.allure-report.outcome == 'success'
-        run: |
-          REPORT_DIR="allure-history"
-          INDEX_FILE="$REPORT_DIR/index.html"
+        # --------------------------------------------------
+        # Generate Allure report without Docker
+        # --------------------------------------------------
+        - name: Generate Allure Report
+          id: allure-report
+          if: always() && steps.prepare.outcome == 'success'
+          shell: bash
+          run: |
+            set -euo pipefail
+            
+            SUBFOLDER="${{ steps.prepare.outputs.subfolder }}"
+            RESULTS_DIR="allure-results"
+            REPORT_DIR="allure-report-generated"
+            TARGET_DIR="allure-history/${SUBFOLDER}"
+            
+            # A missing result must not produce a fake passing report.
+            if ! find "$RESULTS_DIR" -maxdepth 1 -type f \
+              -name '*-result.json' -print -quit | grep -q .; then
+              echo "::error::No Allure test result files found."
+              exit 1
+            fi
+            
+            allure generate "$RESULTS_DIR" \
+              --clean \
+              --output "$REPORT_DIR"
+            
+            if [[ ! -f "${REPORT_DIR}/index.html" ]]; then
+              echo "::error::Allure report index.html was not generated."
+              exit 1
+            fi
+            
+            # Replace only the current report directory.
+            rm -rf "$TARGET_DIR"
+            mkdir -p "$TARGET_DIR"
+            cp -a "${REPORT_DIR}/." "${TARGET_DIR}/"
+            
+            echo "Allure report generated: ${TARGET_DIR}"
 
-          # Keep last 20 PR reports
-          PR_DIRS=$(find "$REPORT_DIR" -maxdepth 1 -type d -name 'pr-*' -printf '%T@ %p\n' 2>/dev/null | sort -nr | tail -n +21 | cut -d' ' -f2-)
-          if [ -n "$PR_DIRS" ]; then
-            echo "$PR_DIRS" | while IFS= read -r dir; do
-              rm -rf "$dir"
+        # --------------------------------------------------
+        # Fail PR when tests or report generation fail
+        # --------------------------------------------------
+        - name: Check test and report results
+          id: result-check
+          if: always() && github.event_name == 'pull_request'
+          shell: bash
+          env:
+            COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+            TEST_OUTCOME: ${{ steps.tests.outcome }}
+            REPORT_OUTCOME: ${{ steps.allure-report.outcome }}
+            SUBFOLDER: ${{ steps.prepare.outputs.subfolder }}
+          run: |
+            set -euo pipefail
+            
+            if [[ "$COMPILE_OUTCOME" != "success" ]]; then
+              echo "::error::Project compilation failed."
+              exit 1
+            fi
+            
+            if [[ "$TEST_OUTCOME" != "success" ]]; then
+              echo "::error::One or more tests failed."
+              exit 1
+            fi
+            
+            if [[ "$REPORT_OUTCOME" != "success" ]]; then
+              echo "::error::Allure report generation failed."
+              exit 1
+            fi
+            
+            SUMMARY_FILE="allure-history/${SUBFOLDER}/widgets/summary.json"
+            
+            if [[ ! -f "$SUMMARY_FILE" ]]; then
+              echo "::error::Allure summary.json was not found."
+              exit 1
+            fi
+            
+            FAILED=$(jq -r '.statistic.failed // 0' "$SUMMARY_FILE")
+            BROKEN=$(jq -r '.statistic.broken // 0' "$SUMMARY_FILE")
+            
+            echo "Failed tests: $FAILED"
+            echo "Broken tests: $BROKEN"
+            
+            if (( FAILED > 0 || BROKEN > 0 )); then
+              echo "::error::Test failures detected in Allure summary."
+              exit 1
+            fi
+            
+            echo "All tests passed."
+
+        # --------------------------------------------------
+        # Install jq
+        # --------------------------------------------------
+        - name: Install jq
+          if: always()
+          run: |
+            sudo apt-get update
+            sudo apt-get install --yes jq
+
+        # --------------------------------------------------
+        # Generate dashboard
+        # --------------------------------------------------
+        - name: Generate DevOps Allure Dashboard
+          if: always() && steps.allure-report.outcome == 'success'
+          shell: bash
+          run: |
+            set -euo pipefail
+            
+            REPORT_DIR="allure-history"
+            INDEX_FILE="${REPORT_DIR}/index.html"
+            
+            # Keep the 20 most recently updated PR report directories.
+            mapfile -t PR_DIRS < <(
+              find "$REPORT_DIR" -mindepth 1 -maxdepth 1 \
+                -type d -name 'pr-*' \
+                -printf '%T@ %p\n' |
+                sort -nr |
+                tail -n +21 |
+                cut -d' ' -f2-
+            )
+            
+            for dir in "${PR_DIRS[@]}"; do
+              [[ -n "$dir" ]] && rm -rf -- "$dir"
             done
-          fi
-
-          echo "<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset='UTF-8'>
-            <title>Allure DevOps Dashboard</title>
-            <style>
-              body { font-family: Arial; background:#f4f6f9; padding:40px; }
-              h1 { color:#2c3e50; }
-              .card {
-                background:white;
-                padding:20px;
-                margin-bottom:15px;
-                border-radius:12px;
-                box-shadow:0 4px 12px rgba(0,0,0,0.1);
-              }
-              .main { border-left:6px solid #2ecc71; }
-              .pr { border-left:6px solid #3498db; }
-              .failed { border-left:6px solid #e74c3c; }
-              .stats { margin-top:10px; font-size:14px; }
-              .flaky { color:#e67e22; font-weight:bold; }
-              .date { color:gray; }
-              .banner {
-                padding:15px;
-                margin-bottom:25px;
-                border-radius:8px;
-                font-weight:bold;
-              }
-              .ok { background:#d4edda; color:#155724; }
-              .bad { background:#f8d7da; color:#721c24; }
-              a { text-decoration:none; font-weight:bold; font-size:18px; }
-            </style>
-          </head>
-          <body>
-          <h1>🚀 Allure DevOps Dashboard</h1>
-          <p class='date'>Last updated: $(date)</p>
-          " > $INDEX_FILE
-
-          TOTAL_FAILED_GLOBAL=0
-
-          for dir in $(ls -dt $REPORT_DIR/*/ | xargs -n 1 basename); do
-            SUMMARY_FILE="$REPORT_DIR/$dir/widgets/summary.json"
-            TREND_FILE="$REPORT_DIR/$dir/widgets/history-trend.json"
-
-            if [ -f "$SUMMARY_FILE" ]; then
-              TOTAL=$(jq '.statistic.total' $SUMMARY_FILE)
-              PASSED=$(jq '.statistic.passed' $SUMMARY_FILE)
-              FAILED=$(jq '.statistic.failed' $SUMMARY_FILE)
-              BROKEN=$(jq '.statistic.broken' $SUMMARY_FILE)
-              SKIPPED=$(jq '.statistic.skipped' $SUMMARY_FILE)
-
-              TOTAL_FAILED_GLOBAL=$((TOTAL_FAILED_GLOBAL + FAILED))
-
-              FLAKY_RATE=0
-              if [ -f "$TREND_FILE" ]; then
-                LAST_RUN=$(jq '.[-1].data.failed' $TREND_FILE 2>/dev/null)
-                if [ "$LAST_RUN" != "null" ]; then
-                  if [ "$TOTAL" -gt 0 ]; then
-                    FLAKY_RATE=$((FAILED * 100 / TOTAL))
-                  else
-                    FLAKY_RATE=0
-                  fi
-                fi
+            
+            cat > "$INDEX_FILE" <<'HTML'
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Allure DevOps Dashboard</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  background: #f4f6f9;
+                  padding: 40px;
+                  color: #2c3e50;
+                }
+                h1 { color: #2c3e50; }
+                .card {
+                  background: white;
+                  padding: 20px;
+                  margin-bottom: 15px;
+                  border-radius: 12px;
+                  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+                  border-left: 6px solid #3498db;
+                  overflow-wrap: anywhere;
+                }
+                .main { border-left-color: #2ecc71; }
+                .failed { border-left-color: #e74c3c; }
+                .stats {
+                  margin-top: 10px;
+                  font-size: 14px;
+                  line-height: 1.8;
+                }
+                .date { color: #777; }
+                .banner {
+                  padding: 15px;
+                  margin-bottom: 25px;
+                  border-radius: 8px;
+                  font-weight: bold;
+                }
+                .ok { background: #d4edda; color: #155724; }
+                .bad { background: #f8d7da; color: #721c24; }
+                a {
+                  text-decoration: none;
+                  font-weight: bold;
+                  font-size: 18px;
+                }
+                a:hover { text-decoration: underline; }
+              </style>
+            </head>
+            <body>
+            <h1>Allure DevOps Dashboard</h1>
+            HTML
+            
+            printf '<p class="date">Last updated: %s UTC</p>\n' \
+              "$(date -u '+%Y-%m-%d %H:%M:%S')" >> "$INDEX_FILE"
+            
+            TOTAL_FAILED_GLOBAL=0
+            REPORT_COUNT=0
+            
+            while IFS= read -r -d '' path; do
+              dir="${path##*/}"
+              SUMMARY_FILE="${path}/widgets/summary.json"
+            
+              [[ -f "$SUMMARY_FILE" ]] || continue
+            
+              TOTAL=$(jq -r '.statistic.total // 0' "$SUMMARY_FILE")
+              PASSED=$(jq -r '.statistic.passed // 0' "$SUMMARY_FILE")
+              FAILED=$(jq -r '.statistic.failed // 0' "$SUMMARY_FILE")
+              BROKEN=$(jq -r '.statistic.broken // 0' "$SUMMARY_FILE")
+              SKIPPED=$(jq -r '.statistic.skipped // 0' "$SUMMARY_FILE")
+            
+              TOTAL_FAILED_GLOBAL=$((TOTAL_FAILED_GLOBAL + FAILED + BROKEN))
+              REPORT_COUNT=$((REPORT_COUNT + 1))
+            
+              FAILURE_RATE=0
+              if (( TOTAL > 0 )); then
+                FAILURE_RATE=$(((FAILED + BROKEN) * 100 / TOTAL))
               fi
-
-              CLASS="pr"
-              if [ "$dir" = "main" ]; then
-                CLASS="main"
+            
+              CLASS="card"
+              if [[ "$dir" == "main" ]]; then
+                CLASS="card main"
               fi
-              if [ "$FAILED" != "0" ]; then
-                CLASS="failed"
+            
+              if (( FAILED > 0 || BROKEN > 0 )); then
+                CLASS="card failed"
               fi
-
-              echo "<div class='card $CLASS'>
-                      <a href='./$dir/'>$dir Report</a>
-                      <div class='stats'>
-                        Total: $TOTAL |
-                        ✅ Passed: $PASSED |
-                        ❌ Failed: $FAILED |
-                        💥 Broken: $BROKEN |
-                        ⏭ Skipped: $SKIPPED |
-                        <span class='flaky'>⚡ Flaky rate: $FLAKY_RATE%</span>
-                      </div>
-                    </div>" >> $INDEX_FILE
+            
+              cat >> "$INDEX_FILE" <<HTML
+            <div class="${CLASS}">
+              <a href="./${dir}/">${dir} Report</a>
+              <div class="stats">
+                Total: ${TOTAL} |
+                Passed: ${PASSED} |
+                Failed: ${FAILED} |
+                Broken: ${BROKEN} |
+                Skipped: ${SKIPPED} |
+                Failure rate: ${FAILURE_RATE}%
+              </div>
+            </div>
+            HTML
+            
+            done < <(
+              find "$REPORT_DIR" -mindepth 1 -maxdepth 1 \
+                -type d -print0
+            )
+            
+            if (( REPORT_COUNT == 0 )); then
+              echo "<div class='banner bad'>No reports available.</div>" \
+                >> "$INDEX_FILE"
+            elif (( TOTAL_FAILED_GLOBAL == 0 )); then
+              echo "<div class='banner ok'>All available reports have no failed or broken tests.</div>" \
+                >> "$INDEX_FILE"
+            else
+              echo "<div class='banner bad'>Some reports contain failed or broken tests.</div>" \
+                >> "$INDEX_FILE"
             fi
-          done
+            
+            echo "</body></html>" >> "$INDEX_FILE"
 
-          if [ "$TOTAL_FAILED_GLOBAL" = "0" ]; then
-            echo "<div class='banner ok'>✅ All reports are stable</div>" >> $INDEX_FILE
-          else
-            echo "<div class='banner bad'>❌ Some reports contain failures</div>" >> $INDEX_FILE
-          fi
+        # --------------------------------------------------
+        # Publish reports and dashboard to GitHub Pages
+        # --------------------------------------------------
+        - name: Deploy reports to GitHub Pages
+          if: always() && steps.allure-report.outcome == 'success'
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: allure-history
+            keep_files: false
+            commit_message: "Update Allure reports for ${{ github.sha }}"
 
-          echo "</body></html>" >> $INDEX_FILE
-
-      - name: Deploy report to Github Pages
-        if: always() && steps.allure-report.outcome == 'success'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
-      - name: Post link to Allure Report
-        if: always() && github.event_name == 'pull_request' && steps.allure-report.outcome == 'success'
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            📊 **Allure Test Report for PR-${{ github.event.number }}**
-            Ви можете переглянути звіт за посиланням:
-            https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
-          comment_tag: allure-report-link
+        # --------------------------------------------------
+        # Add report link to PR
+        # --------------------------------------------------
+        - name: Post link to Allure Report
+          if: always() && github.event_name == 'pull_request' && steps.allure-report.outcome == 'success'
+          uses: thollander/actions-comment-pull-request@v2
+          with:
+            message: |
+              📊 **Allure Test Report for PR-${{ github.event.number }}**
+              
+              [View Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/)
+              
+              [View DevOps Dashboard](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)
+            comment_tag: allure-report-link
