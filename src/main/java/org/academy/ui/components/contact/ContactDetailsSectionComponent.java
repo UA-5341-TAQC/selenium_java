@@ -100,7 +100,7 @@ public class ContactDetailsSectionComponent extends BaseComponent {
                 .toList();
     }
 
-    @Step("Get social media link names")
+    @Step("Get second titles text")
     public List<String> getSecondTitles() {
         return getTexts(secondTitlesText);
     }
