@@ -34,6 +34,9 @@ public class ContactDetailsSectionComponent extends BaseComponent {
     @FindBy(css = "a[class*='social-links-item']")
     private List<WebElement> socialMediaLinks;
 
+    @FindBy(css = "h2[class*='ContactDetailsSection_contact-details-block-title']")
+    private List<WebElement> secondTitlesText;
+
     public ContactDetailsSectionComponent(WebElement element) {
         super(element);
     }
@@ -95,5 +98,10 @@ public class ContactDetailsSectionComponent extends BaseComponent {
         return socialMediaLinks.stream()
                 .map(link -> getDomAttribute(link, "target"))
                 .toList();
+    }
+
+    @Step("Get second titles text")
+    public List<String> getSecondTitles() {
+        return getTexts(secondTitlesText);
     }
 }

@@ -47,6 +47,9 @@ public class FooterComponent extends BaseComponent {
     @FindBy(css = ".scrolling-text")
     private WebElement scrollingTextElement;
 
+    @FindBy(css = "span.title")
+    private List<WebElement> subTitlesText;
+
     public FooterComponent(WebElement element) {
         super(element);
     }
@@ -162,6 +165,11 @@ public class FooterComponent extends BaseComponent {
     @Step("Get scrolling motto ticker text")
     public String getScrollingMottoText() {
         return getText(scrollingTextElement);
+    }
+
+    @Step("Get SubTitles text")
+    public List<String> getSubtitlesTexts() {
+        return getTexts(subTitlesText);
     }
 }
 
