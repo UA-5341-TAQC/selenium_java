@@ -16,7 +16,8 @@ public class NotFoundPage extends BasePublicPage {
     @FindBy(css = "[class*='NotFoundMessage_description']")
     private WebElement messageDescriptionElement;
 
-    @FindBy(css = "a.Button_tertiary__tYzqg[href='/']")
+    // '/' on the Ukrainian version and '/en' on the English one.
+    @FindBy(css = "a[class*='Button_tertiary'][href='/'], a[class*='Button_tertiary'][href='/en']")
     private WebElement returnHomeLink;
 
     public NotFoundPage(WebDriver driver) {

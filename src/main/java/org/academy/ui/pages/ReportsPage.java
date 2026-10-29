@@ -28,7 +28,7 @@ public class ReportsPage extends BasePublicPage {
     @FindBy(css = "[class*='ReportItem_root'] button")
     private List<WebElement> reportDownloadButtonElements;
 
-    @FindBy(css = ".ReportsSection_toggle__VXAKA button")
+    @FindBy(css = "[class*='ReportsSection_toggle'] button")
     private WebElement showMoreReportsButtonElement;
 
     @FindBy(css = "[class*='CtaSection_root'] a[href='/donate']")

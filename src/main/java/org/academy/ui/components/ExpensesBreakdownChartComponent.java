@@ -16,7 +16,7 @@ public class ExpensesBreakdownChartComponent extends BaseComponent {
     @FindBy(css = "[class*='ExpensesBreakdownChart_title']")
     private WebElement chartTitleElement;
 
-    @FindBy(css = "svg.ChartGraphic_chart__etvBM")
+    @FindBy(css = "svg[class*='ChartGraphic_chart']")
     private WebElement chartGraphic;
 
     @FindBy(css = "path[class*='ChartGraphic_arc']")
