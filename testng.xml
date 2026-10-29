@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TestSuite" verbose="1">
+
+    <parameter name="cucumber.features.fail-on-undefined-steps" value="false"/>
+    <parameter name="allure.results.suite.name" value="Cucumber BDD Tests"/>
+
+    <test name="UI Tests" parallel="methods" thread-count="2">
+        <classes>
+            <class name="org.academy.ui.HeadSectionTest"/>
+            <class name="org.academy.ui.TestAdminPage"/>
+            <class name="org.academy.ui.TestContactUsPage"/>
+            <class name="org.academy.ui.TestFooter"/>
+            <class name="org.academy.ui.TestMainPage"/>
+            <class name="org.academy.ui.TestPartnersPage"/>
+            <class name="org.academy.ui.TestProgramsPage"/>
+            <class name="org.academy.ui.TestTeamPage"/>
+
+        </classes>
+    </test>
+
+    <test name="Cucumber Tests" parallel="data-providers" thread-count="2">
+        <classes>
+            <class name="org.academy.cucumber.RunCucumberTest"/>
+        </classes>
+    </test>
+</suite>

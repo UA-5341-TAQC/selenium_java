@@ -189,10 +189,10 @@ public class Base {
 
     protected boolean isElementClickable(WebElement element) {
         try {
-        return element != null && element.isDisplayed() && element.isEnabled();
-    } catch (NoSuchElementException | StaleElementReferenceException e) {
-        return false;
-    }
+            return element != null && element.isDisplayed() && element.isEnabled();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
     }
 
 }
