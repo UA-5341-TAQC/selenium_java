@@ -3,11 +3,9 @@ package org.academy.ui.modals.admin;
 import io.qameta.allure.Step;
 import org.academy.ui.components.*;
 import org.academy.ui.modals.BaseModal;
-import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class TranslatePdfSectionModal extends BaseModal {
@@ -27,7 +25,6 @@ public class TranslatePdfSectionModal extends BaseModal {
     // Language Selection Locators
     @FindBy(css = "[class*='TranslationControls_container__']")
     private WebElement translationControlsElement;
-
 
     @FindBy(css = ".select.language-select > button.select-head")
     private WebElement languageSelectButtonElement;
@@ -79,16 +76,15 @@ public class TranslatePdfSectionModal extends BaseModal {
         super(rootElement);
     }
 
-    public static TranslatePdfSectionModal waitFor(WebDriverWait wait) {
-        WebElement root = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        By.cssSelector(ROOT_SELECTOR)
-                )
-        );
-
-        return new TranslatePdfSectionModal(root);
+    public boolean isModalDisplayed() {
+        try {
+            waitUntilVisible(modalOverlayElement);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
-
+    
     // Modal Methods
 
     @Step("Get modal overlay")
