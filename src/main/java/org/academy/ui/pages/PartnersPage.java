@@ -1,6 +1,7 @@
 package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
+import org.academy.ui.components.PartnerCardComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,9 @@ public class PartnersPage extends BasePublicPage {
 
     private static final String PAGE_PATH = "/partners-page";
     private static final String ENGLISH_PAGE_PATH = "/en/partners-page";
+
+    private static final By PARTNER_SECTION_TITLE = By.cssSelector("[class*='PartnersSection_section-title']");
+    private static final By PARTNER_SECTION_DESCRIPTION = By.cssSelector("[class*='PartnersSection_section-description']");
 
     @FindBy(css = "[class*='IntroSection_intro-block']")
     private WebElement introSection;
@@ -95,6 +99,40 @@ public class PartnersPage extends BasePublicPage {
     @Step("Get the Partners page intro background image element")
     public WebElement getIntroBackgroundImageElement() {
         return wait.until(ExpectedConditions.visibilityOf(introBackgroundImage));
+    }
+
+    @Step("Wait for the Partners intro image loading to finish")
+    public PartnersPage waitForIntroImageLoadToFinish() {
+        WebElement image = waitUntilVisible(introBackgroundImage);
+        scrollIntoView(image);
+        wait.until(webDriver -> Boolean.TRUE.equals(js.executeScript(
+                "return arguments[0].complete;", image)));
+        return this;
+    }
+
+    public boolean isIntroImageLoaded() {
+        return introBackgroundImage.isDisplayed() && Boolean.TRUE.equals(js.executeScript(
+                "return arguments[0].complete && arguments[0].naturalWidth > 0;", introBackgroundImage));
+    }
+
+    public List<PartnerCardComponent> getPartnerCards(int sectionIndex) {
+        return getPartnerItems(sectionIndex).stream().map(PartnerCardComponent::new).toList();
+    }
+
+    public WebElement getPartnerSectionTitle(int sectionIndex) {
+        return waitUntilVisible(getPartnersSectionAt(sectionIndex)
+                .findElement(PARTNER_SECTION_TITLE));
+    }
+
+    public WebElement getPartnerSectionDescription(int sectionIndex) {
+        return waitUntilVisible(getPartnersSectionAt(sectionIndex)
+                .findElement(PARTNER_SECTION_DESCRIPTION));
+    }
+
+    @Step("Scroll to the Partners quote section")
+    public PartnersPage scrollToQuoteSection() {
+        scrollIntoView(getCtaSectionElement());
+        return this;
     }
 
     @Step("Get partner sections")
