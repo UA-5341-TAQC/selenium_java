@@ -5,10 +5,9 @@ import org.academy.ui.constants.HtmlAttribute;
 import org.academy.ui.modals.BaseModal;
 import org.academy.ui.types.ProgramSectionTemplate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,10 +44,13 @@ public class HistoryTemplateModal extends BaseModal {
         super(rootElement);
     }
 
-    public static HistoryTemplateModal waitFor(WebDriverWait wait) {
-        WebElement root = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(ROOT_SELECTOR)));
-        return new HistoryTemplateModal(root);
+    public boolean isModalDisplayed() {
+        try {
+            waitUntilVisible(modalOverlayElement);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     @Step("Get modal overlay")

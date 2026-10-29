@@ -2,12 +2,10 @@ package org.academy.ui.modals.admin.history;
 
 import io.qameta.allure.Step;
 import org.academy.ui.modals.BaseModal;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.Objects;
@@ -88,10 +86,13 @@ public class HistoryTranslateModal extends BaseModal {
         super(rootElement);
     }
 
-    public static HistoryTranslateModal waitFor(WebDriverWait wait) {
-        WebElement root = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector(ROOT_SELECTOR)));
-        return new HistoryTranslateModal(root);
+    public boolean isModalDisplayed() {
+        try {
+            waitUntilVisible(modalOverlayElement);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     // Modal Methods

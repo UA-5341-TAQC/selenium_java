@@ -21,37 +21,6 @@ public class AdminHistoryPage extends BaseAdminPage {
     @FindBy(css = "[data-testid='history-page-content']")
     private WebElement historyPageContentElement;
 
-    // Toolbar Locators
-    @FindBy(css = "[class*='HistoryPageToolbar_history-page-toolbar']")
-    private WebElement toolbarElement;
-
-    @FindBy(css = "[class*='HistoryPageToolbar_toolbar-controls']")
-    private WebElement toolbarControlsElement;
-
-    @FindBy(css = "[data-testid='localization-statuses']")
-    private WebElement localizationStatusesElement;
-
-    @FindBy(css = "[data-testid='localization-toolkit']")
-    private WebElement localizationToolkitElement;
-
-    @FindBy(css = "[data-testid='language-toolkit'] button.select-head")
-    private WebElement languageSelectButtonElement;
-
-    @FindBy(css = "[class*='LocalizationToolkit_toolkit'] > .select button.select-head")
-    private WebElement translationsSelectButtonElement;
-
-    @FindBy(css = ".select-options")
-    private WebElement selectOptionsElement;
-
-    @FindBy(css = ".select-options-selected")
-    private WebElement selectedOptionElement;
-
-    @FindBy(css = "[class*='HistoryPageToolbar_actions-wrapper'] > button.btn-primary")
-    private WebElement addSectionTopButtonElement;
-
-    @FindBy(css = "button[aria-label='Перекласти']")
-    private WebElement translateButtonElement;
-
     // Sections Container Locators
     @FindBy(css = "[class*='HistoryPageContent_sections-container']")
     private WebElement sectionsContainerElement;
@@ -183,73 +152,6 @@ public class AdminHistoryPage extends BaseAdminPage {
     @Step("Get history page content")
     public WebElement getHistoryPageContent() {
         return waitUntilVisible(historyPageContentElement);
-    }
-
-    // Toolbar Methods
-
-    @Step("Get toolbar")
-    public WebElement getToolbar() {
-        return waitUntilVisible(toolbarElement);
-    }
-
-    @Step("Get toolbar controls")
-    public WebElement getToolbarControls() {
-        return waitUntilVisible(toolbarControlsElement);
-    }
-
-    @Step("Get localization statuses")
-    public WebElement getLocalizationStatuses() {
-        return waitUntilVisible(localizationStatusesElement);
-    }
-
-    @Step("Get localization toolkit")
-    public WebElement getLocalizationToolkit() {
-        return waitUntilVisible(localizationToolkitElement);
-    }
-
-    @Step("Get language select button")
-    public WebElement getLanguageSelectButton() {
-        return waitUntilVisible(languageSelectButtonElement);
-    }
-
-    @Step("Click language select button")
-    public void clickLanguageSelectButton() {
-        click(languageSelectButtonElement);
-    }
-
-    @Step("Get translations select button")
-    public WebElement getTranslationsSelectButton() {
-        return waitUntilVisible(translationsSelectButtonElement);
-    }
-
-    @Step("Click translations select button")
-    public void clickTranslationsSelectButton() {
-        click(translationsSelectButtonElement);
-    }
-
-    @Step("Get select options")
-    public WebElement getSelectOptions() {
-        return waitUntilVisible(selectOptionsElement);
-    }
-
-    @Step("Get selected option")
-    public WebElement getSelectedOption() {
-        return waitUntilVisible(selectedOptionElement);
-    }
-
-    @Step("Get selected option text")
-    public String getSelectedOptionText() {
-        return getText(selectedOptionElement);
-    }
-
-    @Step("Click add section top button")
-    public void clickAddSectionTopButton() {
-        click(addSectionTopButtonElement);
-    }
-
-    @Step("Click translate button")
-    public void clickTranslateButton() {
-        click(translateButtonElement);
     }
 
     // Sections Container Methods
