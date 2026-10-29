@@ -59,6 +59,7 @@ jobs:
         uses: simple-elf/allure-report-action@master
         if: always()
         id: allure-report
+        continue-on-error: true
         with:
           allure_results: allure-results
           gh_pages: gh-pages
@@ -67,13 +68,14 @@ jobs:
           subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
 
       - name: Fix permissions
+        if: always() && steps.allure-report.outcome == 'success'
         run: sudo chmod -R 777 allure-history
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Fail PR if tests failed
-        if: always() && github.event_name == 'pull_request'
+        if: always() && github.event_name == 'pull_request' && steps.allure-report.outcome == 'success'
         run: |
           SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
@@ -92,7 +94,7 @@ jobs:
           fi
 
       - name: Generate DevOps Allure Dashboard
-        if: always()
+        if: always() && steps.allure-report.outcome == 'success'
         run: |
           REPORT_DIR="allure-history"
           INDEX_FILE="$REPORT_DIR/index.html"
@@ -200,7 +202,7 @@ jobs:
           echo "</body></html>" >> $INDEX_FILE
 
       - name: Deploy report to Github Pages
-        if: always()
+        if: always() && steps.allure-report.outcome == 'success'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -208,11 +210,11 @@ jobs:
           publish_dir: allure-history
 
       - name: Post link to Allure Report
-        if: always() && github.event_name == 'pull_request'
+        if: always() && github.event_name == 'pull_request' && steps.allure-report.outcome == 'success'
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             📊 **Allure Test Report for PR-${{ github.event.number }}**
             Ви можете переглянути звіт за посиланням:
             https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
-          comment_tag: allure-report-link
+          comment_tag: allure-report-link
