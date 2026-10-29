@@ -143,6 +143,21 @@ public class Base {
         }
     }
 
+    protected boolean isInside(WebElement parent, WebElement child) {
+        try {
+            return Boolean.TRUE.equals(
+                    js.executeScript("return arguments[0].contains(arguments[1]);", parent, child));
+        } catch (StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
+    protected List<WebElement> filterInside(WebElement parent, List<WebElement> elements) {
+        return elements.stream()
+                .filter(element -> isInside(parent, element))
+                .toList();
+    }
+
     protected String getValue(WebElement element) {
         return waitUntilVisible(element).getDomProperty("value");
     }
