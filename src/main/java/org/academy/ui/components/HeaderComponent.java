@@ -82,6 +82,16 @@ public class HeaderComponent extends BaseComponent {
         click(contactUsButton);
     }
 
+    @Step("Check if 'Contact Us' button in header is displayed")
+    public boolean isContactUsButtonDisplayed() {
+        return isDisplayed(contactUsButton);
+    }
+
+    @Step("Check if 'Contact Us' button is clickable")
+    public boolean isContactUsButtonClickable() {
+        return isElementClickable(contactUsButton);
+    }
+
     @Step("Click 'Donate' button in header")
     public void clickDonate() {
         click(donateButton);

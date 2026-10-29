@@ -46,8 +46,8 @@ public class TestMainPage  extends BaseUiTestRunner {
 
     @Test(description = "Verify EN localization of the footer")
     @Issue("846")
-    @Story("UI Elements on Contact Us Page")
-    public void testContactsFormUiElements(){
+    @Story("UI Elements on Main Page")
+    public void testFooterEN(){
         HeaderComponent headerComponent = mainPage.getHeader();
         LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
         languageSwitcher.switchToEn();
