@@ -1,0 +1,1 @@
+Scenario started: Footer displays contact information
