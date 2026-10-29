@@ -121,40 +121,73 @@
         # --------------------------------------------------
         # Generate Allure report without Docker
         # --------------------------------------------------
+
+        - name: Locate Allure results
+          id: locate-results
+          if: always()
+          shell: bash
+          run: |
+            set -uo pipefail
+
+            echo "Searching for Allure result files..."
+
+            find . \
+              -type f \
+              -name '*-result.json' \
+              -not -path './.git/*' \
+              -not -path './node_modules/*' \
+              -print || true
+
+            RESULTS_DIR=""
+
+            for dir in allure-results target/allure-results; do
+              if [[ -d "$dir" ]] && \
+                 find "$dir" -maxdepth 1 -type f \
+                   -name '*-result.json' -print -quit | grep -q .; then
+                RESULTS_DIR="$dir"
+                break
+              fi
+            done
+
+            if [[ -z "$RESULTS_DIR" ]]; then
+              echo "::error::No Allure result files found."
+              echo "Check the Maven Allure adapter configuration."
+              exit 1
+            fi
+
+            echo "results_dir=$RESULTS_DIR" >> "$GITHUB_OUTPUT"
+            echo "Found results in: $RESULTS_DIR"
+
         - name: Generate Allure Report
           id: allure-report
-          if: always() && steps.prepare.outcome == 'success'
+          if: always() && steps.locate-results.outcome == 'success'
           shell: bash
           run: |
             set -euo pipefail
-            
+
             SUBFOLDER="${{ steps.prepare.outputs.subfolder }}"
-            RESULTS_DIR="allure-results"
+            RESULTS_DIR="${{ steps.locate-results.outputs.results_dir }}"
             REPORT_DIR="allure-report-generated"
             TARGET_DIR="allure-history/${SUBFOLDER}"
-            
-            # A missing result must not produce a fake passing report.
-            if ! find "$RESULTS_DIR" -maxdepth 1 -type f \
-              -name '*-result.json' -print -quit | grep -q .; then
-              echo "::error::No Allure test result files found."
-              exit 1
+
+            # Restore previous report history.
+            if [[ -d "${TARGET_DIR}/history" ]]; then
+              mkdir -p "${RESULTS_DIR}/history"
+              cp -a "${TARGET_DIR}/history/." \
+                "${RESULTS_DIR}/history/"
             fi
-            
+
             allure generate "$RESULTS_DIR" \
               --clean \
               --output "$REPORT_DIR"
-            
-            if [[ ! -f "${REPORT_DIR}/index.html" ]]; then
-              echo "::error::Allure report index.html was not generated."
-              exit 1
-            fi
-            
-            # Replace only the current report directory.
+
+            test -f "${REPORT_DIR}/index.html"
+
             rm -rf "$TARGET_DIR"
             mkdir -p "$TARGET_DIR"
             cp -a "${REPORT_DIR}/." "${TARGET_DIR}/"
-            
-            echo "Allure report generated: ${TARGET_DIR}"
+
+            echo "Allure report generated successfully."
 
         # --------------------------------------------------
         # Fail PR when tests or report generation fail
