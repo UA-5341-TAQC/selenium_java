@@ -27,7 +27,6 @@ public class FeedbackPageAdmin extends BaseAdminPage {
     @FindBy(css = ".infinite-scroll-list-to-top")
     private WebElement scrollToTopButtonElement;
 
-
     // Category Bar Locators
     @FindBy(css = ".category-bar")
     private WebElement categoryBarElement;
