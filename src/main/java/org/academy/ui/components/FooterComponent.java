@@ -2,6 +2,7 @@ package org.academy.ui.components;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -44,6 +45,15 @@ public class FooterComponent extends BaseComponent {
 
     public FooterComponent(WebElement element) {
         super(element);
+    }
+
+    public Rectangle getBounds() {
+        return waitUntilVisible(rootElement).getRect();
+    }
+
+    public FooterComponent scrollIntoView() {
+        scrollIntoView(rootElement);
+        return this;
     }
 
     @Step("Click footer logo")
