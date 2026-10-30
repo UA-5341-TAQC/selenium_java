@@ -1,0 +1,1 @@
+Scenario started: Verify maximum character limit blocks further input on Subject and Message fields

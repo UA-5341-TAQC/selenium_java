@@ -1,0 +1,1 @@
+Scenario started: Verify validation errors for simultaneous under-minimum input in Subject and Message fields

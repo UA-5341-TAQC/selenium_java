@@ -1,0 +1,1 @@
+Scenario started: Verify social media links navigation URLs and target attributes

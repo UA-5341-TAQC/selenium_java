@@ -1,0 +1,1 @@
+Scenario started: Verify "Повідомлення" field minimum length validation boundaries

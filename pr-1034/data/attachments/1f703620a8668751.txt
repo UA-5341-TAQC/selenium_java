@@ -1,0 +1,1 @@
+Scenario started: Verify that the contact form is available and accepts valid input
