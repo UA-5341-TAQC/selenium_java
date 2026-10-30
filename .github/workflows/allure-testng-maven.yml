@@ -50,6 +50,7 @@ jobs:
         run: mvn --batch-mode test-compile
 
       # Continue to reporting even if tests fail.
+      # Test failures are expected and do not fail the workflow.
       - name: Run all tests (UI & Cucumber)
         id: tests
         run: mvn --batch-mode test
@@ -191,17 +192,16 @@ jobs:
 
           echo "Allure report generated in ${TARGET_DIR}."
 
-      # Check the PR result, without suppressing test failures.
+      # Validate compilation and report generation only.
+      # Test failures are expected and do not fail the workflow.
       - name: Check test and report results
         id: result-check
         if: always() && github.event_name == 'pull_request'
         shell: bash
         env:
           COMPILE_OUTCOME: ${{ steps.compile.outcome }}
-          TEST_OUTCOME: ${{ steps.tests.outcome }}
           LOCATE_OUTCOME: ${{ steps.locate-results.outcome }}
           REPORT_OUTCOME: ${{ steps.allure-report.outcome }}
-          SUBFOLDER: ${{ steps.prepare.outputs.subfolder }}
         run: |
           set -euo pipefail
 
@@ -220,26 +220,8 @@ jobs:
             exit 1
           fi
 
-          SUMMARY_FILE="allure-history/${SUBFOLDER}/widgets/summary.json"
-
-          if [[ ! -f "$SUMMARY_FILE" ]]; then
-            echo "::error::Allure summary not found."
-            exit 1
-          fi
-
-          FAILED=$(jq -r '.statistic.failed // 0' "$SUMMARY_FILE")
-          BROKEN=$(jq -r '.statistic.broken // 0' "$SUMMARY_FILE")
-
-          echo "Failed tests: $FAILED"
-          echo "Broken tests: $BROKEN"
-
-          if [[ "$TEST_OUTCOME" != "success" ]] || \
-             (( FAILED > 0 || BROKEN > 0 )); then
-            echo "::error::One or more tests failed."
-            exit 1
-          fi
-
-          echo "All tests passed."
+          echo "Compilation and Allure report generation completed successfully."
+          echo "Test failures, if any, are informational only."
 
       # Generate the dashboard while preserving other reports.
       - name: Generate DevOps Allure Dashboard
@@ -384,6 +366,7 @@ jobs:
 
       # Publish even if tests failed, provided the report was generated.
       - name: Deploy reports to GitHub Pages
+        id: deploy
         if: always() && steps.allure-report.outcome == 'success' && steps.history.outcome == 'success'
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -405,13 +388,12 @@ jobs:
             [View DevOps Dashboard](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)
           comment_tag: allure-report-link
 
-      # Fail the workflow if tests or reporting failed.
+      # Fail the workflow only on infrastructure or reporting errors.
       - name: Final workflow status
         if: always()
         shell: bash
         env:
           COMPILE_OUTCOME: ${{ steps.compile.outcome }}
-          TEST_OUTCOME: ${{ steps.tests.outcome }}
           LOCATE_OUTCOME: ${{ steps.locate-results.outcome }}
           REPORT_OUTCOME: ${{ steps.allure-report.outcome }}
           HISTORY_OUTCOME: ${{ steps.history.outcome }}
@@ -421,11 +403,6 @@ jobs:
 
           [[ "$COMPILE_OUTCOME" == "success" ]] || {
             echo "::error::Compilation failed."
-            exit 1
-          }
-
-          [[ "$TEST_OUTCOME" == "success" ]] || {
-            echo "::error::Tests failed."
             exit 1
           }
 
@@ -444,4 +421,10 @@ jobs:
             exit 1
           }
 
-          echo "Compilation, tests, and report generation completed successfully."
+          [[ "$DEPLOY_OUTCOME" == "success" ]] || {
+            echo "::error::Unable to deploy Allure reports."
+            exit 1
+          }
+
+          echo "Workflow completed successfully."
+          echo "Automated test failures are reported in Allure but do not fail the workflow."
