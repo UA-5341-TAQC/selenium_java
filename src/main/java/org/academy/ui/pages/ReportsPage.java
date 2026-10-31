@@ -35,6 +35,12 @@ public class ReportsPage extends BasePublicPage {
     @FindBy(css = "[class*='CtaSection_root'] a[href='/donate']")
     private WebElement ctaDonateLinkElement;
 
+    @FindBy(css = "[class*='amount']")
+    private List<WebElement> amountElements;
+
+    @FindBy(css = "[class*='StatCard_value']")
+    private WebElement mainStatValueAmountElement;
+
     public ReportsPage(WebDriver driver) {
         super(driver);
     }
@@ -130,5 +136,14 @@ public class ReportsPage extends BasePublicPage {
     public void clickCtaDonateLink() {
         scrollIntoView(ctaDonateLinkElement);
         click(ctaDonateLinkElement);
+    }
+    @Step("Get all amount texts")
+    public List<String> getAmountTexts() {
+        return getTexts(waitUntilAllVisible(amountElements));
+    }
+
+    @Step("Get main stat value amount text")
+    public String getMainStatValueTexts() {
+        return getText(waitUntilVisible(mainStatValueAmountElement));
     }
 }

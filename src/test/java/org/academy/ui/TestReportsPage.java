@@ -2,6 +2,8 @@ package org.academy.ui;
 
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
+import org.academy.ui.components.HeaderComponent;
+import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.pages.ReportsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
 import org.testng.annotations.BeforeMethod;
@@ -18,6 +20,9 @@ public class TestReportsPage extends BaseUiTestRunner {
     private static final String SHOW_MORE_BUTTON_UA = "Показати більше";
     private static final String SHOW_LESS_BUTTON_UA = "Показати менше";
     private static final int EXPECTED_ITEMS_COUNT = 5;
+    private static final String USD_CURRENCY = "USD";
+    private static final String UAH_CURRENCY = "грн";
+
 
     private ReportsPage reportsPage;
 
@@ -64,6 +69,51 @@ public class TestReportsPage extends BaseUiTestRunner {
                 "The files count didn't come back to default state.");
         softAssert.assertTrue(finalLabelItems == defaultLabelItems,
                 "The order of displayed item is not correct.");
+
+        softAssert.assertAll();
+
+    }
+    @Test(description = "Verify that all monetary values on the 'Звітність' page are shown in UAH" +
+            " when the language drop-down is set to Ukrainian (UKR)")
+    @Issue("627")
+    @Story("Reports Page: monetary values check")
+    public void testReportsNavigationPages() {
+        SoftAssert softAssert = new SoftAssert();
+        HeaderComponent headerComponent =reportsPage.getHeader();
+        LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
+        languageSwitcher.switchToUa();
+
+        String defaultMainStatValue = reportsPage.getMainStatValueTexts();
+        List <String> defAmountValues = reportsPage.getAmountTexts();
+        boolean hasUAH= defAmountValues.stream()
+                        .anyMatch(text->text!= null && text.contains(UAH_CURRENCY));
+        softAssert.assertTrue(defaultMainStatValue.contains(UAH_CURRENCY),
+                "The main stat card doesn't display UAH currency.");
+        softAssert.assertTrue(hasUAH,"The page doesn't display UAH currency.");
+
+        languageSwitcher.switchToEn();
+
+        String switchedMainStatValue = reportsPage.getMainStatValueTexts();
+        List <String> switchedAmountValues = reportsPage.getAmountTexts();
+
+        boolean hasUSD = switchedAmountValues.stream()
+                .anyMatch(text->text!= null && text.contains(USD_CURRENCY));
+
+        softAssert.assertTrue(switchedMainStatValue.contains(USD_CURRENCY),
+                "The main stat card doesn't display USD currency.");
+        softAssert.assertTrue(hasUSD,"The page doesn't display USD currency.");
+
+        languageSwitcher.switchToUa();
+
+        String finalMainStatValue = reportsPage.getMainStatValueTexts();
+        List <String> finalAmountValues = reportsPage.getAmountTexts();
+        boolean finalHasUAH = defAmountValues.stream()
+                .anyMatch(text->text!= null && text.contains(UAH_CURRENCY));
+        softAssert.assertTrue(finalMainStatValue.contains(UAH_CURRENCY),
+                "The main stat card doesn't display UAH currency.");
+        softAssert.assertTrue(finalHasUAH,"The page doesn't display UAH currency.");
+
+        softAssert.assertAll();
 
     }
 }
