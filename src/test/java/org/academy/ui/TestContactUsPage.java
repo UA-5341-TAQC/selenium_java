@@ -351,7 +351,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
     @Test(description = "Verify EN language selection is retained when navigating between public pages")
     @Issue("821")
     @Story("Revisit Contact Us page in English")
-    public void testContactRevisitEN(){
+    public void testContactPageRevisitEN(){
         HeaderComponent headerComponent =contactUsPage.getHeader();
         LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
         languageSwitcher.switchToEn();
@@ -447,6 +447,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(form.isListTextEnglish(placeholdersText),
                 "Form Section: Placeholder text contains CYRILLIC PATTERN");
 
+        softAssert.assertAll();
     }
 
 

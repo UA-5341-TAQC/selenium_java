@@ -5,6 +5,7 @@ import org.academy.ui.components.ExpensesBreakdownChartComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -67,6 +68,12 @@ public class ReportsPage extends BasePublicPage {
     public List<String> getReportFileLabels() {
         scrollIntoView(reportsSectionTitleElement);
         return getTexts(waitUntilAllVisible(reportFileLabelElements));
+    }
+
+    public int getReportFilesCount() {
+        scrollIntoView(reportsSectionTitleElement);
+        wait.until(ExpectedConditions.visibilityOfAllElements(reportFileLabelElements));
+        return reportFileLabelElements.size();
     }
 
     @Step("Read report download button texts")
