@@ -1,6 +1,8 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
+import org.academy.ui.pages.ReportsPage;
+import org.academy.ui.pages.StoriesOfVictoryPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -18,7 +20,7 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(css = "a[href*='/reports']")
     private WebElement reportsLink;
 
-    @FindBy(css = "a[href*='/stories']")
+    @FindBy(css = "a[href*='stories']")
     private WebElement storiesLink;
 
     @FindBy(css = "a[href*='/support-us']")
@@ -58,13 +60,17 @@ public class HeaderComponent extends BaseComponent {
     }
 
     @Step("Click 'Reporting' link")
-    public void clickReports() {
+    public ReportsPage clickReports() {
+        waitUntilVisible(reportsLink);
         click(reportsLink);
+        return new ReportsPage(driver);
     }
 
     @Step("Click 'Stories of Victory' link")
-    public void clickStories() {
+    public StoriesOfVictoryPage clickStories() {
+        waitUntilVisible(storiesLink);
         click(storiesLink);
+        return new StoriesOfVictoryPage(driver);
     }
 
     @Step("Click 'How to Support' link")

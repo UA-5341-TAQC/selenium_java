@@ -8,6 +8,7 @@ import org.academy.ui.components.CopyTextButtonComponent;
 import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.components.contact.ContactDetailsSectionComponent;
 import org.academy.ui.pages.ContactUsPage;
+import org.academy.ui.pages.ReportsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +17,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.net.URI;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class TestContactUsPage extends BaseUiTestRunner {
 
@@ -69,6 +71,8 @@ public class TestContactUsPage extends BaseUiTestRunner {
     private static final String EMAIL_PLACEHOLDER_EN = "E-mail";
     private static final String SUBJECT_PLACEHOLDER_EN = "Subject";
     private static final String WRITE_MESSAGE_PLACEHOLDER_EN = "Write your message";
+    private static final String REPORTS_EN = "/en/reports";
+    private static final String CONTACT_US_PATH_EN = "/en/contact-us";
 
     private ContactUsPage contactUsPage;
 
@@ -341,6 +345,107 @@ public class TestContactUsPage extends BaseUiTestRunner {
 
         softAssert.assertNotEquals(detailsSection.getAddressText(),EXPECTED_ADDRESS_UA,
                 "The displayed address should not match the value saved in Адреса/UA.");
+
+    }
+
+    @Test(description = "Verify EN language selection is retained when navigating between public pages")
+    @Issue("821")
+    @Story("Revisit Contact Us page in English")
+    public void testContactRevisitEN(){
+        HeaderComponent headerComponent =contactUsPage.getHeader();
+        LanguageSwitcherComponent languageSwitcher = headerComponent.getLanguageSwitcher();
+        languageSwitcher.switchToEn();
+
+        ContactDetailsSectionComponent detailsSection = contactUsPage.getContactDetailsSection();
+        SoftAssert softAssert = new SoftAssert();
+
+        // 1. Left Contact Information Section
+        String infoTitle = detailsSection.getTitleText();
+        softAssert.assertEquals(detailsSection.isTextEnglish(infoTitle),
+                "Information Section: The title contains CYRILLIC PATTERN");
+
+        String infoDescription = detailsSection.getDescriptionText();
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoDescription),
+                "Information Section: The Description text contains CYRILLIC PATTERN");
+
+        String infoAddress = detailsSection.getAddressText();
+        softAssert.assertFalse(detailsSection.isTextEnglish(infoAddress),
+                "Information Section: The contact address text contains CYRILLIC PATTERN");
+
+        List<String> secondTitles = detailsSection.getSecondTitles();
+        softAssert.assertTrue(detailsSection.isListTextEnglish(secondTitles),
+                "Information Section: The second title text contains CYRILLIC PATTERN");
+
+        List<String> socialNames = detailsSection.getSocialMediaNames();
+        softAssert.assertTrue(detailsSection.isListTextEnglish(socialNames),
+                "Information Section: The Social links titles text contains CYRILLIC PATTERN");
+
+
+        // 2. Right Contact Form Section
+        ContactFormCardComponent form = contactUsPage.getContactFormCard();
+        softAssert.assertTrue(form.areAllFieldsDisplayed(),
+                "Form Section: All contact form fields and submit button should be displayed");
+
+        String formSubmitButton = form.getSubmitButtonText();
+        softAssert.assertEquals(form.isTextEnglish(formSubmitButton),
+                "Form Section: Submit button text contains CYRILLIC PATTERN");
+
+        List<String> placeholdersText = form.getFormPlaceholdersText();
+        softAssert.assertTrue(form.isListTextEnglish(placeholdersText),
+                "Form Section: Placeholder text contains CYRILLIC PATTERN");
+
+
+        ReportsPage reportsPage= headerComponent.clickReports();
+        String currentUrl = String.valueOf(driver.getCurrentUrl());
+        softAssert.assertTrue(currentUrl.contains(REPORTS_EN), "URL validation for reports page failed");
+
+
+        softAssert.assertTrue(reportsPage.isTextEnglish(reportsPage.getReportsSectionTitle()),
+                "The text in reports section title contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(reportsPage.isTextEnglish(reportsPage.getShowMoreReportsButtonText()),
+                "The text in show more/less reports button contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(reportsPage.isListTextEnglish(reportsPage.getReportDownloadButtonTexts()),
+                "The text in report download button texts contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(reportsPage.isListTextEnglish(reportsPage.getStatCardTexts()),
+                "The text in stat cards contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(reportsPage.isListTextEnglish(reportsPage.getReportFileLabels()),
+                "The text in report file labels contains CYRILLIC PATTERN");
+
+
+        headerComponent.clickContactUs();
+        String nextCurrentUrl = String.valueOf(driver.getCurrentUrl());
+        softAssert.assertTrue(nextCurrentUrl.contains(CONTACT_US_PATH_EN),
+                "URL validation for contact us page failed");
+
+        // 3. Left Contact Information Section
+        softAssert.assertEquals(detailsSection.isTextEnglish(infoTitle),
+                "Information Section: The title contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoDescription),
+                "Information Section: The Description text contains CYRILLIC PATTERN");
+
+        softAssert.assertFalse(detailsSection.isTextEnglish(infoAddress),
+                "Information Section: The contact address text contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(detailsSection.isListTextEnglish(secondTitles),
+                "Information Section: The second title text contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(detailsSection.isListTextEnglish(socialNames),
+                "Information Section: The Social links titles text contains CYRILLIC PATTERN");
+
+        // 4. Right Contact Form Section
+        softAssert.assertTrue(form.areAllFieldsDisplayed(),
+                "Form Section: All contact form fields and submit button should be displayed");
+
+        softAssert.assertEquals(form.isTextEnglish(formSubmitButton),
+                "Form Section: Submit button text contains CYRILLIC PATTERN");
+
+        softAssert.assertTrue(form.isListTextEnglish(placeholdersText),
+                "Form Section: Placeholder text contains CYRILLIC PATTERN");
 
     }
 
