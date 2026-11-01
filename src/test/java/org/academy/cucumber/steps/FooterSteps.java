@@ -28,6 +28,7 @@ public class FooterSteps {
     private String originalWindow;
     private String originalUrl;
     private Set<String> previousWindows;
+    private String socialMediaName;
 
     @Then("the page displays non-empty content")
     public void verifyNonEmptyContent() {
@@ -80,9 +81,21 @@ public class FooterSteps {
                 .filter(handle -> !previousWindows.contains(handle))
                 .findFirst().orElseThrow();
         driver.switchTo().window(newWindow);
-        Assert.assertEquals(normalizeProfileUrl(driver.getCurrentUrl()),
-                    normalizeProfileUrl(expectedUrl),
-                    "New tab must open the expected Victory Center profile");
+        waitForBrowser().until(currentDriver ->
+                !currentDriver.getCurrentUrl().equals("about:blank"));
+
+        String actualProfile = normalizeProfileUrl(driver.getCurrentUrl());
+        String expectedProfile = normalizeProfileUrl(expectedUrl);
+        boolean isExpectedProfile = actualProfile.equals(expectedProfile);
+
+        // Для Instagram також допускаємо перенаправлення на сторінку входу.
+        boolean isInstagramLogin = "Instagram".equals(socialMediaName)
+                && actualProfile.equals("www.instagram.com/accounts/login");
+
+        Assert.assertTrue(
+                isExpectedProfile || isInstagramLogin,
+                socialMediaName + " opened an unexpected URL: " + actualProfile
+        );
         driver.close();
         driver.switchTo().window(originalWindow);
     }
