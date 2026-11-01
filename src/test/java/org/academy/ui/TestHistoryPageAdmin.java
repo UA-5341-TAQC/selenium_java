@@ -8,7 +8,6 @@ import org.academy.ui.modals.admin.history.HistoryTranslateModal;
 import org.academy.ui.pages.Admin.AdminHistoryPage;
 import org.academy.ui.testrunners.UITestRunnerWithAdmin;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -19,20 +18,15 @@ import java.util.List;
 @Feature("History Page Admin")
 public class TestHistoryPageAdmin extends UITestRunnerWithAdmin {
 
-    private AdminHistoryPage adminHistoryPage;
-
-    @BeforeMethod
-    public void openAdminHistoryPage() {
-        adminHistoryPage = adminPanelPage
-                .getNavigation()
-                .clickHistoryLink();
-    }
-
     @Issue("620")
     @Description("Verify 'Редагувати переклад' modal opens with the correct History structure and existing English translation")
     @Owner("Svitlana Kovalova")
     @Test
     public void testTranslationModalContent() {
+
+        AdminHistoryPage adminHistoryPage = adminPanelPage
+                .getNavigation()
+                .clickHistoryLink();
 
         int expectedSectionsCount = adminHistoryPage.getSectionsCount();
 
@@ -61,6 +55,10 @@ public class TestHistoryPageAdmin extends UITestRunnerWithAdmin {
     @Test
     public void testTranslationLanguageDropdown() {
 
+        AdminHistoryPage adminHistoryPage = adminPanelPage
+                .getNavigation()
+                .clickHistoryLink();
+
         HistoryTranslateModal translateModal = adminHistoryPage.openTranslationModal();
 
         SoftAssert softAssert = new SoftAssert();
@@ -83,6 +81,10 @@ public class TestHistoryPageAdmin extends UITestRunnerWithAdmin {
     @Owner("Svitlana Kovalova")
     @Test
     public void testMoveSectionDown() {
+
+        AdminHistoryPage adminHistoryPage = adminPanelPage
+                .getNavigation()
+                .clickHistoryLink();
 
         List<String> originalOrder = adminHistoryPage.getSectionTitles();
 
@@ -122,6 +124,10 @@ public class TestHistoryPageAdmin extends UITestRunnerWithAdmin {
     @Owner("Svitlana Kovalova")
     @Test
     public void testMoveSectionUp() {
+
+        AdminHistoryPage adminHistoryPage = adminPanelPage
+                .getNavigation()
+                .clickHistoryLink();
 
         List<String> originalOrder = adminHistoryPage.getSectionTitles();
 

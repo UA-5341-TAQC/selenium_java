@@ -10,27 +10,21 @@ import org.academy.ui.modals.admin.team.TeamDeleteCategoryModal;
 import org.academy.ui.modals.admin.team.TeamEditCategoryModal;
 import org.academy.ui.pages.Admin.TeamPageAdmin;
 import org.academy.ui.testrunners.UITestRunnerWithAdmin;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 @Feature("Team Page Admin")
 public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
 
-    private TeamPageAdmin teamPageAdmin;
-
-    @BeforeMethod
-    public void openTeamPageAdmin() {
-        teamPageAdmin = adminPanelPage
-                .getNavigation()
-                .clickTeamLink();
-    }
-
     @Issue("302")
     @Description("Verify that Delete Category modal opens with the correct elements and button states")
     @Owner("Svitlana Kovalova")
     @Test
     public void testDeleteCategoryModal() {
+
+        TeamPageAdmin teamPageAdmin = adminPanelPage
+                .getNavigation()
+                .clickTeamLink();
 
         TeamDeleteCategoryModal deleteCategoryModal = teamPageAdmin
                 .getCategoryBar()
@@ -55,6 +49,10 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
     @Owner("Svitlana Kovalova")
     @Test
     public void testCategoryDescriptionAutoPopulation() {
+
+        TeamPageAdmin teamPageAdmin = adminPanelPage
+                .getNavigation()
+                .clickTeamLink();
 
         TeamEditCategoryModal editCategoryModal = teamPageAdmin
                 .getCategoryBar()
@@ -100,6 +98,10 @@ public class TestTeamPageAdmin extends UITestRunnerWithAdmin {
     @Owner("Svitlana Kovalova")
     @Test
     public void testAddCategoryModal() {
+
+        TeamPageAdmin teamPageAdmin = adminPanelPage
+                .getNavigation()
+                .clickTeamLink();
 
         TeamContextMenuComponent contextMenu = teamPageAdmin
                 .getCategoryBar()
