@@ -66,6 +66,7 @@ public class FooterSteps {
 
     @When("the visitor clicks {string} in the footer")
     public void clickSocialMedia(String name) {
+        socialMediaName = name;
         WebDriver driver = cucumberHook.getDriver();
         originalWindow = driver.getWindowHandle();
         originalUrl = driver.getCurrentUrl();
