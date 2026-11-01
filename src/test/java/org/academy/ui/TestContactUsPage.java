@@ -2,13 +2,12 @@ package org.academy.ui;
 
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
-import org.academy.ui.components.HeaderComponent;
-import org.academy.ui.components.ContactFormCardComponent;
-import org.academy.ui.components.CopyTextButtonComponent;
-import org.academy.ui.components.LanguageSwitcherComponent;
+import org.academy.ui.components.*;
 import org.academy.ui.components.contact.ContactDetailsSectionComponent;
 import org.academy.ui.pages.ContactUsPage;
+import org.academy.ui.pages.ProgramsPage;
 import org.academy.ui.pages.ReportsPage;
+import org.academy.ui.pages.SupportUsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -73,6 +72,10 @@ public class TestContactUsPage extends BaseUiTestRunner {
     private static final String WRITE_MESSAGE_PLACEHOLDER_EN = "Write your message";
     private static final String REPORTS_EN = "/en/reports";
     private static final String CONTACT_US_PATH_EN = "/en/contact-us";
+    private static final String MESSAGE = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
+
+    private static final String ERROR_MESSAGE = "1";
+    private static final String WARNING_INFO_MESSAGE_FILED = "Залишилось 200 символів";
 
     private ContactUsPage contactUsPage;
 
@@ -359,6 +362,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
         ContactDetailsSectionComponent detailsSection = contactUsPage.getContactDetailsSection();
         SoftAssert softAssert = new SoftAssert();
 
+
         // 1. Left Contact Information Section
         String infoTitle = detailsSection.getTitleText();
         softAssert.assertEquals(detailsSection.isTextEnglish(infoTitle),
@@ -447,8 +451,93 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(form.isListTextEnglish(placeholdersText),
                 "Form Section: Placeholder text contains CYRILLIC PATTERN");
 
-        softAssert.assertAll();
     }
 
+    @Test(description = "Verify threshold warning message for 'Повідомлення' field")
+    @Issue("755")
+    @Story("Contact Us page: warning field for message field")
+    public void testWarningMessageFiled(){
 
+        //1.'Зв'язатись' button in the site header
+        HeaderComponent headerComponent =contactUsPage.getHeader();
+        headerComponent.clickContactUs();
+        ContactFormCardComponent formContactPage = contactUsPage.getContactFormCard();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(formContactPage.areAllFieldsDisplayed(), "Not all are displayed.");
+
+        formContactPage.enterMessage(MESSAGE);
+        softAssert.assertTrue(formContactPage.isMessageTextareaDisplayed(),
+                "Contact us page: There is no text entered.");
+        List<String> validationMessagesContact = formContactPage.getValidationMessageText();
+        softAssert.assertTrue(validationMessagesContact.isEmpty(),
+                "Contact us page: is a text for validation message");
+        softAssert.assertFalse(formContactPage.areValidationMessageDisplayed(),
+                "Contact us page:There is a validation message");
+
+        formContactPage.enterMessage(MESSAGE+ERROR_MESSAGE);
+        List<String> errorValidationMessageContact = formContactPage.getValidationMessageText();
+        softAssert.assertFalse(errorValidationMessageContact.isEmpty(),
+                "Contact us page:There is no text for validation message");
+        softAssert.assertTrue(formContactPage.areValidationMessageDisplayed(),
+                "Contact us page: is no a validation message");
+        softAssert.assertTrue(errorValidationMessageContact.contains(WARNING_INFO_MESSAGE_FILED),
+                "Contact us page:Message doesn't match template.");
+
+        //2.Contact Us pop-up on 'Програми' page
+        ProgramsPage  programPage = headerComponent.clickHippotherapyDropdown().clickPrograms();
+        ContactSectionComponent contactSection = programPage.getContactSection();
+        ContactFormPopUpComponent formPopUp = contactSection.clickContactButton();
+        softAssert.assertTrue(formPopUp.isDisplayed(),
+                "Programs page: pop-up form is not displayed");
+
+        ContactFormCardComponent formProgramPage = formPopUp.getContactFormCard();
+        softAssert.assertTrue(formProgramPage.areAllFieldsDisplayed(),
+                "Program page: Not all are displayed.");
+
+        formProgramPage.enterMessage(MESSAGE);
+        List<String> validationMessageProgram = formProgramPage.getValidationMessageText();
+        softAssert.assertTrue(validationMessageProgram.isEmpty(),
+                "Programs page: There is a text for validation message");
+        softAssert.assertFalse(formProgramPage.areValidationMessageDisplayed(),
+                "Programs page: There is a validation message");
+
+
+        formProgramPage.enterMessage(MESSAGE+ERROR_MESSAGE);
+        List<String> errorValidationMessageProgram = formProgramPage.getValidationMessageText();
+        softAssert.assertFalse(errorValidationMessageProgram.isEmpty(),
+                "Programs page: There is no text for validation message");
+        softAssert.assertTrue(formProgramPage.areValidationMessageDisplayed(),
+                "Programs page: There is no a validation message");
+        softAssert.assertTrue(errorValidationMessageProgram.contains(WARNING_INFO_MESSAGE_FILED),
+                "Programs page: Message doesn't match template.");
+
+        formPopUp.closeByEscape();
+
+
+        //3. Contact Us form on the 'Як підтримати?'
+        headerComponent.clickSupportUs();
+        SupportUsPage supportUsPage = new SupportUsPage(driver);
+        supportUsPage.scrollIntoViewContactForm();
+        ContactFormCardComponent formSupportPage = supportUsPage.getContactCardComponent();
+        softAssert.assertTrue(formSupportPage.areAllFieldsDisplayed(),
+                "Support page: Not all are displayed.");
+
+        formSupportPage.enterMessage(MESSAGE);
+        List<String> validationMessageSupport = formSupportPage.getValidationMessageText();
+        softAssert.assertTrue(validationMessageSupport.isEmpty(),
+                "Support page: is a text for validation message");
+        softAssert.assertFalse(formSupportPage.areValidationMessageDisplayed(),
+                "Support page:There is a validation message");
+
+        formSupportPage.enterMessage(MESSAGE+ERROR_MESSAGE);
+        List<String> errorValidationMessageSupport = formSupportPage.getValidationMessageText();
+        softAssert.assertFalse(errorValidationMessageSupport.isEmpty(),
+                "Support page:There is no text for validation message");
+        softAssert.assertTrue(formSupportPage.areValidationMessageDisplayed(),
+                "Support page: is no a validation message");
+        softAssert.assertTrue(errorValidationMessageSupport.contains(WARNING_INFO_MESSAGE_FILED),
+                "Support page:Message doesn't match template.");
+
+    }
 }
