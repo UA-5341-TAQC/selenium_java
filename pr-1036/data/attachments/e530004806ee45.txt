@@ -1,0 +1,1 @@
+Scenario passed: Footer navigation links open the corresponding pages
