@@ -5,6 +5,7 @@ import org.academy.ui.components.admin.AdminPanelNavigationComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AdminPanelPage extends BaseAdminPage {
 
@@ -35,6 +36,7 @@ public class AdminPanelPage extends BaseAdminPage {
 
     @Step("Get admin navigation")
     public AdminPanelNavigationComponent getNavigation() {
+        wait.until(ExpectedConditions.visibilityOf(navigationElement));
         return new AdminPanelNavigationComponent(navigationElement);
     }
 }
