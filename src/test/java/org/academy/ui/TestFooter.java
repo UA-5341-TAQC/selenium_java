@@ -1,5 +1,6 @@
 package org.academy.ui;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
 import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Feature("Main Page - Footer Section")
 public class TestFooter extends BaseUiTestRunner {
 
     @Issue("838")
