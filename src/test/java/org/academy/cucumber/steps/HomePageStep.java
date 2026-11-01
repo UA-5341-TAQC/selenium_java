@@ -46,7 +46,8 @@ public class HomePageStep {
     @Then("^the page at \"([^\"]*)\" opens on the Victory Center website$")
     public void verifyPageOpens(String path) {
         WebDriverWait wait = new WebDriverWait(cucumberHook.getDriver(), Duration.ofSeconds(20));
-        String expectedUrl = cucumberHook.getTestValueProvider().getBaseUrl() + path.substring(1);
+        String expectedUrl = URI.create(cucumberHook.getTestValueProvider().getBaseUrl())
+                .resolve(path).toString();
         wait.until(ExpectedConditions.urlToBe(expectedUrl));
         String actualUrl = cucumberHook.getDriver().getCurrentUrl();
 
