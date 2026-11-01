@@ -16,7 +16,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.net.URI;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class TestContactUsPage extends BaseUiTestRunner {
 
@@ -326,8 +325,6 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(placeholdersText.contains(SUBJECT_PLACEHOLDER_EN), "Placeholder for subject should contain translated text");
         softAssert.assertTrue(placeholdersText.contains(WRITE_MESSAGE_PLACEHOLDER_EN), "Placeholder for write message field should contain translated text");
 
-        softAssert.assertAll();
-
     }
 
     @Test(description = "Verify Contact Us page displays company address from Admin Panel field when EN is selected")
@@ -513,7 +510,6 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "Programs page: Message doesn't match template.");
 
         formPopUp.closeByEscape();
-
 
         //3. Contact Us form on the 'Як підтримати?'
         headerComponent.clickSupportUs();
