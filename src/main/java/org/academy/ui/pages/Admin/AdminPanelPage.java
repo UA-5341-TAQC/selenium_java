@@ -18,6 +18,11 @@ public class AdminPanelPage extends BaseAdminPage {
         super(driver);
     }
 
+    public AdminPanelPage waitUntilVisible() {
+        waitUntilVisible(mainText);
+        return this;
+    }
+
     public String getMainText() {
         return mainText.getText();
     }
