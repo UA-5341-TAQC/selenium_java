@@ -5,6 +5,7 @@ import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
 import org.academy.ui.pages.BasePublicPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -17,6 +18,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class TestFooter extends BaseUiTestRunner {
+
+    private record FooterStructure(
+            List<String> sectionTitles,
+            List<String> menuLinks,
+            List<String> aboutUsLinks,
+            List<String> hippotherapyLinks,
+            String email,
+            String phone,
+            List<String> socialLinks,
+            String scrollingMotto
+    ) {
+    }
 
     @Issue("838")
     @Test(description = "TC #838: Footer navigation links open the corresponding pages")
@@ -45,6 +58,54 @@ public class TestFooter extends BaseUiTestRunner {
                     "Footer link must not open a 404 page: " + path);
             softAssert.assertFalse(pageText.toLowerCase(java.util.Locale.ROOT).contains("сторінку не знайдено"),
                     "Footer link must not open a missing page: " + path);
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Verify footer is displayed with the same structure on every public page")
+    public void testFooterIsConsistentAcrossPublicPages() {
+        List<String> pagePaths = List.of(
+                "/", "/about-us", "/reports", "/stories", "/support-us", "/contact-us",
+                "/history", "/team", "/partners-page", "/events-and-news", "/hippotherapy", "/programs"
+        );
+        URI baseUri = URI.create(testEnvProvider.getBaseUrl());
+        SoftAssert softAssert = new SoftAssert();
+        FooterStructure expectedStructure = null;
+
+        for (String pagePath : pagePaths) {
+            driver.get(baseUri.resolve(pagePath).toString());
+            FooterComponent footer = new MainPage(driver).getFooter().scrollIntoView();
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+            softAssert.assertTrue(footer.isDisplayed(),
+                    "Footer must be displayed on " + pagePath);
+
+            FooterStructure actualStructure = new FooterStructure(
+                    footer.getSubtitlesTexts(),
+                    footer.getMenuColumnLinkTexts(),
+                    footer.getAboutUsColumnLinkTexts(),
+                    footer.getHippotherapyColumnLinkTexts(),
+                    footer.getEmailContactText(),
+                    footer.getPhoneContactText(),
+                    footer.getSocialMediaTexts(),
+                    footer.getScrollingMottoText()
+            );
+
+            softAssert.assertFalse(actualStructure.menuLinks().isEmpty(),
+                    "Footer navigation menu must be present on " + pagePath);
+            softAssert.assertFalse(actualStructure.email().isBlank() || actualStructure.phone().isBlank(),
+                    "Footer contact information must be present on " + pagePath);
+            softAssert.assertFalse(actualStructure.socialLinks().isEmpty(),
+                    "Footer social media links must be present on " + pagePath);
+            softAssert.assertFalse(actualStructure.scrollingMotto().isBlank(),
+                    "Footer moving text bar must be present on " + pagePath);
+
+            if (expectedStructure == null) {
+                expectedStructure = actualStructure;
+            } else {
+                softAssert.assertEquals(actualStructure, expectedStructure,
+                        "Footer structure must match the home page on " + pagePath);
+            }
         }
         softAssert.assertAll();
     }
