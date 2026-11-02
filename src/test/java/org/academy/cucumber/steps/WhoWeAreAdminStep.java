@@ -4,12 +4,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.academy.cucumber.hooks.CucumberHook;
+import org.academy.ui.components.admin.whoweare.WhoWeAreCardComponent;
+import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
 import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
 import org.academy.ui.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+
+import java.util.List;
 
 public class WhoWeAreAdminStep {
 
@@ -87,22 +91,23 @@ public class WhoWeAreAdminStep {
 
     @Then("each card displays an image")
     public void verifyEachCardDisplaysImage() {
-        int count = whoWeArePageAdmin.getCardsCount();
-        for (int i = 0; i < count; i++) {
-            Assert.assertTrue(whoWeArePageAdmin.isImageDisplayed(i),
+        List<WhoWeAreCardComponent> cards = whoWeArePageAdmin.getCards();
+        for (int i = 0; i < cards.size(); i++) {
+            Assert.assertTrue(cards.get(i).isImageDisplayed(),
                     "Image should be displayed and loaded in card " + (i + 1));
         }
     }
 
     @Then("each card displays an \"Опис\" field with a character counter up to {int}")
     public void verifyEachCardDisplaysDescriptionWithCounter(int maxLimit) {
-        int count = whoWeArePageAdmin.getCardsCount();
-        for (int i = 0; i < count; i++) {
-            Assert.assertTrue(whoWeArePageAdmin.isDescriptionEditable(i),
+        List<WhoWeAreCardComponent> cards = whoWeArePageAdmin.getCards();
+        for (int i = 0; i < cards.size(); i++) {
+            WhoWeAreCardComponent card = cards.get(i);
+            Assert.assertTrue(card.isEditable(),
                     "Description should be editable in card " + (i + 1));
-            Assert.assertFalse(whoWeArePageAdmin.getDescriptionText(i).isBlank(),
+            Assert.assertFalse(card.getDescriptionText().isBlank(),
                     "Pre-uploaded description text should not be blank in card " + (i + 1));
-            String counterText = whoWeArePageAdmin.getCharacterCounterText(i);
+            String counterText = card.getCounterText();
             Assert.assertTrue(counterText.contains("/" + maxLimit) || counterText.contains(String.valueOf(maxLimit)),
                     "Counter text in card " + (i + 1) + " should mention " + maxLimit + ", but got: " + counterText);
         }
@@ -122,142 +127,144 @@ public class WhoWeAreAdminStep {
 
     @Then("the \"Опис\" field is editable")
     public void verifyDescriptionFieldIsEditable() {
-        Assert.assertTrue(whoWeArePageAdmin.isDescriptionEditable(0),
+        Assert.assertTrue(whoWeArePageAdmin.getPrimaryEditor().isEditable(),
                 "'Опис' field should be editable");
     }
 
     @Then("the \"Опис\" field contains {string}")
     public void verifyDescriptionContains(String expectedText) {
-        Assert.assertEquals(whoWeArePageAdmin.getPrimaryDescriptionText(), expectedText,
+        Assert.assertEquals(whoWeArePageAdmin.getPrimaryEditor().getDescriptionText(), expectedText,
                 "'Опис' field text does not match expected value");
     }
 
     @Then("each card has an editable \"Опис\" field and a character counter")
     public void verifyEachCardHasEditableDescriptionAndCounter() {
-        int count = whoWeArePageAdmin.getCardsCount();
-        for (int i = 0; i < count; i++) {
-            Assert.assertTrue(whoWeArePageAdmin.isDescriptionEditable(i),
+        List<WhoWeAreCardComponent> cards = whoWeArePageAdmin.getCards();
+        for (int i = 0; i < cards.size(); i++) {
+            WhoWeAreCardComponent card = cards.get(i);
+            Assert.assertTrue(card.isEditable(),
                     "Card " + (i + 1) + " description should be editable");
-            Assert.assertFalse(whoWeArePageAdmin.getCharacterCounterText(i).isBlank(),
+            Assert.assertFalse(card.getCounterText().isBlank(),
                     "Card " + (i + 1) + " should display a character counter");
         }
     }
 
     @When("the admin clears the \"Опис\" field of card {int}")
     public void clearDescriptionOfCard(int cardNumber) {
-        whoWeArePageAdmin.clearDescription(toZeroBasedIndex(cardNumber));
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).clear();
     }
 
     @When("the admin types {string} into the \"Опис\" field of card {int}")
     public void typeTextIntoDescriptionOfCard(String text, int cardNumber) {
-        whoWeArePageAdmin.typeDescription(toZeroBasedIndex(cardNumber), text);
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).typeText(text);
     }
 
     @When("the admin deletes {int} characters from the \"Опис\" field of card {int}")
     public void deleteCharactersFromCardDescription(int charCount, int cardNumber) {
-        whoWeArePageAdmin.deleteCharactersFromDescription(toZeroBasedIndex(cardNumber), charCount);
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).deleteCharacters(charCount);
     }
 
     @Then("the character counter for card {int} matches its current text length out of {int}")
     public void verifyCharacterCounterMatchesCurrentLength(int cardNumber, int maxLimit) {
-        int idx = toZeroBasedIndex(cardNumber);
-        int actualLength = whoWeArePageAdmin.getDescriptionText(idx).length();
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber));
+        int actualLength = editor.getDescriptionText().length();
         String expectedCounter = actualLength + "/" + maxLimit;
-        whoWeArePageAdmin.waitForCharacterCounter(idx, expectedCounter);
-        Assert.assertEquals(whoWeArePageAdmin.getCharacterCounterText(idx), expectedCounter,
+        editor.waitForCounter(expectedCounter);
+        Assert.assertEquals(editor.getCounterText(), expectedCounter,
                 "Character counter does not match current text length");
     }
 
     @Then("the character counter for card {int} reads {string}")
     public void verifyCharacterCounterReads(int cardNumber, String expectedCounter) {
-        int idx = toZeroBasedIndex(cardNumber);
-        whoWeArePageAdmin.waitForCharacterCounter(idx, expectedCounter);
-        Assert.assertEquals(whoWeArePageAdmin.getCharacterCounterText(idx), expectedCounter,
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber));
+        editor.waitForCounter(expectedCounter);
+        Assert.assertEquals(editor.getCounterText(), expectedCounter,
                 "Character counter text does not match expected value");
     }
 
     @When("the admin enters special characters {string} into the \"Опис\" field of card {int}")
     public void enterSpecialCharactersIntoCardDescription(String text, int cardNumber) {
-        whoWeArePageAdmin.typeDescription(toZeroBasedIndex(cardNumber), text);
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).typeText(text);
     }
 
     @When("the admin pastes text {string} into the \"Опис\" field of card {int}")
     public void pasteTextIntoCardDescription(String text, int cardNumber) {
-        whoWeArePageAdmin.pasteDescription(toZeroBasedIndex(cardNumber), text);
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).pasteText(text);
     }
 
     @When("the admin clears the \"Опис\" field and enters {string}")
     public void clearAndEnterTextIntoPrimaryDescription(String text) {
-        whoWeArePageAdmin.setPrimaryDescription(text);
+        whoWeArePageAdmin.getPrimaryEditor().setText(text);
     }
 
     @When("the admin triggers validation by blurring the \"Опис\" field")
     public void blurPrimaryDescription() {
-        whoWeArePageAdmin.blurPrimaryDescription();
+        whoWeArePageAdmin.getPrimaryEditor().blurEditor();
     }
 
     @Then("the validation message {string} is displayed under the field")
     public void verifyValidationMessageDisplayed(String expectedError) {
-        whoWeArePageAdmin.waitForErrorMessage(expectedError);
-        Assert.assertTrue(whoWeArePageAdmin.getPrimaryErrorMessage().contains(expectedError),
-                "Expected error message '" + expectedError + "', but got: " + whoWeArePageAdmin.getPrimaryErrorMessage());
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getPrimaryEditor();
+        editor.waitForErrorMessage(expectedError);
+        Assert.assertTrue(editor.getErrorMessage().contains(expectedError),
+                "Expected error message '" + expectedError + "', but got: " + editor.getErrorMessage());
     }
 
     @Then("no validation message is displayed under the field")
     public void verifyNoValidationMessageDisplayed() {
-        whoWeArePageAdmin.waitForErrorMessageToDisappear();
-        Assert.assertFalse(whoWeArePageAdmin.hasErrorMessage(),
-                "Expected no error message, but an error message was displayed: " + whoWeArePageAdmin.getPrimaryErrorMessage());
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getPrimaryEditor();
+        editor.waitForErrorMessageToDisappear();
+        Assert.assertFalse(editor.hasErrorMessage(),
+                "Expected no error message, but an error message was displayed: " + editor.getErrorMessage());
     }
 
     @When("the admin clears the \"Опис\" field")
     public void clearPrimaryDescription() {
-        whoWeArePageAdmin.clearPrimaryDescription();
+        whoWeArePageAdmin.getPrimaryEditor().clear();
     }
 
     @When("the admin clears the \"Опис\" field and types {int} characters")
     public void clearAndTypeCharacters(int count) {
-        whoWeArePageAdmin.clearPrimaryDescription();
         String generated = "A".repeat(count);
-        whoWeArePageAdmin.typePrimaryDescription(generated);
+        whoWeArePageAdmin.getPrimaryEditor().clear().typeText(generated);
     }
 
     @When("the admin clears the \"Опис\" field and pastes {int} characters")
     public void clearAndPasteCharacters(int count) {
-        whoWeArePageAdmin.clearPrimaryDescription();
         String generated = "B".repeat(count);
-        whoWeArePageAdmin.pasteDescription(0, generated);
+        whoWeArePageAdmin.getPrimaryEditor().clear().pasteText(generated);
     }
 
     @Then("the character counter reads {string}")
     public void verifyPrimaryCharacterCounterReads(String expectedCounter) {
-        whoWeArePageAdmin.waitForCharacterCounter(0, expectedCounter);
-        Assert.assertEquals(whoWeArePageAdmin.getPrimaryCharacterCounterText(), expectedCounter,
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getPrimaryEditor();
+        editor.waitForCounter(expectedCounter);
+        Assert.assertEquals(editor.getCounterText(), expectedCounter,
                 "Character counter does not match");
     }
 
     @When("the admin attempts to type an additional character into the \"Опис\" field")
     public void attemptToTypeAdditionalCharacter() {
-        whoWeArePageAdmin.typePrimaryDescription("Z");
+        whoWeArePageAdmin.getPrimaryEditor().typeText("Z");
     }
 
     @Then("the character counter remains {string}")
     public void verifyPrimaryCharacterCounterRemains(String expectedCounter) {
-        Assert.assertEquals(whoWeArePageAdmin.getPrimaryCharacterCounterText(), expectedCounter,
+        Assert.assertEquals(whoWeArePageAdmin.getPrimaryEditor().getCounterText(), expectedCounter,
                 "Character counter should remain at " + expectedCounter);
     }
 
     @Then("the \"Опис\" field length does not exceed {int} characters")
     public void verifyDescriptionFieldLengthDoesNotExceed(int maxLen) {
-        Assert.assertTrue(whoWeArePageAdmin.getPrimaryDescriptionText().length() <= maxLen,
+        Assert.assertTrue(whoWeArePageAdmin.getPrimaryEditor().getDescriptionText().length() <= maxLen,
                 "Description text length exceeds " + maxLen);
     }
 
     @When("the admin modifies card {int} with valid text {string}")
     public void modifyCardWithValidText(int cardNumber, String text) {
-        int idx = toZeroBasedIndex(cardNumber);
-        whoWeArePageAdmin.setDescription(idx, text);
-        whoWeArePageAdmin.blurDescription(idx);
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber))
+                .setText(text)
+                .blurEditor();
     }
 
     @Then("the \"Опублікувати зміни?\" confirmation pop-up is displayed")
