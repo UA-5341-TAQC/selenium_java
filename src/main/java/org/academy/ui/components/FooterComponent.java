@@ -95,6 +95,11 @@ public class FooterComponent extends BaseComponent {
         click(logoLinks.get(0));
     }
 
+    @Step("Check if footer logo is displayed")
+    public boolean isLogoDisplayed() {
+        return !logoLinks.isEmpty() && isDisplayed(logoLinks.get(0));
+    }
+
     @Step("Check if newsletter subscription block is displayed")
     public boolean isNewsletterDisplayed() {
         return isDisplayed(newsletterTitle);
@@ -172,5 +177,4 @@ public class FooterComponent extends BaseComponent {
         return getTexts(subTitlesText);
     }
 }
-
 
