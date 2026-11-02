@@ -3,11 +3,36 @@ package org.academy.utils;
 import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.ui.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.NetworkInterceptor;
+import org.openqa.selenium.devtools.HasDevTools;
+import org.openqa.selenium.devtools.Command;
+import org.openqa.selenium.json.Json;
+import org.openqa.selenium.remote.http.Contents;
+import org.openqa.selenium.remote.http.Filter;
+import org.openqa.selenium.remote.http.HttpResponse;
 
-/** Shared UI login for Cucumber scenarios and TestNG UI tests. */
-public class AdminSession {
+import java.net.URI;
+import java.util.Map;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * Logs in through the UI once per JVM and stubs refresh responses with the captured token.
+ * Intended for admin page tests, not authentication or refresh tests.
+ */
+public class AdminSession implements AutoCloseable {
+    private static final String LOGIN_PATH = "/api/auth/login";
+    private static final String ADMIN_PATH = "/admin-panel";
+    private static final String ACCESS_TOKEN_FIELD = "accessToken";
+
+    private record Session(String accessToken, URI refreshEndpoint) {}
+
+    // Not renewed; test runs must finish within the token's 24-hour lifetime.
+    private static Session sharedSession;
     private final WebDriver driver;
     private final TestEnvProvider environment;
+    private NetworkInterceptor interceptor;
+    private final AtomicReference<Session> session = new AtomicReference<>();
 
     public AdminSession(WebDriver driver, TestEnvProvider environment) {
         this.driver = driver;
@@ -15,16 +40,97 @@ public class AdminSession {
     }
 
     public AdminPanelPage login() {
-        String loginUrl = environment.getAdminLoginUrl();
-        String email = environment.getAdminEmail();
-        String password = environment.getAdminPassword();
-
-        driver.get(loginUrl);
-        LoginPage page = new LoginPage(driver);
-        page.enterEmail(email);
-        page.enterPassword(password);
-        page.clickLoginButton();
+        if (interceptor == null) {
+            interceptor = interceptAuthentication();
+            // NetworkInterceptor pauses all traffic by default; only auth needs interception.
+            var devTools = ((HasDevTools) driver).getDevTools();
+            var authPatterns = List.of(
+                    Map.of("urlPattern", "*/api/auth/*", "requestStage", "Request"),
+                    Map.of("urlPattern", "*/api/auth/*", "requestStage", "Response")
+            );
+            devTools.send(new Command<>(
+                    "Fetch.enable",
+                    Map.of("patterns", authPatterns)
+            ));
+        }
+        if (session.get() == null) {
+            session.set(getSession());
+        }
+        driver.get(URI.create(environment.getBaseUrl()).resolve(ADMIN_PATH).toString());
         return new AdminPanelPage(driver).waitUntilVisible();
     }
 
+    private NetworkInterceptor interceptAuthentication() {
+        URI site = URI.create(environment.getBaseUrl());
+        String origin = site.getScheme() + "://" + site.getAuthority();
+        return new NetworkInterceptor(driver, (Filter) next -> request -> {
+            URI uri = URI.create(request.getUri());
+            Session current = session.get();
+            URI endpoint = current == null ? null : current.refreshEndpoint();
+            if (endpoint != null && endpoint.getScheme().equals(uri.getScheme())
+                    && endpoint.getAuthority().equals(uri.getAuthority())
+                    && endpoint.getPath().equals(uri.getPath())
+                    && ("POST".equals(request.getMethod().toString())
+                    || "OPTIONS".equals(request.getMethod().toString()))) {
+                return refreshResponse(current.accessToken(), origin);
+            }
+            if (!LOGIN_PATH.equals(uri.getPath())
+                    || !"POST".equals(request.getMethod().toString())) {
+                return NetworkInterceptor.PROCEED_WITH_REQUEST;
+            }
+            HttpResponse response = next.execute(request);
+            if (response.getStatus() == 200) {
+                Map<?, ?> body = new Json().toType(response.contentAsString(), Map.class);
+                String token = (String) body.get(ACCESS_TOKEN_FIELD);
+                if (token == null || token.isBlank()) {
+                    throw new IllegalStateException("UI login did not return an access token");
+                }
+                session.set(new Session(token, uri.resolve("refresh-token")));
+            }
+            return response;
+        });
+    }
+
+    private static HttpResponse refreshResponse(String token, String origin) {
+        return new HttpResponse().setStatus(200)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Access-Control-Allow-Origin", origin)
+                .addHeader("Access-Control-Allow-Credentials", "true")
+                .addHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
+                .addHeader("Access-Control-Allow-Headers", "content-type,authorization")
+                .setContent(Contents.utf8String(new Json().toJson(Map.of(ACCESS_TOKEN_FIELD, token))));
+    }
+
+    // Prevent parallel tests from logging in simultaneously before the shared session exists.
+    private Session getSession() {
+        synchronized (AdminSession.class) {
+            if (sharedSession == null) {
+                loginThroughUi();
+                Session captured = session.get();
+                if (captured == null) {
+                    throw new IllegalStateException("UI login did not return an access token");
+                }
+                sharedSession = captured;
+            }
+            return sharedSession;
+        }
+    }
+
+    private void loginThroughUi() {
+        session.set(null);
+        driver.get(environment.getAdminLoginUrl());
+        LoginPage page = new LoginPage(driver);
+        page.enterEmail(environment.getAdminEmail());
+        page.enterPassword(environment.getAdminPassword());
+        page.clickLoginButton();
+        new AdminPanelPage(driver).waitUntilVisible();
+    }
+
+    @Override
+    public void close() {
+        if (interceptor != null) {
+            interceptor.close();
+            interceptor = null;
+        }
+    }
 }
