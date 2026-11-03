@@ -1,0 +1,1 @@
+Scenario started: Verify the content display in the "Кого підтримуємо" tab
