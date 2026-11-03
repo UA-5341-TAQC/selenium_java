@@ -8,9 +8,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
-
 public class ContactSectionComponent extends BaseComponent {
 
     @FindBy(css = "h2[class*='ContactSection_contact-title'], h2")
@@ -63,7 +60,7 @@ public class ContactSectionComponent extends BaseComponent {
         return new ContactFormPopUpComponent(popupRoot);
     }
 
-    @Step("Click Contact button to open ContactFormPopUpComponent")
+    @Step("Get ContactFormPopUpComponent")
     public ContactFormPopUpComponent getContactPopUpComponent() {
         WebElement popupRoot = waitUntilVisible(By.cssSelector(ContactFormPopUpComponent.ROOT_SELECTOR));
         return new ContactFormPopUpComponent(popupRoot);
@@ -117,6 +114,7 @@ public class ContactSectionComponent extends BaseComponent {
         return isElementClickable(contactButton);
     }
 
+    @Step("Check if the ContactFormPopUpComponent is present on page")
     public boolean isContactPopUpComponentVisible() {
         try {
             return contactPopUpElement.isDisplayed();

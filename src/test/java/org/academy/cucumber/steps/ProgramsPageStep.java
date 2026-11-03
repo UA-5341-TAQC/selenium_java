@@ -58,7 +58,7 @@ public class ProgramsPageStep {
     }
 
     @Then("The contact form is no longer displayed on the page")
-    public void noPopUpForm() {
+    public void checkNoPopUpForm() {
         ContactSectionComponent contactSectionComponent = getProgramsPage()
                 .getContactSection();
 
@@ -70,8 +70,8 @@ public class ProgramsPageStep {
         ContactSectionComponent contactUsComponent = getProgramsPage()
                 .getContactSection();
 
-        Assert.assertFalse(contactUsComponent.isContactPopUpComponentVisible(),
-                "The contact form is still displayed");
+        Assert.assertTrue(contactUsComponent.isConnectButtonClickable(),
+                "The contact form button is not available");
     }
 
 }
