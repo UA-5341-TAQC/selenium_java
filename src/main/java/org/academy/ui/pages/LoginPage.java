@@ -29,7 +29,7 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    @Step("Enter password: {password}")
+    @Step("Enter password")
     public LoginPage enterPassword(String password) {
         fillInput(passwordField, password);
         return this;

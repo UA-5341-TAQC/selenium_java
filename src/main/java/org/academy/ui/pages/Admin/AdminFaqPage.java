@@ -38,6 +38,7 @@ public class AdminFaqPage extends BaseAdminPage {
 
     @Step("Open add FAQ question modal")
     public FaqModal openAddQuestionModal() {
+        scrollIntoView(addQuestionButton);
         click(addQuestionButton);
         return FaqModal.waitFor(wait);
     }
