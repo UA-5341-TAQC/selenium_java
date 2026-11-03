@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LanguageSwitchStep {
+
     private final HeaderComponent header ;
 
     public LanguageSwitchStep(CucumberHook cucumberHook) {
@@ -29,7 +30,7 @@ public class LanguageSwitchStep {
         header.getLanguageSwitcher().switchToEn();
     }
 
-    @When("The user changes the interface language to ENG")
+    @When("The user changes the interface language to UA")
     public void userChangesLanguageToUA() {
         header.getLanguageSwitcher().switchToUa();
     }

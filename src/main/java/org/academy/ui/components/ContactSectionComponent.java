@@ -4,8 +4,12 @@ import io.qameta.allure.Step;
 import org.academy.ui.modals.ContactModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+
 
 public class ContactSectionComponent extends BaseComponent {
 
@@ -20,6 +24,9 @@ public class ContactSectionComponent extends BaseComponent {
 
     @FindBy(css = "video")
     private WebElement video;
+
+    @FindBy(css = "div[class*='ContactFormPopUp_overlay'] aside")
+    private WebElement contactPopUpElement;
 
     public ContactSectionComponent(WebElement element) {
         super(element);
@@ -52,6 +59,12 @@ public class ContactSectionComponent extends BaseComponent {
     @Step("Click Contact button to open ContactFormPopUpComponent")
     public ContactFormPopUpComponent clickContactButton() {
         click(contactButton);
+        WebElement popupRoot = waitUntilVisible(By.cssSelector(ContactFormPopUpComponent.ROOT_SELECTOR));
+        return new ContactFormPopUpComponent(popupRoot);
+    }
+
+    @Step("Click Contact button to open ContactFormPopUpComponent")
+    public ContactFormPopUpComponent getContactPopUpComponent() {
         WebElement popupRoot = waitUntilVisible(By.cssSelector(ContactFormPopUpComponent.ROOT_SELECTOR));
         return new ContactFormPopUpComponent(popupRoot);
     }
@@ -98,4 +111,18 @@ public class ContactSectionComponent extends BaseComponent {
         String readyState = video.getDomProperty("readyState");
         return readyState != null && Integer.parseInt(readyState) >= 2;
     }
+
+    @Step("Check if connect button is clickable")
+    public boolean isConnectButtonClickable() {
+        return isElementClickable(contactButton);
+    }
+
+    public boolean isContactPopUpComponentVisible() {
+        try {
+            return contactPopUpElement.isDisplayed();
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
+    }
+
 }

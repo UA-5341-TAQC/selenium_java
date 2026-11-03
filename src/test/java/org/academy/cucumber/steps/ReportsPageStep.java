@@ -4,14 +4,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.academy.cucumber.hooks.CucumberHook;
-import org.academy.ui.pages.Admin.AdminFaqPage;
-import org.academy.ui.pages.PartnersPage;
 import org.academy.ui.pages.ReportsPage;
 import org.testng.Assert;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
+
 
 public class ReportsPageStep {
     private final CucumberHook cucumberHook;
