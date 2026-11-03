@@ -7,9 +7,7 @@ import org.academy.cucumber.hooks.CucumberHook;
 import org.academy.ui.components.admin.whoweare.WhoWeAreCardComponent;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
-import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
-import org.academy.ui.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -32,19 +30,6 @@ public class WhoWeAreAdminStep {
             throw new IllegalArgumentException("Card number must be >= 1, but got: " + cardNumber);
         }
         return cardNumber - 1;
-    }
-
-    @Given("an admin is logged in to the admin panel")
-    public void loginAsAdmin() {
-        WebDriver driver = cucumberHook.getDriver();
-        driver.get(cucumberHook.getTestValueProvider().getAdminLoginUrl());
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmail(cucumberHook.getTestValueProvider().getAdminEmail());
-        loginPage.enterPassword(cucumberHook.getTestValueProvider().getAdminPassword());
-        loginPage.clickLoginButton();
-        AdminPanelPage adminPanelPage = new AdminPanelPage(driver);
-        Assert.assertFalse(adminPanelPage.getMainText().isBlank(),
-                "Admin panel landing page should load after login");
     }
 
     @Given("the admin navigates to the \"Хто ми\" page")
@@ -122,7 +107,7 @@ public class WhoWeAreAdminStep {
     @When("the admin refreshes the page")
     public void refreshPage() {
         cucumberHook.getDriver().navigate().refresh();
-        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver());
+        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver()).waitUntilLoaded();
     }
 
     @Then("the \"Опис\" field is editable")
@@ -267,7 +252,7 @@ public class WhoWeAreAdminStep {
                 .blurEditor();
     }
 
-    @Then("the \"Опублікувати зміни?\" confirmation pop-up is displayed")
+    @Then("the publish confirmation pop-up \"Опублікувати зміни?\" is displayed")
     public void verifyConfirmationPopupDisplayed() {
         if (confirmationModal == null) {
             confirmationModal = whoWeArePageAdmin.getConfirmationModal();
@@ -276,7 +261,7 @@ public class WhoWeAreAdminStep {
                 "Incorrect confirmation modal title");
     }
 
-    @Then("the confirmation pop-up has \"Так\" and \"Ні\" buttons")
+    @Then("the publish confirmation pop-up has \"Так\" and \"Ні\" buttons")
     public void verifyConfirmationPopupButtons() {
         if (confirmationModal == null) {
             confirmationModal = whoWeArePageAdmin.getConfirmationModal();
@@ -293,7 +278,7 @@ public class WhoWeAreAdminStep {
         confirmationModal.cancel();
     }
 
-    @Then("the confirmation pop-up is closed")
+    @Then("the publish confirmation pop-up is closed")
     public void verifyConfirmationPopupClosed() {
         Assert.assertTrue(whoWeArePageAdmin.isConfirmationModalClosed(),
                 "Expected confirmation pop-up to be closed");
