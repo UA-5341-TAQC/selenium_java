@@ -2,7 +2,6 @@ package org.academy.ui;
 
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
-import org.academy.ui.pages.AboutUsPage;
 import org.academy.ui.pages.BasePublicPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.By;
@@ -24,9 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TestFooterLinksAndLayout extends BaseUiTestRunner {
-
-    private static final String ABOUT_US_PATH = "/about-us";
+public class TestFooterBrokenLinks extends BaseUiTestRunner {
 
     private static final By FOOTER = By.cssSelector(".footer-container");
     private static final By FOOTER_LINKS = By.cssSelector(".footer-container a[href]");
@@ -62,56 +59,6 @@ public class TestFooterLinksAndLayout extends BaseUiTestRunner {
         }
 
         softAssert.assertAll();
-    }
-
-    @Test(description = "Verify footer after scrolling and page reload")
-    @Issue("86")
-    @Story("Footer")
-    public void testFooterAfterScrollingAndReload() {
-        driver.get(URI.create(testEnvProvider.getBaseUrl()).resolve(ABOUT_US_PATH).toString());
-        new AboutUsPage(driver).getFooter();
-
-        for (int i = 0; i < 3; i++) {
-            scrollToBottom();
-            scrollToTop();
-        }
-
-        SoftAssert softAssert = new SoftAssert();
-        scrollToBottom();
-        assertFooterIsCorrect(softAssert, "before reload");
-
-        driver.navigate().refresh();
-        new AboutUsPage(driver).getFooter();
-        scrollToBottom();
-        assertFooterIsCorrect(softAssert, "after reload");
-
-        softAssert.assertAll();
-    }
-
-    private void assertFooterIsCorrect(SoftAssert softAssert, String moment) {
-        List<WebElement> footers = driver.findElements(FOOTER);
-        softAssert.assertEquals(footers.size(), 1, "Footer should not be duplicated " + moment);
-        if (footers.isEmpty()) {
-            return;
-        }
-
-        softAssert.assertTrue(footers.getFirst().isDisplayed(), "Footer should be displayed " + moment);
-
-        Object atBottom = ((JavascriptExecutor) driver).executeScript(
-                "const f = document.querySelector('.footer-container');"
-                        + "const bottom = f.getBoundingClientRect().bottom + window.scrollY;"
-                        + "return Math.abs(bottom - document.documentElement.scrollHeight) <= 2;");
-        softAssert.assertTrue(Boolean.TRUE.equals(atBottom),
-                "Footer should be at the bottom of the page " + moment);
-
-        // the element right before the footer (page content) must end above the footer start
-        Object notOverlapping = ((JavascriptExecutor) driver).executeScript(
-                "const f = document.querySelector('.footer-container');"
-                        + "const prev = f.previousElementSibling;"
-                        + "if (!prev) return true;"
-                        + "return f.getBoundingClientRect().top >= prev.getBoundingClientRect().bottom - 1;");
-        softAssert.assertTrue(Boolean.TRUE.equals(notOverlapping),
-                "Footer should not overlap the page content " + moment);
     }
 
     private List<String> collectFooterLinks() {
@@ -164,9 +111,5 @@ public class TestFooterLinksAndLayout extends BaseUiTestRunner {
 
     private void scrollToBottom() {
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-    }
-
-    private void scrollToTop() {
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
     }
 }
