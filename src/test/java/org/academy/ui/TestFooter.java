@@ -227,8 +227,12 @@ public class TestFooter extends BaseUiTestRunner {
             boolean isInstagramLogin = name.equals("Instagram")
                     && actualUrl.equals("www.instagram.com/accounts/login");
 
+            // Для Facebook також допускаємо перенаправлення на сторінку входу.
+            boolean isFacebookLogin = "Facebook".equals(name)
+                    && actualUrl.equals("www.facebook.com/login");
+
             softAssert.assertTrue(
-                    isExpectedProfile || isInstagramLogin,
+                    isExpectedProfile || isInstagramLogin || isFacebookLogin,
                     name + " opened an unexpected URL: " + actualUrl
             );
             driver.close();
