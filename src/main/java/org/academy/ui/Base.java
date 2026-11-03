@@ -200,6 +200,10 @@ public class Base {
         }
     }
 
+    public void refresh() {
+        driver.navigate().refresh();
+    }
+
     public boolean isTextEnglish(String text) {
         String safeText = String.valueOf(text).trim();
 
