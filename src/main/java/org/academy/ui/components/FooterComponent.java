@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.net.URI;
+import org.openqa.selenium.TimeoutException;
 
 public class FooterComponent extends BaseComponent {
 
@@ -170,6 +171,24 @@ public class FooterComponent extends BaseComponent {
     @Step("Get SubTitles text")
     public List<String> getSubtitlesTexts() {
         return getTexts(subTitlesText);
+    }
+
+    @Step("Check if scrolling motto ticker is displayed")
+    public boolean isScrollingMottoDisplayed() {
+        scrollIntoView(scrollingTextElement);
+        return isDisplayed(scrollingTextElement);
+    }
+
+    @Step("Check if scrolling motto ticker is moving")
+    public boolean isScrollingMottoMoving() {
+        scrollIntoView(scrollingTextElement);
+        int startX = waitUntilVisible(scrollingTextElement).getRect().getX();
+        try {
+            wait.until(d -> scrollingTextElement.getRect().getX() != startX);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
 

@@ -2,6 +2,7 @@ package org.academy.ui.pages.Admin;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.admin.faq.FaqListItemComponent;
+import org.academy.ui.components.admin.faq.FaqTabsComponent;
 import org.academy.ui.modals.admin.faq.FaqModal;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +23,9 @@ public class AdminFaqPage extends BaseAdminPage {
 
     @FindBy(css = "[data-testid='faq-panel-content'] .admin-panel-toolbar-actions > button.btn-primary")
     private WebElement addQuestionButton;
+
+    @FindBy(css = "[data-testid='faq-panel-content'] .category-bar-categories")
+    private WebElement tabsRoot;
 
     public AdminFaqPage(WebDriver driver) {
         super(driver);
@@ -51,5 +55,9 @@ public class AdminFaqPage extends BaseAdminPage {
                 .filter(faq -> question.equals(faq.getQuestion()))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("FAQ question not found: " + question));
+    }
+
+    public FaqTabsComponent getTabs() {
+        return new FaqTabsComponent(waitUntilVisible(tabsRoot));
     }
 }

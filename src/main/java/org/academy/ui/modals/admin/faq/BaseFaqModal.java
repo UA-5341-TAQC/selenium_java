@@ -16,6 +16,7 @@ import java.util.Optional;
 public abstract class BaseFaqModal<T extends BaseFaqModal<T>> extends BaseModal {
 
     private static final By CLOSE_CONFIRMATION = By.cssSelector(ConfirmationModal.ROOT_SELECTOR);
+    private static final int CHARACTERS_PER_STEP = 50;
 
     @FindBy(css = ":scope > .modal-header .modal-header-text")
     private WebElement title;
@@ -109,5 +110,22 @@ public abstract class BaseFaqModal<T extends BaseFaqModal<T>> extends BaseModal 
             }
             return ExpectedConditions.invisibilityOf(rootElement).apply(d) ? Optional.empty() : null;
         });
+    }
+
+    /** Types long text step by step so React keeps up with every keystroke. */
+    @Step("Type FAQ answer step by step")
+    public T typeAnswerStepByStep(String text) {
+        clearInput(answer);
+        int limit = getAnswerLimit();
+        for (int start = 0; start < text.length(); start += CHARACTERS_PER_STEP) {
+            int end = Math.min(start + CHARACTERS_PER_STEP, text.length());
+            String textPart = text.substring(start, end);
+
+            answer.sendKeys(textPart);
+
+            int expectedLength = Math.min(end, limit);
+            wait.until(d -> getAnswer().length() >= expectedLength);
+        }
+        return self();
     }
 }
