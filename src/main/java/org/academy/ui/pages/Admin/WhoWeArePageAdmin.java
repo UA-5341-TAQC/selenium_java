@@ -32,7 +32,10 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
     @FindBy(css = ".card-content")
     private List<WebElement> cardElements;
 
-    @FindBy(css = ".card-content img, .image-wrapper img")
+    @FindBy(css = ".image-wrapper [class*='WhoWeAreImageInput_container'], .card-content [class*='WhoWeAreImageInput_container']")
+    private List<WebElement> imageContainerElements;
+
+    @FindBy(css = ".image-wrapper img, .card-content img")
     private List<WebElement> imageElements;
 
     @FindBy(xpath = "//button[contains(@class,'button')][normalize-space()='Опублікувати'] | //button[@type='submit'][normalize-space()='Опублікувати']")
@@ -46,7 +49,13 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
     public WhoWeArePageAdmin open(String baseUrl) {
         String url = baseUrl.endsWith("/") ? baseUrl + PAGE_PATH : baseUrl + "/" + PAGE_PATH;
         driver.get(url);
+        return waitUntilLoaded();
+    }
+
+    @Step("Wait until Admin 'Хто ми' page is loaded")
+    public WhoWeArePageAdmin waitUntilLoaded() {
         waitUntilVisible(categoryBarElement);
+        waitUntilVisible(mainSection);
         return this;
     }
 
@@ -91,6 +100,7 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
     @Step("Select tab: {tabName}")
     public WhoWeArePageAdmin selectTab(String tabName) {
         getCategoryBar().selectTab(tabName);
+        waitUntilVisible(mainSection);
         return this;
     }
 
@@ -111,11 +121,19 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
 
     @Step("Check if pre-uploaded default image is displayed and loaded")
     public boolean isPreUploadedImageDisplayed() {
-        if (imageElements.isEmpty()) {
-            return false;
+        wait.until(d -> !imageContainerElements.isEmpty() || !imageElements.isEmpty());
+        if (!imageElements.isEmpty() && isVisible(imageElements.get(0))) {
+            WebElement img = imageElements.get(0);
+            return wait.until(d -> Boolean.TRUE.equals(js.executeScript(IMAGE_LOADED_SCRIPT, img)));
         }
-        WebElement img = imageElements.get(0);
-        return isVisible(img) && Boolean.TRUE.equals(js.executeScript(IMAGE_LOADED_SCRIPT, img));
+        if (!imageContainerElements.isEmpty()) {
+            WebElement container = waitUntilVisible(imageContainerElements.get(0));
+            String bgImage = container.getCssValue("background-image");
+            String styleAttr = getDomAttribute(container, "style");
+            return (bgImage != null && bgImage.contains("url("))
+                    || (styleAttr != null && styleAttr.contains("url("));
+        }
+        return false;
     }
 
     @Step("Check if 'Опублікувати' button is enabled")

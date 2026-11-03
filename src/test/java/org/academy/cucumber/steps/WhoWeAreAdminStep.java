@@ -107,7 +107,7 @@ public class WhoWeAreAdminStep {
     @When("the admin refreshes the page")
     public void refreshPage() {
         cucumberHook.getDriver().navigate().refresh();
-        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver());
+        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver()).waitUntilLoaded();
     }
 
     @Then("the \"Опис\" field is editable")
@@ -252,7 +252,7 @@ public class WhoWeAreAdminStep {
                 .blurEditor();
     }
 
-    @Then("the \"Опублікувати зміни?\" confirmation pop-up is displayed")
+    @Then("the publish confirmation pop-up \"Опублікувати зміни?\" is displayed")
     public void verifyConfirmationPopupDisplayed() {
         if (confirmationModal == null) {
             confirmationModal = whoWeArePageAdmin.getConfirmationModal();
@@ -261,7 +261,7 @@ public class WhoWeAreAdminStep {
                 "Incorrect confirmation modal title");
     }
 
-    @Then("the confirmation pop-up has \"Так\" and \"Ні\" buttons")
+    @Then("the publish confirmation pop-up has \"Так\" and \"Ні\" buttons")
     public void verifyConfirmationPopupButtons() {
         if (confirmationModal == null) {
             confirmationModal = whoWeArePageAdmin.getConfirmationModal();
@@ -278,7 +278,7 @@ public class WhoWeAreAdminStep {
         confirmationModal.cancel();
     }
 
-    @Then("the confirmation pop-up is closed")
+    @Then("the publish confirmation pop-up is closed")
     public void verifyConfirmationPopupClosed() {
         Assert.assertTrue(whoWeArePageAdmin.isConfirmationModalClosed(),
                 "Expected confirmation pop-up to be closed");

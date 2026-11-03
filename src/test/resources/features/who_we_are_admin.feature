@@ -129,16 +129,16 @@ Feature: Admin Who We Are Management
     When the admin selects the "Люди" tab
     When the admin modifies card 1 with valid text "Оновлений текст картки"
     And the admin clicks the "Опублікувати" button
-    Then the "Опублікувати зміни?" confirmation pop-up is displayed
-    And the confirmation pop-up has "Так" and "Ні" buttons
+    Then the publish confirmation pop-up "Опублікувати зміни?" is displayed
+    And the publish confirmation pop-up has "Так" and "Ні" buttons
 
   @Issue-950
   Scenario: Verify confirmation popup is displayed after clicking the enabled "Опублікувати" button in "Кого підтримуємо" block
     When the admin selects the "Кого підтримуємо" tab
     When the admin modifies card 1 with valid text "Новий опис підтримки"
     And the admin clicks the "Опублікувати" button
-    Then the "Опублікувати зміни?" confirmation pop-up is displayed
-    And the confirmation pop-up has "Так" and "Ні" buttons
+    Then the publish confirmation pop-up "Опублікувати зміни?" is displayed
+    And the publish confirmation pop-up has "Так" and "Ні" buttons
 
   @Issue-951 @Issue-928
   Scenario Outline: Verify cancelling publication via "Ні" button closes pop-up and keeps "Опублікувати" enabled
@@ -146,7 +146,7 @@ Feature: Admin Who We Are Management
     And the admin modifies card 1 with valid text "<valid_text>"
     And the admin clicks the "Опублікувати" button
     And the admin clicks "Ні" in the confirmation pop-up
-    Then the confirmation pop-up is closed
+    Then the publish confirmation pop-up is closed
     And the "Опублікувати" button is enabled
 
     Examples:
@@ -160,7 +160,7 @@ Feature: Admin Who We Are Management
     And the admin modifies card 1 with valid text "<unpublished_text>"
     And the admin clicks the "Опублікувати" button
     And the admin clicks "Ні" in the confirmation pop-up
-    Then the confirmation pop-up is closed
+    Then the publish confirmation pop-up is closed
     And the "Опублікувати" button is enabled
     And the public "Хто ми" page does not display "<unpublished_text>"
 
