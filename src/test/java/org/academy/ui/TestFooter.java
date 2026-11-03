@@ -6,6 +6,8 @@ import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
 import org.academy.ui.pages.BasePublicPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -60,6 +62,68 @@ public class TestFooter extends BaseUiTestRunner {
                 "Footer email must match TC #839");
         softAssert.assertEquals(footer.getPhoneContactText(), "+380 50 334 4448",
                 "Footer phone must match TC #839");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Verify footer responsiveness at desktop, tablet, and mobile viewports")
+    public void testFooterResponsiveLayout() {
+        ChromeDriver chromeDriver = (ChromeDriver) driver;
+        SoftAssert softAssert = new SoftAssert();
+
+        try {
+            for (int[] size : List.of(new int[]{1440, 900}, new int[]{768, 1024}, new int[]{390, 844})) {
+                int width = size[0];
+                int height = size[1];
+                chromeDriver.executeCdpCommand("Emulation.setDeviceMetricsOverride",
+                        Map.of("width", width, "height", height, "deviceScaleFactor", 1, "mobile", false));
+
+                FooterComponent footer = new MainPage(driver).getFooter().scrollIntoView();
+                chromeDriver.executeScript("window.scrollTo(0, document.documentElement.scrollHeight)");
+                softAssert.assertEquals(((Number) chromeDriver.executeScript("return window.innerWidth")).intValue(),
+                        width, "Viewport width must be set for " + width + "x" + height);
+                softAssert.assertEquals(((Number) chromeDriver.executeScript("return window.innerHeight")).intValue(),
+                        height, "Viewport height must be set for " + width + "x" + height);
+                softAssert.assertTrue(footer.isLogoDisplayed(), "Footer logo must be visible at " + width + "px");
+                softAssert.assertTrue(footer.isNewsletterDisplayed(),
+                        "Footer newsletter must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getMenuColumnLinkTexts().isEmpty(),
+                        "Footer menu must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getAboutUsColumnLinkTexts().isEmpty(),
+                        "Footer about-us links must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getHippotherapyColumnLinkTexts().isEmpty(),
+                        "Footer hippotherapy links must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getEmailContactText().isBlank(),
+                        "Footer email must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getPhoneContactText().isBlank(),
+                        "Footer phone must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getSocialMediaTexts().isEmpty(),
+                        "Footer social links must be visible at " + width + "px");
+                softAssert.assertFalse(footer.getScrollingMottoText().isBlank(),
+                        "Footer motto must be visible at " + width + "px");
+
+                softAssert.assertTrue(((Number) chromeDriver.executeScript(
+                                "return document.documentElement.scrollWidth - document.documentElement.clientWidth"))
+                                .intValue() <= 0,
+                        "Page must not overflow horizontally at " + width + "px");
+                softAssert.assertTrue(((Number) chromeDriver.executeScript(
+                                "return arguments[0].scrollWidth - arguments[0].clientWidth",
+                                driver.findElement(By.cssSelector(".footer-container"))))
+                                .intValue() <= 0,
+                        "Footer content must not overflow its container at " + width + "px");
+                softAssert.assertTrue(Boolean.TRUE.equals(chromeDriver.executeScript(
+                                "return [...arguments[0].querySelectorAll('.main-block, .newsletter-form, .main-contacts, .social-media')]" +
+                                        ".filter(element => element.getClientRects().length > 0)" +
+                                        ".every(element => element.scrollWidth <= element.clientWidth)",
+                                driver.findElement(By.cssSelector(".footer-container")))),
+                        "Footer content must not be clipped at " + width + "px");
+
+                chromeDriver.executeScript("window.scrollTo(document.documentElement.scrollWidth, window.scrollY)");
+                softAssert.assertEquals(((Number) chromeDriver.executeScript("return window.scrollX")).intValue(), 0,
+                        "Page must not horizontally scroll at " + width + "px");
+            }
+        } finally {
+            chromeDriver.executeCdpCommand("Emulation.clearDeviceMetricsOverride", Map.of());
+        }
         softAssert.assertAll();
     }
 
