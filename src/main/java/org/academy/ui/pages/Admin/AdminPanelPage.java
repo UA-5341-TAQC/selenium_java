@@ -1,8 +1,11 @@
 package org.academy.ui.pages.Admin;
 
+import io.qameta.allure.Step;
+import org.academy.ui.components.admin.AdminPanelNavigationComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AdminPanelPage extends BaseAdminPage {
 
@@ -12,7 +15,8 @@ public class AdminPanelPage extends BaseAdminPage {
     private WebElement subText;
     @FindBy(className = "admin-page-action-hint")
     private WebElement actionHint;
-
+    @FindBy(css = ".admin-navigation")
+    private WebElement navigationElement;
 
     public AdminPanelPage(WebDriver driver) {
         super(driver);
@@ -28,5 +32,11 @@ public class AdminPanelPage extends BaseAdminPage {
 
     public String getActionHint() {
         return actionHint.getText();
+    }
+
+    @Step("Get admin navigation")
+    public AdminPanelNavigationComponent getNavigation() {
+        wait.until(ExpectedConditions.visibilityOf(navigationElement));
+        return new AdminPanelNavigationComponent(navigationElement);
     }
 }

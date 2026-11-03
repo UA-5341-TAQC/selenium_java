@@ -27,6 +27,8 @@ public class TeamEditCategoryModal extends BaseModal {
     private WebElement descriptionCounter;
     @FindBy(css = ".team-category-modal-save-button")
     private WebElement saveButton;
+    @FindBy(css = "button[aria-label='Close modal']")
+    private WebElement closeButton;
 
     // Знаходить відкриту модалку та ініціалізує її поля.
     public TeamEditCategoryModal(WebDriver driver) {
@@ -123,5 +125,18 @@ public class TeamEditCategoryModal extends BaseModal {
             }
         }
         throw new org.openqa.selenium.NoSuchElementException("Category not found: " + name);
+    }
+
+    @Step("Wait for Team category description to update")
+    public TeamEditCategoryModal waitForDescription(String expectedDescription) {
+        wait.until(driver -> expectedDescription.equals(getDescription()));
+        return this;
+    }
+
+    @Step("Close Edit Team Category modal")
+    public TeamPageAdmin close() {
+        click(closeButton);
+        wait.until(ExpectedConditions.stalenessOf(rootElement));
+        return new TeamPageAdmin(driver);
     }
 }
