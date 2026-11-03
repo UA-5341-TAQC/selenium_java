@@ -66,6 +66,37 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         return this;
     }
 
+    @Step("Replace description text temporarily and restore it at the end")
+    public WhoWeAreDescriptionEditorComponent addAndDeleteCharacter(String character) {
+        scrollIntoView(editorElement);
+        click(editorElement);
+        editorElement.sendKeys(Keys.END);
+        editorElement.sendKeys(character);
+        editorElement.sendKeys(Keys.BACK_SPACE);
+        blurEditor();
+        return this;
+    }
+
+    @Step("Enter a bold space into the description editor")
+    public WhoWeAreDescriptionEditorComponent enterBoldSpace() {
+        clear();
+        scrollIntoView(editorElement);
+        click(editorElement);
+        editorElement.sendKeys(" ");
+        js.executeScript(
+                "var el = arguments[0];" +
+                "el.focus();" +
+                "var range = document.createRange();" +
+                "range.selectNodeContents(el);" +
+                "var selection = window.getSelection();" +
+                "selection.removeAllRanges();" +
+                "selection.addRange(range);" +
+                "document.execCommand('bold', false, null);",
+                editorElement);
+        blurEditor();
+        return this;
+    }
+
     @Step("Paste text into description editor")
     public WhoWeAreDescriptionEditorComponent pasteText(String text) {
         scrollIntoView(editorElement);

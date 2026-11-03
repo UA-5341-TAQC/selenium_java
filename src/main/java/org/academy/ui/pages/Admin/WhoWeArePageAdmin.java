@@ -127,6 +127,24 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
         }
     }
 
+    @Step("Wait for 'Опублікувати' button enabled state: {enabled}")
+    public WhoWeArePageAdmin waitForPublishButtonEnabled(boolean enabled) {
+        wait.until(d -> isPublishButtonEnabled() == enabled);
+        return this;
+    }
+
+    @Step("Wait for people cards to be loaded: {expectedCount}")
+    public WhoWeArePageAdmin waitForPeopleCards(int expectedCount) {
+        wait.until(d -> {
+            try {
+                return cardElements.size() == expectedCount;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+        return this;
+    }
+
     @Step("Check if 'Опублікувати' button is displayed")
     public boolean isPublishButtonDisplayed() {
         return isVisible(publishButton);
