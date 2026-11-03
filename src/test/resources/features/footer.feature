@@ -1,5 +1,5 @@
 @footer
-Feature: Footer navigation, contact information and social media
+Feature: Main Page - Footer Section
   Visitors can use the footer to navigate the website,
   view contact information and open Victory Center social media profiles.
 

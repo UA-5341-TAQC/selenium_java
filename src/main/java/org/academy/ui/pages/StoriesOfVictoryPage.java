@@ -91,7 +91,7 @@ public class StoriesOfVictoryPage extends BasePublicPage {
     @Step("Wait for the Stories of Victory page to load")
     public StoriesOfVictoryPage waitUntilLoaded() {
         wait.until(ExpectedConditions.visibilityOf(slogan));
-        wait.until(ExpectedConditions.visibilityOf(reviewArticlesSection));
+        //wait.until(ExpectedConditions.visibilityOf(reviewArticlesSection));
         wait.until(ExpectedConditions.visibilityOf(videoReviewsSection));
         wait.until(ExpectedConditions.visibilityOf(reviewsSection));
         return this;

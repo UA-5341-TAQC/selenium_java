@@ -99,8 +99,12 @@ public class FaqModal extends BaseFaqModal<FaqModal> {
         waitUntilAttributeEquals(pagesButton, HtmlAttribute.ARIA_EXPANDED.getValue(), "false");
     }
 
-    public boolean isDraftEnabled() { return draftButton.isEnabled(); }
-    public boolean isPublishEnabled() { return publishButton.isEnabled(); }
+    public boolean isDraftEnabled() {
+        return draftButton.isEnabled();
+    }
+    public boolean isPublishEnabled() {
+        return publishButton.isEnabled();
+    }
 
     @Step("Open FAQ draft confirmation")
     public ConfirmationModal openSaveDraftConfirmation() {

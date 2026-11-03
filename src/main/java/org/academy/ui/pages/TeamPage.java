@@ -70,8 +70,8 @@ public class TeamPage extends BasePage {
     }
 
     @Step("Refresh the public Team page")
-    public TeamPage refresh() {
+    public void refresh() {
         driver.navigate().refresh();
-        return waitUntilLoaded();
+        waitUntilLoaded();
     }
 }
