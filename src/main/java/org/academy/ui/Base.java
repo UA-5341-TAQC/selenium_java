@@ -195,5 +195,8 @@ public class Base {
         }
     }
 
+    public void refresh() {
+        driver.navigate().refresh();
+    }
 }
 
