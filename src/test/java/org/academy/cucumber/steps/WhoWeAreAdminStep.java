@@ -7,9 +7,7 @@ import org.academy.cucumber.hooks.CucumberHook;
 import org.academy.ui.components.admin.whoweare.WhoWeAreCardComponent;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
-import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
-import org.academy.ui.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -32,19 +30,6 @@ public class WhoWeAreAdminStep {
             throw new IllegalArgumentException("Card number must be >= 1, but got: " + cardNumber);
         }
         return cardNumber - 1;
-    }
-
-    @Given("an admin is logged in to the admin panel")
-    public void loginAsAdmin() {
-        WebDriver driver = cucumberHook.getDriver();
-        driver.get(cucumberHook.getTestValueProvider().getAdminLoginUrl());
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmail(cucumberHook.getTestValueProvider().getAdminEmail());
-        loginPage.enterPassword(cucumberHook.getTestValueProvider().getAdminPassword());
-        loginPage.clickLoginButton();
-        AdminPanelPage adminPanelPage = new AdminPanelPage(driver);
-        Assert.assertFalse(adminPanelPage.getMainText().isBlank(),
-                "Admin panel landing page should load after login");
     }
 
     @Given("the admin navigates to the \"Хто ми\" page")

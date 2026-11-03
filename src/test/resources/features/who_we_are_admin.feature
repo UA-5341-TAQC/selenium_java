@@ -5,7 +5,7 @@ Feature: Admin Who We Are Management
   So that information across all blocks is accurate, validated, and safely published.
 
   Background:
-    Given an admin is logged in to the admin panel
+    Given the administrator is logged in
     And the admin navigates to the "Хто ми" page
 
   @Issue-949
