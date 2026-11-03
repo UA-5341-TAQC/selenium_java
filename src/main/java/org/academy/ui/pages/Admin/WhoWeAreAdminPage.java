@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 public class WhoWeAreAdminPage extends BaseAdminPage {
 
-    private static final String PAGE_PATH = "admin-panel/who-we-are";
+    private static final String PAGE_PATH = "/admin-panel/who-we-are";
 
     // Main Section Locators
     @FindBy(css = ".who-we-are-main-section")
