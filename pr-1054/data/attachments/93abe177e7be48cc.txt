@@ -1,0 +1,1 @@
+Scenario started: Verify character counters of title and description
