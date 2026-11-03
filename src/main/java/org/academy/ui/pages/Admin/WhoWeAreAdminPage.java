@@ -144,7 +144,7 @@ public class WhoWeAreAdminPage extends BaseAdminPage {
 
     @Step("Verify Who We Are Admin page is displayed")
     public boolean isPageDisplayed() {
-        return wait.until(driver -> !categoryButtons.isEmpty());
+        return wait.until(driver -> mainSectionElement.isDisplayed());
     }
 
     // Main Section Methods
