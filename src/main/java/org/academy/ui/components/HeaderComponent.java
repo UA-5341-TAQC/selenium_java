@@ -1,6 +1,9 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
+import org.academy.ui.pages.ProgramsPage;
+import org.academy.ui.pages.ReportsPage;
+import org.academy.ui.pages.StoriesOfVictoryPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,6 +17,10 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = ".//button[contains(@class, 'dropdown-button') and (contains(text(), 'Іпотерапія') or contains(text(), 'Hippotherapy'))]")
     private WebElement hippotherapyDropdownButton;
+
+
+    @FindBy(css = "a[href*='/programs']")
+    private WebElement programsLink;
 
     @FindBy(css = "a[href*='/reports']")
     private WebElement reportsLink;
@@ -57,14 +64,25 @@ public class HeaderComponent extends BaseComponent {
         return this;
     }
 
+    @Step("Click 'Programs' link")
+    public ProgramsPage clickPrograms() {
+        waitUntilVisible(programsLink);
+        click(programsLink);
+        return new ProgramsPage(driver);
+    }
+
     @Step("Click 'Reporting' link")
-    public void clickReports() {
+    public ReportsPage clickReports() {
+        waitUntilVisible(reportsLink);
         click(reportsLink);
+        return new ReportsPage(driver);
     }
 
     @Step("Click 'Stories of Victory' link")
-    public void clickStories() {
+    public StoriesOfVictoryPage clickStories() {
+        waitUntilVisible(storiesLink);
         click(storiesLink);
+        return new StoriesOfVictoryPage(driver);
     }
 
     @Step("Click 'How to Support' link")

@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Base {
 
@@ -17,6 +18,10 @@ public class Base {
     protected WebDriverWait wait;
     protected JavascriptExecutor js;
     protected Actions actions;
+
+
+    private static final Pattern CYRILLIC_PATTERN = Pattern.compile("[а-яА-ЯєЄіІїЇґҐ]");
+    private static final Pattern LATIN_PATTERN = Pattern.compile("[a-zA-Z]");
 
     public Base(WebDriver driver) {
         this.driver = driver;
@@ -195,5 +200,27 @@ public class Base {
         }
     }
 
+    public boolean isTextEnglish(String text) {
+        String safeText = String.valueOf(text).trim();
+
+        if (safeText.isEmpty() || "null".equalsIgnoreCase(safeText)) {
+            return false;
+        }
+
+        boolean hasNoCyrillic = !CYRILLIC_PATTERN.matcher(safeText).find();
+        boolean hasLatin = LATIN_PATTERN.matcher(safeText).find();
+
+        return hasNoCyrillic && hasLatin;
+    }
+
+    public boolean isListTextEnglish(List<String> textList) {
+        if (textList == null || textList.isEmpty()) {
+            return false;
+        }
+
+        return textList.stream()
+                .filter(Objects::nonNull)
+                .allMatch(this::isTextEnglish);
+    }
 }
 
