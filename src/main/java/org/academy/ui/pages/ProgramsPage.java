@@ -48,6 +48,7 @@ public class ProgramsPage extends BasePublicPage {
 
     @Step("Get Contact Section component")
     public ContactSectionComponent getContactSection() {
+        scrollIntoView(contactSectionElement);
         wait.until(ExpectedConditions.visibilityOf(contactSectionElement));
         return new ContactSectionComponent(contactSectionElement);
     }

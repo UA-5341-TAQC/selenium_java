@@ -30,6 +30,9 @@ public class ContactFormCardComponent extends BaseComponent {
     @FindBy(css = "input[placeholder], textarea[placeholder]")
     private List<WebElement> placeholdersText;
 
+    @FindBy(css = "span[role='status'], [class*='contact-form-message--info']")
+    private List<WebElement> validationMessage;
+
     public ContactFormCardComponent(WebElement element) {
         super(element);
     }
@@ -223,4 +226,34 @@ public class ContactFormCardComponent extends BaseComponent {
                 .toList();
     }
 
+    @Step("Check if all validation messages are displayed and not empty")
+    public boolean areValidationMessageDisplayed() {
+        if (validationMessage.isEmpty()) {
+            return false;
+        }
+
+        return validationMessage.stream()
+                .allMatch(element -> {
+                    try {
+                        return isDisplayed(element) && !element.getText().trim().isEmpty();
+                    } catch (StaleElementReferenceException e) {
+                        return false;
+                    }
+                });
+    }
+
+    @Step("Get value of validation message textarea")
+    public List<String> getValidationMessageText() {
+        return validationMessage.stream()
+                .filter(this::isDisplayed)
+                .map(element -> {
+                    try {
+                        return element.getText().trim();
+                    } catch (StaleElementReferenceException e) {
+                        return "";
+                    }
+                })
+                .filter(text -> !text.isEmpty())
+                .toList();
+    }
 }
