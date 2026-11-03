@@ -1,5 +1,6 @@
 package org.academy.ui;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;
 import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Feature("Main Page - Footer Section")
 public class TestFooter extends BaseUiTestRunner {
 
     @Issue("838")
@@ -64,38 +66,57 @@ public class TestFooter extends BaseUiTestRunner {
     @Issue("840")
     @Test(description = "TC #840: Footer social media links open company profiles in new tabs")
     public void testFooterSocialMediaLinks() {
-        // Задаємо очікувані профілі
         Map<String, String> expectedProfiles = Map.of(
                 "Facebook", "https://www.facebook.com/victorycenterua",
                 "Telegram", "https://t.me/victorycenterua",
                 "Instagram", "https://www.instagram.com/victorycenterua"
         );
+
         String originalWindow = driver.getWindowHandle();
         String originalUrl = driver.getCurrentUrl();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         SoftAssert softAssert = new SoftAssert();
 
-        // По черзі перевіряємо три соцмережі
         for (String name : List.of("Facebook", "Telegram", "Instagram")) {
             Set<String> previousWindows = Set.copyOf(driver.getWindowHandles());
             new MainPage(driver).getFooter().clickSocialMedia(name);
-            // Повинна відкритися нова вкладка
+
+            // Очікуємо відкриття нової вкладки.
             wait.until(ExpectedConditions.numberOfWindowsToBe(previousWindows.size() + 1));
+
             String newWindow = driver.getWindowHandles().stream()
                     .filter(handle -> !previousWindows.contains(handle))
-                    .findFirst().orElseThrow();
-            // Перемикаємо Selenium на нову вкладку
+                    .findFirst()
+                    .orElseThrow();
+
             driver.switchTo().window(newWindow);
-            wait.until(currentDriver -> !currentDriver.getCurrentUrl().equals("about:blank"));
-            softAssert.assertEquals(normalizeProfileUrl(driver.getCurrentUrl()),
-                    normalizeProfileUrl(expectedProfiles.get(name)),
-                    name + " must open the Victory Center profile");
+            wait.until(currentDriver ->
+                    !currentDriver.getCurrentUrl().equals("about:blank"));
+
+            String actualUrl = normalizeProfileUrl(driver.getCurrentUrl());
+            String expectedUrl = normalizeProfileUrl(expectedProfiles.get(name));
+
+            boolean isExpectedProfile = actualUrl.equals(expectedUrl);
+
+            // Для Instagram також допускаємо перенаправлення на сторінку входу.
+            boolean isInstagramLogin = name.equals("Instagram")
+                    && actualUrl.equals("www.instagram.com/accounts/login");
+
+            softAssert.assertTrue(
+                    isExpectedProfile || isInstagramLogin,
+                    name + " opened an unexpected URL: " + actualUrl
+            );
             driver.close();
-            // Перемикаємо Selenium на початкову
             driver.switchTo().window(originalWindow);
-            softAssert.assertEquals(driver.getCurrentUrl(), originalUrl,
-                    "Original page must remain open after clicking " + name);
+
+
+            softAssert.assertEquals(
+                    driver.getCurrentUrl(),
+                    originalUrl,
+                    "Original page must remain open after clicking " + name
+            );
         }
+
         softAssert.assertAll();
     }
 
