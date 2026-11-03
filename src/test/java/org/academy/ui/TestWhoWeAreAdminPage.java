@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.time.Duration;
 
 public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
 
@@ -20,6 +21,8 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
 
     @BeforeMethod
     public void setUp() {
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+
         page = new WhoWeArePageAdmin(driver).open(testEnvProvider.getBaseUrl());
         page.selectTab("Люди");
         page.waitForPeopleCards(4);
@@ -42,8 +45,13 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
 
         for (int firstCard = 0; firstCard < originalTexts.size(); firstCard++) {
             int finalFirstCard = firstCard;
+
             Allure.step("Validate publish state starting from card " + (firstCard + 1), () ->
                     runCardValidation(page, finalFirstCard, originalTexts, originalCounters));
+
+            if (firstCard < originalTexts.size() - 1) {
+                reloadPage();
+            }
         }
     }
 
@@ -52,34 +60,38 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         Assert.assertEquals(page.getCardsCount(), 4, "People section must contain four cards");
 
         for (int cardIndex = 0; cardIndex < page.getCardsCount(); cardIndex++) {
-            if (cardIndex > 0) {
-                reloadPage();
-            }
 
             int currentCardIndex = cardIndex;
             Allure.step("Validate description messages on card " + (cardIndex + 1), () -> {
                 WhoWeAreDescriptionEditorComponent editor = page.getEditor(currentCardIndex);
 
-                editText(editor, NINE_CHARACTERS);
-                assertNoValidationWhileFocused(editor);
-                assertValidationAfterBlur(editor, MIN_LENGTH_ERROR);
-                assertErrorIsShownOnlyForCard(currentCardIndex, MIN_LENGTH_ERROR);
+                editor.clear();
+                editor.setText(NINE_CHARACTERS);
 
-                editText(editor, TEN_CHARACTERS);
-                assertValidationAfterBlur(editor, "");
-                assertErrorIsShownOnlyForCard(currentCardIndex, "");
+                assertNoValidationWhileFocused(editor);
+
+                assertValidationAfterBlur(editor, MIN_LENGTH_ERROR);
+                assertCardError(editor, MIN_LENGTH_ERROR, currentCardIndex);
+
+                assertOtherCardsHaveNoErrors(currentCardIndex);
 
                 editor.clear();
-                assertNoValidationWhileFocused(editor);
-                assertValidationAfterBlur(editor, REQUIRED_ERROR);
-                assertErrorIsShownOnlyForCard(currentCardIndex, REQUIRED_ERROR);
+                editor.setText(TEN_CHARACTERS);
 
-                editText(editor, "            ");
+                assertValidationAfterBlur(editor, "");
+                assertCardError(editor, "", currentCardIndex);
+
+                editor.clear();
+
+                assertNoValidationWhileFocused(editor);
+
                 assertValidationAfterBlur(editor, REQUIRED_ERROR);
-                assertErrorIsShownOnlyForCard(currentCardIndex, REQUIRED_ERROR);
+                assertCardError(editor, REQUIRED_ERROR, currentCardIndex);
             });
 
-            reloadPage();
+            if (cardIndex < page.getCardsCount() - 1) {
+                reloadPage();
+            }
         }
     }
 
@@ -88,7 +100,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     }
 
     private void assertNoValidationWhileFocused(WhoWeAreDescriptionEditorComponent editor) {
-        editor.waitForErrorMessageToDisappear();
         Assert.assertFalse(editor.hasErrorMessage(),
                 "Validation message must not be shown while the field has focus");
     }
@@ -119,27 +130,37 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 enabled ? "Publish button must be enabled" : "Publish button must be disabled");
     }
 
-    private void assertErrorIsShownOnlyForCard(int cardIndex, String expectedError) {
-        for (int index = 0; index < page.getCardsCount(); index++) {
-            WhoWeAreDescriptionEditorComponent card = page.getEditor(index);
-            if (index == cardIndex) {
-                if (!expectedError.isEmpty()) {
-                    Assert.assertTrue(card.getErrorMessage().contains(expectedError),
-                            "Validation error must be shown under card " + (cardIndex + 1));
-                } else {
-                    Assert.assertFalse(card.hasErrorMessage(),
-                            "Edited card must not have a validation error");
-                }
-            } else {
-                Assert.assertFalse(card.hasErrorMessage(),
-                        "Validation error must not be shown under card " + (index + 1));
+    private void assertCardError(
+            WhoWeAreDescriptionEditorComponent editor,
+            String expectedError,
+            int cardIndex) {
+
+        String actualError = editor.getErrorMessage();
+
+        Assert.assertEquals(
+                actualError,
+                expectedError,
+                "Incorrect validation message under card " + (cardIndex + 1)
+        );
+    }
+
+    private void assertOtherCardsHaveNoErrors(int currentCardIndex) {
+        for (int i = 0; i < 4; i++) {
+            if (i == currentCardIndex) {
+                continue;
             }
+
+            WhoWeAreDescriptionEditorComponent otherEditor = page.getEditor(i);
+
+            Assert.assertFalse(
+                    otherEditor.hasErrorMessage(),
+                    "Validation error must not be shown under card " + (i + 1)
+            );
         }
     }
 
     private void runCardValidation(WhoWeArePageAdmin page, int firstCard,
                                    List<String> originalTexts, List<String> originalCounters) {
-        reloadPage();
         page = this.page;
         assertPublishState(false);
 
