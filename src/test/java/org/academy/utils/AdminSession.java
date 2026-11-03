@@ -1,23 +1,29 @@
 package org.academy.utils;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.ui.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.devtools.NetworkInterceptor;
-import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.devtools.Command;
+import org.openqa.selenium.devtools.HasDevTools;
+import org.openqa.selenium.devtools.NetworkInterceptor;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.remote.http.Contents;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpResponse;
 
 import java.net.URI;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Logs in through the UI once per JVM and stubs refresh responses with the captured token.
+ * Logs in via API using REST Assured (with UI fallback), checks JWT 'exp' claim, and stubs refresh responses.
  * Intended for admin page tests, not authentication or refresh tests.
  */
 public class AdminSession implements AutoCloseable {
@@ -25,9 +31,18 @@ public class AdminSession implements AutoCloseable {
     private static final String ADMIN_PATH = "/admin-panel";
     private static final String ACCESS_TOKEN_FIELD = "accessToken";
 
-    private record Session(String accessToken, URI refreshEndpoint) {}
+    private record Session(String accessToken, URI refreshEndpoint) {
+        boolean isExpired() {
+            String payloadJson = new String(
+                    Base64.getUrlDecoder().decode(accessToken.split("\\.")[1]),
+                    StandardCharsets.UTF_8
+            );
+            Map<?, ?> payload = new Json().toType(payloadJson, Map.class);
+            long exp = ((Number) payload.get("exp")).longValue();
+            return Instant.now().getEpochSecond() >= exp;
+        }
+    }
 
-    // Not renewed; test runs must finish within the token's 24-hour lifetime.
     private static Session sharedSession;
     private final WebDriver driver;
     private final TestEnvProvider environment;
@@ -53,7 +68,7 @@ public class AdminSession implements AutoCloseable {
                     Map.of("patterns", authPatterns)
             ));
         }
-        if (session.get() == null) {
+        if (session.get() == null || session.get().isExpired()) {
             session.set(getSession());
         }
         driver.get(URI.create(environment.getBaseUrl()).resolve(ADMIN_PATH).toString());
@@ -66,6 +81,10 @@ public class AdminSession implements AutoCloseable {
         return new NetworkInterceptor(driver, (Filter) next -> request -> {
             URI uri = URI.create(request.getUri());
             Session current = session.get();
+            if (current != null && current.isExpired()) {
+                current = getSession();
+                session.set(current);
+            }
             URI endpoint = current == null ? null : current.refreshEndpoint();
             if (endpoint != null && endpoint.getScheme().equals(uri.getScheme())
                     && endpoint.getAuthority().equals(uri.getAuthority())
@@ -101,19 +120,60 @@ public class AdminSession implements AutoCloseable {
                 .setContent(Contents.utf8String(new Json().toJson(Map.of(ACCESS_TOKEN_FIELD, token))));
     }
 
-    // Prevent parallel tests from logging in simultaneously before the shared session exists.
+    // Prevent parallel tests from logging in simultaneously and renew expired tokens automatically.
     private Session getSession() {
         synchronized (AdminSession.class) {
-            if (sharedSession == null) {
-                loginThroughUi();
-                Session captured = session.get();
-                if (captured == null) {
-                    throw new IllegalStateException("UI login did not return an access token");
+            if (sharedSession == null || sharedSession.isExpired()) {
+                Session apiSession = loginThroughApi();
+                if (apiSession != null) {
+                    sharedSession = apiSession;
+                    session.set(sharedSession);
+                } else {
+                    loginThroughUi();
+                    Session captured = session.get();
+                    if (captured == null) {
+                        throw new IllegalStateException("UI login did not return an access token");
+                    }
+                    sharedSession = captured;
                 }
-                sharedSession = captured;
             }
             return sharedSession;
         }
+    }
+
+    private Session loginThroughApi() {
+        try {
+            URI loginEndpoint = sharedSession != null
+                    ? sharedSession.refreshEndpoint().resolve("login")
+                    : resolveDefaultLoginEndpoint();
+            Response response = RestAssured.given()
+                    .contentType(ContentType.JSON)
+                    .accept(ContentType.JSON)
+                    .body(Map.of(
+                            "email", environment.getAdminEmail(),
+                            "password", environment.getAdminPassword()
+                    ))
+                    .when()
+                    .post(loginEndpoint);
+            if (response.statusCode() == 200) {
+                String token = response.jsonPath().getString(ACCESS_TOKEN_FIELD);
+                if (token != null && !token.isBlank()) {
+                    return new Session(token, loginEndpoint.resolve("refresh-token"));
+                }
+            }
+        } catch (Exception ignored) {
+            // Fall back to UI login if direct API endpoint is unreachable or differs
+        }
+        return null;
+    }
+
+    private URI resolveDefaultLoginEndpoint() {
+        URI site = URI.create(environment.getBaseUrl());
+        String host = site.getHost();
+        String backendAuthority = (host != null && !host.startsWith("backend.") && !host.equals("localhost"))
+                ? "backend." + site.getAuthority()
+                : site.getAuthority();
+        return URI.create(site.getScheme() + "://" + backendAuthority + LOGIN_PATH);
     }
 
     private void loginThroughUi() {

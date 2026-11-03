@@ -106,8 +106,8 @@ public class WhoWeAreAdminStep {
 
     @When("the admin refreshes the page")
     public void refreshPage() {
-        cucumberHook.getDriver().navigate().refresh();
-        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver()).waitUntilLoaded();
+        whoWeArePageAdmin.refresh();
+        whoWeArePageAdmin.waitUntilLoaded();
     }
 
     @Then("the \"Опис\" field is editable")

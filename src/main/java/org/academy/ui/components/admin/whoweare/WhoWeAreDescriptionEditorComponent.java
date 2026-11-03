@@ -32,8 +32,9 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
 
     @Step("Check if description editor is editable")
     public boolean isEditable() {
-        return isElementClickable(editorElement)
-                && "true".equalsIgnoreCase(getDomAttribute(editorElement, CONTENTEDITABLE_ATTR));
+        scrollIntoView(editorElement);
+        return "true".equalsIgnoreCase(editorElement.getDomAttribute(CONTENTEDITABLE_ATTR))
+                && !"true".equalsIgnoreCase(editorElement.getDomAttribute("aria-disabled"));
     }
 
     @Step("Clear description editor")
@@ -70,6 +71,7 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     public WhoWeAreDescriptionEditorComponent pasteText(String text) {
         scrollIntoView(editorElement);
         click(editorElement);
+        editorElement.sendKeys(Keys.END);
         js.executeScript(
                 "var el = arguments[0];" +
                 "var text = arguments[1];" +
@@ -78,10 +80,7 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
                 "var pasteEvent = new ClipboardEvent('paste', {" +
                 "  bubbles: true, cancelable: true, clipboardData: dataTransfer" +
                 "});" +
-                "el.dispatchEvent(pasteEvent);" +
-                "if (!el.textContent.includes(text)) {" +
-                "  document.execCommand('insertText', false, text);" +
-                "}",
+                "el.dispatchEvent(pasteEvent);",
                 editorElement, text
         );
         String expectedPrefix = text.substring(0, Math.min(text.length(), 20));
@@ -91,6 +90,8 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
 
     @Step("Trigger blur on description editor")
     public WhoWeAreDescriptionEditorComponent blurEditor() {
+        blur(editorElement);
+        click(editorElement);
         blur(editorElement);
         js.executeScript("document.activeElement && document.activeElement.blur();");
         return this;
@@ -110,14 +111,14 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @Step("Get validation error message")
     public String getErrorMessage() {
         List<WebElement> visibleErrors = errorElements.stream()
-                .filter(WebElement::isDisplayed)
+                .filter(this::isDisplayed)
                 .toList();
         return visibleErrors.isEmpty() ? "" : getText(visibleErrors.get(0));
     }
 
     @Step("Check if validation error message is displayed")
     public boolean hasErrorMessage() {
-        return errorElements.stream().anyMatch(WebElement::isDisplayed);
+        return errorElements.stream().anyMatch(this::isDisplayed);
     }
 
     @Step("Wait for validation error message: {expectedError}")
