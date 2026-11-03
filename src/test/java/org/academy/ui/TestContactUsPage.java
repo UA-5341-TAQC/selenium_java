@@ -325,6 +325,8 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(placeholdersText.contains(SUBJECT_PLACEHOLDER_EN), "Placeholder for subject should contain translated text");
         softAssert.assertTrue(placeholdersText.contains(WRITE_MESSAGE_PLACEHOLDER_EN), "Placeholder for write message field should contain translated text");
 
+        softAssert.assertAll();
+
     }
 
     @Test(description = "Verify Contact Us page displays company address from Admin Panel field when EN is selected")
@@ -346,6 +348,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertNotEquals(detailsSection.getAddressText(),EXPECTED_ADDRESS_UA,
                 "The displayed address should not match the value saved in Адреса/UA.");
 
+        softAssert.assertAll();
     }
 
     @Test(description = "Verify EN language selection is retained when navigating between public pages")
@@ -362,7 +365,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
 
         // 1. Left Contact Information Section
         String infoTitle = detailsSection.getTitleText();
-        softAssert.assertEquals(detailsSection.isTextEnglish(infoTitle),
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoTitle),
                 "Information Section: The title contains CYRILLIC PATTERN");
 
         String infoDescription = detailsSection.getDescriptionText();
@@ -370,7 +373,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "Information Section: The Description text contains CYRILLIC PATTERN");
 
         String infoAddress = detailsSection.getAddressText();
-        softAssert.assertFalse(detailsSection.isTextEnglish(infoAddress),
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoAddress),
                 "Information Section: The contact address text contains CYRILLIC PATTERN");
 
         List<String> secondTitles = detailsSection.getSecondTitles();
@@ -388,7 +391,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "Form Section: All contact form fields and submit button should be displayed");
 
         String formSubmitButton = form.getSubmitButtonText();
-        softAssert.assertEquals(form.isTextEnglish(formSubmitButton),
+        softAssert.assertTrue(form.isTextEnglish(formSubmitButton),
                 "Form Section: Submit button text contains CYRILLIC PATTERN");
 
         List<String> placeholdersText = form.getFormPlaceholdersText();
@@ -423,13 +426,13 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "URL validation for contact us page failed");
 
         // 3. Left Contact Information Section
-        softAssert.assertEquals(detailsSection.isTextEnglish(infoTitle),
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoTitle),
                 "Information Section: The title contains CYRILLIC PATTERN");
 
         softAssert.assertTrue(detailsSection.isTextEnglish(infoDescription),
                 "Information Section: The Description text contains CYRILLIC PATTERN");
 
-        softAssert.assertFalse(detailsSection.isTextEnglish(infoAddress),
+        softAssert.assertTrue(detailsSection.isTextEnglish(infoAddress),
                 "Information Section: The contact address text contains CYRILLIC PATTERN");
 
         softAssert.assertTrue(detailsSection.isListTextEnglish(secondTitles),
@@ -442,12 +445,13 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(form.areAllFieldsDisplayed(),
                 "Form Section: All contact form fields and submit button should be displayed");
 
-        softAssert.assertEquals(form.isTextEnglish(formSubmitButton),
+        softAssert.assertTrue(form.isTextEnglish(formSubmitButton),
                 "Form Section: Submit button text contains CYRILLIC PATTERN");
 
         softAssert.assertTrue(form.isListTextEnglish(placeholdersText),
                 "Form Section: Placeholder text contains CYRILLIC PATTERN");
 
+        softAssert.assertAll();
     }
 
     @Test(description = "Verify threshold warning message for 'Повідомлення' field")
@@ -536,5 +540,6 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(errorValidationMessageSupport.contains(WARNING_INFO_MESSAGE_FILED),
                 "Support page:Message doesn't match template.");
 
+        softAssert.assertAll();
     }
 }

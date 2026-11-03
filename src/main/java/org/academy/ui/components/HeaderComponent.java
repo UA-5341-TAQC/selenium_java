@@ -19,13 +19,13 @@ public class HeaderComponent extends BaseComponent {
     private WebElement hippotherapyDropdownButton;
 
 
-    @FindBy(css = "a[href*='programs']")
+    @FindBy(css = "a[href*='/programs']")
     private WebElement programsLink;
 
     @FindBy(css = "a[href*='/reports']")
     private WebElement reportsLink;
 
-    @FindBy(css = "a[href*='stories']")
+    @FindBy(css = "a[href*='/stories']")
     private WebElement storiesLink;
 
     @FindBy(css = "a[href*='/support-us']")
