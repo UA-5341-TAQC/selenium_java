@@ -42,8 +42,11 @@ public class TestReportsPage extends BaseUiTestRunner {
         List<String> defaultLabelItems = reportsPage.getReportFileLabels();
         int defaultFilesCount = reportsPage.getReportFilesCount();
 
-        softAssert.assertTrue(defaultFilesCount == EXPECTED_ITEMS_COUNT,
-                "The default count is higher after then updated");
+        softAssert.assertEquals(defaultFilesCount, EXPECTED_ITEMS_COUNT,
+                "The default count doesn't match expected items count");
+
+        softAssert.assertTrue(reportsPage.isShowMoreReportsButtonDisplayed(),
+                "The default count doesn't match expected items count");
 
         reportsPage.clickShowMoreReportsButton();
         String buttonText = reportsPage.getShowMoreReportsButtonText();

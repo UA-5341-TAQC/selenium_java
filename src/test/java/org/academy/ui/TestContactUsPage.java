@@ -420,10 +420,11 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "The text in report file labels contains CYRILLIC PATTERN");
 
 
-        headerComponent.clickContactUs();
-        String nextCurrentUrl = String.valueOf(driver.getCurrentUrl());
-        softAssert.assertTrue(nextCurrentUrl.contains(CONTACT_US_PATH_EN),
-                "URL validation for contact us page failed");
+        ContactUsPage enContactUsPage = headerComponent.clickContactUs();
+        enContactUsPage.waitForContentText();
+        String updCurrentUrl = String.valueOf(driver.getCurrentUrl());
+        softAssert.assertTrue(updCurrentUrl.contains(CONTACT_US_PATH_EN),
+                "Updated URL validation for contact us page failed");
 
         // 3. Left Contact Information Section
         softAssert.assertTrue(detailsSection.isTextEnglish(infoTitle),
@@ -486,8 +487,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "Contact us page:Message doesn't match template.");
 
         //2.Contact Us pop-up on 'Програми' page
-        HeaderComponent headerDropdown =  headerComponent.clickHippotherapyDropdown();
-        ProgramsPage  programPage =  headerDropdown.clickPrograms();
+        ProgramsPage  programPage =  headerComponent.clickPrograms();
         ContactSectionComponent contactSection = programPage.getContactSection();
         ContactFormPopUpComponent formPopUp = contactSection.clickContactButton();
         softAssert.assertTrue(formPopUp.isDisplayed(),
