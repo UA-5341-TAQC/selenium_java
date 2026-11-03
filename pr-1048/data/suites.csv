@@ -1,0 +1,235 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","17477","Partners are grouped into separate sections","","Tue Nov 03 15:20:23 UTC 2026","passed","Tue Nov 03 15:20:41 UTC 2026","","Partners page content and layout","Partners are grouped into separate sections",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","12111","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled","","Tue Nov 03 15:20:55 UTC 2026","broken","Tue Nov 03 15:21:07 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled",""
+"Verify that Main page remains open after clicking View Programs","878","testMainPageRemainsOpen","Surefire suite","Tue Nov 03 15:17:42 UTC 2026","passed","Tue Nov 03 15:17:43 UTC 2026","org.academy.ui.HeadSectionTest","Surefire test","org.academy.ui.HeadSectionTest","testMainPageRemainsOpen"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","14400","Footer navigation links open the corresponding pages","","Tue Nov 03 15:20:00 UTC 2026","passed","Tue Nov 03 15:20:14 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","15670","Verify Main page remains open after opening Programs","","Tue Nov 03 15:20:15 UTC 2026","passed","Tue Nov 03 15:20:30 UTC 2026","","Main Page Head Section Functionality","Verify Main page remains open after opening Programs",""
+"","0","openFaqPage","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","broken","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","openFaqPage"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","18817","Verify 'Опублікувати' button enables only after 'Опис' passes validation in 'Що ми робимо' block","","Tue Nov 03 15:20:39 UTC 2026","broken","Tue Nov 03 15:20:58 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button enables only after 'Опис' passes validation in 'Що ми робимо' block",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","87429","Verify maximum character limit blocks further input on Subject and Message fields","","Tue Nov 03 15:19:21 UTC 2026","passed","Tue Nov 03 15:20:48 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify maximum character limit blocks further input on Subject and Message fields",""
+"","1150","Verify the Partners intro displays an image, heading and description","Surefire suite","Tue Nov 03 15:15:49 UTC 2026","passed","Tue Nov 03 15:15:50 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testIntroSectionContent"
+"","1074","Verify footer responsiveness at desktop, tablet, and mobile viewports","Surefire suite","Tue Nov 03 15:18:50 UTC 2026","failed","Tue Nov 03 15:18:51 UTC 2026","org.academy.ui.TestFooter","Surefire test","org.academy.ui.TestFooter","testFooterResponsiveLayout"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","10953","Verify social media links navigation URLs and target attributes","","Tue Nov 03 15:19:23 UTC 2026","passed","Tue Nov 03 15:19:34 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify social media links navigation URLs and target attributes",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","9850","Quote section displays partnership and support buttons","","Tue Nov 03 15:20:26 UTC 2026","passed","Tue Nov 03 15:20:36 UTC 2026","","Partners page content and layout","Quote section displays partnership and support buttons",""
+"","237","TC #839: Footer displays the expected email and phone number","Surefire suite","Tue Nov 03 15:18:36 UTC 2026","passed","Tue Nov 03 15:18:36 UTC 2026","org.academy.ui.TestFooter","Surefire test","org.academy.ui.TestFooter","testFooterContactInformation"
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","11741","Closing the unchanged Add category modal does not ask for confirmation","","Tue Nov 03 15:19:09 UTC 2026","broken","Tue Nov 03 15:19:21 UTC 2026","","Team categories in the admin panel","Closing the unchanged Add category modal does not ask for confirmation",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","38876","Verify that the contact form accepts valid email addresses","","Tue Nov 03 15:19:36 UTC 2026","passed","Tue Nov 03 15:20:15 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"","35554","Verify threshold warning message for 'Повідомлення' field","Surefire suite","Tue Nov 03 15:17:02 UTC 2026","broken","Tue Nov 03 15:17:38 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testWarningMessageFiled"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","27127","Verify multiple FAQ pages can be selected and one selection removed","","Tue Nov 03 15:18:57 UTC 2026","passed","Tue Nov 03 15:19:24 UTC 2026","","Admin FAQ","Verify multiple FAQ pages can be selected and one selection removed",""
+"","936","Verify validation errors for under-minimum input in Subject and Message fields","Surefire suite","Tue Nov 03 15:17:00 UTC 2026","passed","Tue Nov 03 15:17:01 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testUnderMinimumInputValidationErrors"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17227","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:41 UTC 2026","passed","Tue Nov 03 15:19:58 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"Verify clicking the Down arrow moves the section one position lower","1337","testMoveSectionDown","Surefire suite","Tue Nov 03 15:18:27 UTC 2026","passed","Tue Nov 03 15:18:28 UTC 2026","org.academy.ui.TestHistoryPageAdmin","Surefire test","org.academy.ui.TestHistoryPageAdmin","testMoveSectionDown"
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","13237","Verify Head section is displayed correctly","","Tue Nov 03 15:20:13 UTC 2026","passed","Tue Nov 03 15:20:26 UTC 2026","","Main Page Head Section Functionality","Verify Head section is displayed correctly",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17419","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:49 UTC 2026","passed","Tue Nov 03 15:20:06 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","11737","Min length error and clean-up icon in the ""Назва"" field","","Tue Nov 03 15:18:57 UTC 2026","broken","Tue Nov 03 15:19:09 UTC 2026","","Team categories in the admin panel","Min length error and clean-up icon in the ""Назва"" field",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","13353","Verify the 'Опис' field is editable on the ""Люди"" tab and displays an accurate character counter","","Tue Nov 03 15:20:36 UTC 2026","passed","Tue Nov 03 15:20:49 UTC 2026","","Admin Who We Are Management","Verify the 'Опис' field is editable on the ""Люди"" tab and displays an accurate character counter",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","9763","Verify contacts form and details UI elements on the public Contact Us page","","Tue Nov 03 15:19:13 UTC 2026","passed","Tue Nov 03 15:19:23 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify contacts form and details UI elements on the public Contact Us page",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","10271","Intro section displays an image, title and description","","Tue Nov 03 15:20:26 UTC 2026","passed","Tue Nov 03 15:20:37 UTC 2026","","Partners page content and layout","Intro section displays an image, title and description",""
+"Verify 'Редагувати переклад' modal opens with the correct History structure and existing English translation","552","testTranslationModalContent","Surefire suite","Tue Nov 03 15:18:33 UTC 2026","passed","Tue Nov 03 15:18:34 UTC 2026","org.academy.ui.TestHistoryPageAdmin","Surefire test","org.academy.ui.TestHistoryPageAdmin","testTranslationModalContent"
+"","14321","Verify publish button state for every people card description","Surefire suite","Tue Nov 03 15:18:11 UTC 2026","passed","Tue Nov 03 15:18:26 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","Surefire test","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardDescriptionValidationAndPublishState"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","12722","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page","","Tue Nov 03 15:20:57 UTC 2026","broken","Tue Nov 03 15:21:10 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page",""
+"","921","Verify contacts form UI elements on the public 'Зв'язатися' web-page","Surefire suite","Tue Nov 03 15:16:22 UTC 2026","passed","Tue Nov 03 15:16:23 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testContactsFormUiElements"
+"","5900","TC #838: Footer navigation links open the corresponding pages","Surefire suite","Tue Nov 03 15:18:43 UTC 2026","passed","Tue Nov 03 15:18:49 UTC 2026","org.academy.ui.TestFooter","Surefire test","org.academy.ui.TestFooter","testFooterNavigationLinks"
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","12353","Partner profiles are arranged from left to right","","Tue Nov 03 15:20:24 UTC 2026","passed","Tue Nov 03 15:20:36 UTC 2026","","Partners page content and layout","Partner profiles are arranged from left to right",""
+"","1753","Verify 'Тема звернення' field length validation (min/max boundaries)","Surefire suite","Tue Nov 03 15:16:57 UTC 2026","passed","Tue Nov 03 15:16:59 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testSubjectFieldLengthValidationBoundaries"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","18326","Verify that the contact form is available and accepts valid input","","Tue Nov 03 15:19:15 UTC 2026","passed","Tue Nov 03 15:19:33 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form is available and accepts valid input",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","12335","Min length error and clean-up icon in the ""Опис"" field","","Tue Nov 03 15:18:57 UTC 2026","broken","Tue Nov 03 15:19:09 UTC 2026","","Team categories in the admin panel","Min length error and clean-up icon in the ""Опис"" field",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","26289","Closing the modal with a non-empty ""Назва"" field asks for confirmation","","Tue Nov 03 15:19:09 UTC 2026","broken","Tue Nov 03 15:19:36 UTC 2026","","Team categories in the admin panel","Closing the modal with a non-empty ""Назва"" field asks for confirmation",""
+"","835","Verify every partner profile has a loaded image and description within its section","Surefire suite","Tue Nov 03 15:15:52 UTC 2026","passed","Tue Nov 03 15:15:52 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testPartnerProfilesContent"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","13610","Verify confirmation pop-up is displayed when publishing changes in the ""Люди"" block","","Tue Nov 03 15:20:48 UTC 2026","broken","Tue Nov 03 15:21:02 UTC 2026","","Admin Who We Are Management","Verify confirmation pop-up is displayed when publishing changes in the ""Люди"" block",""
+"","265","Verify the quote section displays Become a Partner and Donate buttons","Surefire suite","Tue Nov 03 15:15:59 UTC 2026","passed","Tue Nov 03 15:15:59 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testQuoteSectionButtons"
+"","26504","Verify 'Повідомлення' field length validation (min/max boundaries)","Surefire suite","Tue Nov 03 15:16:29 UTC 2026","passed","Tue Nov 03 15:16:55 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testMessageFieldLengthValidationBoundaries"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","36011","Verify the content display in the ""Кого підтримуємо"" tab","","Tue Nov 03 15:20:30 UTC 2026","failed","Tue Nov 03 15:21:06 UTC 2026","","Admin Who We Are Management","Verify the content display in the ""Кого підтримуємо"" tab",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","14023","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:53 UTC 2026","passed","Tue Nov 03 15:20:07 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","25114","Verify valid question and answer lengths are accepted and counters updated","","Tue Nov 03 15:18:57 UTC 2026","failed","Tue Nov 03 15:19:22 UTC 2026","","Admin FAQ","Verify valid question and answer lengths are accepted and counters updated",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","12330","Clean-up icon follows focus and clears the ""Опис"" field","","Tue Nov 03 15:18:57 UTC 2026","broken","Tue Nov 03 15:19:09 UTC 2026","","Team categories in the admin panel","Clean-up icon follows focus and clears the ""Опис"" field",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","13390","Verify confirmation popup is displayed after clicking the enabled ""Опублікувати"" button in ""Кого підтримуємо"" block","","Tue Nov 03 15:20:49 UTC 2026","broken","Tue Nov 03 15:21:03 UTC 2026","","Admin Who We Are Management","Verify confirmation popup is displayed after clicking the enabled ""Опублікувати"" button in ""Кого підтримуємо"" block",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","14275","Verify that the contact form rejects invalid email addresses","","Tue Nov 03 15:19:35 UTC 2026","passed","Tue Nov 03 15:19:50 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","26569","Closing the modal with a non-empty ""Опис"" field asks for confirmation","","Tue Nov 03 15:19:09 UTC 2026","broken","Tue Nov 03 15:19:36 UTC 2026","","Team categories in the admin panel","Closing the modal with a non-empty ""Опис"" field asks for confirmation",""
+"","11357","Verify EN language selection is retained when navigating between public pages","Surefire suite","Tue Nov 03 15:16:09 UTC 2026","broken","Tue Nov 03 15:16:21 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testContactPageRevisitEN"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","33946","Verify ""Повідомлення"" field minimum length validation boundaries","","Tue Nov 03 15:19:19 UTC 2026","passed","Tue Nov 03 15:19:53 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify ""Повідомлення"" field minimum length validation boundaries",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","11531","Verify ""Тема звернення"" field minimum length validation boundaries","","Tue Nov 03 15:19:19 UTC 2026","passed","Tue Nov 03 15:19:30 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify ""Тема звернення"" field minimum length validation boundaries",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","19385","Verify ""Опис"" field is editable on the ""Команда"" tab","","Tue Nov 03 15:20:36 UTC 2026","broken","Tue Nov 03 15:20:55 UTC 2026","","Admin Who We Are Management","Verify ""Опис"" field is editable on the ""Команда"" tab",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17074","Verify space management of the ""Опис"" field in the ""Команда"" block","","Tue Nov 03 15:20:42 UTC 2026","broken","Tue Nov 03 15:20:59 UTC 2026","","Admin Who We Are Management","Verify space management of the ""Опис"" field in the ""Команда"" block",""
+"","1338","Verify partner profiles are grouped into separate sections with headings and descriptions","Surefire suite","Tue Nov 03 15:15:56 UTC 2026","passed","Tue Nov 03 15:15:58 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testPartnerSectionsGrouping"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","7461","Footer displays contact information","","Tue Nov 03 15:20:08 UTC 2026","passed","Tue Nov 03 15:20:16 UTC 2026","","Main Page - Footer Section","Footer displays contact information",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","13320","Verify ""Опублікувати"" button is disabled in the ""Команда"" block when no changes are made","","Tue Nov 03 15:20:29 UTC 2026","passed","Tue Nov 03 15:20:42 UTC 2026","","Admin Who We Are Management","Verify ""Опублікувати"" button is disabled in the ""Команда"" block when no changes are made",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17590","Verify 'Опис' field of 'Що ми робимо' block stops at 300 characters by typing and pasting","","Tue Nov 03 15:20:41 UTC 2026","broken","Tue Nov 03 15:20:58 UTC 2026","","Admin Who We Are Management","Verify 'Опис' field of 'Що ми робимо' block stops at 300 characters by typing and pasting",""
+"","0","Verify typing is blocked in 'Питання' and 'Відповідь' fields once the character limit is reached","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testCharacterLimitBlocksTyping"
+"","328","Verify social media links navigation and target attributes on Contact Us page","Surefire suite","Tue Nov 03 15:16:56 UTC 2026","passed","Tue Nov 03 15:16:56 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testSocialMediaLinksAttributes"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","22430","Verify that the system stores the defaulted pre-uploaded image in the ""Команда"" block","","Tue Nov 03 15:20:30 UTC 2026","failed","Tue Nov 03 15:20:53 UTC 2026","","Admin Who We Are Management","Verify that the system stores the defaulted pre-uploaded image in the ""Команда"" block",""
+"","3827","TC #840: Footer social media links open company profiles in new tabs","Surefire suite","Tue Nov 03 15:18:52 UTC 2026","passed","Tue Nov 03 15:18:56 UTC 2026","org.academy.ui.TestFooter","Surefire test","org.academy.ui.TestFooter","testFooterSocialMediaLinks"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","11459","Footer opens a social media profile in a new tab","","Tue Nov 03 15:20:12 UTC 2026","passed","Tue Nov 03 15:20:24 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","16011","Footer navigation links open the corresponding pages","","Tue Nov 03 15:20:07 UTC 2026","passed","Tue Nov 03 15:20:23 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"","10348","Verify that the PDF-file list collapses after clicking the ""Показати менше"" button","Surefire suite","Tue Nov 03 15:17:48 UTC 2026","broken","Tue Nov 03 15:17:58 UTC 2026","org.academy.ui.TestReportsPage","Surefire test","org.academy.ui.TestReportsPage","testShowLessReportsButton"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","18542","Verify validation errors for simultaneous under-minimum input in Subject and Message fields","","Tue Nov 03 15:19:22 UTC 2026","passed","Tue Nov 03 15:19:41 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify validation errors for simultaneous under-minimum input in Subject and Message fields",""
+"","1986","Verify that the contact form is available on the Зв’язатися page and accepts valid input","Surefire suite","Tue Nov 03 15:16:06 UTC 2026","passed","Tue Nov 03 15:16:08 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testContactFormAvailableAndAcceptsInput"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","15525","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:44 UTC 2026","passed","Tue Nov 03 15:20:00 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"Verify that selecting a Team category automatically populates its description","994","testCategoryDescriptionAutoPopulation","Surefire suite","Tue Nov 03 15:18:08 UTC 2026","passed","Tue Nov 03 15:18:09 UTC 2026","org.academy.ui.TestTeamPageAdmin","Surefire test","org.academy.ui.TestTeamPageAdmin","testCategoryDescriptionAutoPopulation"
+"Verify that View Programs opens Programs page in a new tab","975","testViewProgramsOpensNewTab","Surefire suite","Tue Nov 03 15:17:44 UTC 2026","passed","Tue Nov 03 15:17:44 UTC 2026","org.academy.ui.HeadSectionTest","Surefire test","org.academy.ui.HeadSectionTest","testViewProgramsOpensNewTab"
+"","1183","Verify partner profiles run left-to-right within rows and wrap below the previous row","Surefire suite","Tue Nov 03 15:15:54 UTC 2026","passed","Tue Nov 03 15:15:55 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testPartnerProfilesHorizontalLayout"
+"","1","Verify the 'Додати питання' modal closes without confirmation when no changes were made","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testAddQuestionModalClosesWithoutConfirmationWhenNoChanges"
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","16856","Every partner profile has an image and description","","Tue Nov 03 15:20:22 UTC 2026","passed","Tue Nov 03 15:20:39 UTC 2026","","Partners page content and layout","Every partner profile has an image and description",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","12542","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled","","Tue Nov 03 15:20:53 UTC 2026","broken","Tue Nov 03 15:21:05 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","12314","Clean-up icon follows focus and clears the ""Назва"" field","","Tue Nov 03 15:18:57 UTC 2026","broken","Tue Nov 03 15:19:09 UTC 2026","","Team categories in the admin panel","Clean-up icon follows focus and clears the ""Назва"" field",""
+"","928","Verify the order of sections on the public Partners page","Surefire suite","Tue Nov 03 15:16:00 UTC 2026","passed","Tue Nov 03 15:16:01 UTC 2026","org.academy.ui.TestPartnersPage","Surefire test","org.academy.ui.TestPartnersPage","testSectionsOrder"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17358","Footer opens a social media profile in a new tab","","Tue Nov 03 15:20:09 UTC 2026","passed","Tue Nov 03 15:20:26 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"Verify language dropdown in 'Редагувати переклад' modal window","580","testTranslationLanguageDropdown","Surefire suite","Tue Nov 03 15:18:31 UTC 2026","passed","Tue Nov 03 15:18:32 UTC 2026","org.academy.ui.TestHistoryPageAdmin","Surefire test","org.academy.ui.TestHistoryPageAdmin","testTranslationLanguageDropdown"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","19578","Verify that the contact form rejects invalid email addresses","","Tue Nov 03 15:19:34 UTC 2026","passed","Tue Nov 03 15:19:53 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"Verify clicking the Up arrow moves the section one position higher","1348","testMoveSectionUp","Surefire suite","Tue Nov 03 15:18:29 UTC 2026","passed","Tue Nov 03 15:18:30 UTC 2026","org.academy.ui.TestHistoryPageAdmin","Surefire test","org.academy.ui.TestHistoryPageAdmin","testMoveSectionUp"
+"","4442","Verify footer is displayed with the same structure on every public page","Surefire suite","Tue Nov 03 15:18:37 UTC 2026","passed","Tue Nov 03 15:18:42 UTC 2026","org.academy.ui.TestFooter","Surefire test","org.academy.ui.TestFooter","testFooterIsConsistentAcrossPublicPages"
+"","701","Verify the newsletter subscription block is not displayed in the footer","Surefire suite","Tue Nov 03 15:18:01 UTC 2026","passed","Tue Nov 03 15:18:01 UTC 2026","org.academy.ui.TestFooterContent","Surefire test","org.academy.ui.TestFooterContent","testNewsletterBlockIsNotDisplayed"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","11260","Verify copy email and phone number buttons functionality","","Tue Nov 03 15:19:24 UTC 2026","passed","Tue Nov 03 15:19:35 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify copy email and phone number buttons functionality",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","37402","Verify that the contact form accepts valid email addresses","","Tue Nov 03 15:19:36 UTC 2026","passed","Tue Nov 03 15:20:13 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","15266","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:54 UTC 2026","passed","Tue Nov 03 15:20:09 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","18438","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:50 UTC 2026","passed","Tue Nov 03 15:20:08 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","36729","Verify that the contact form accepts valid email addresses","","Tue Nov 03 15:19:35 UTC 2026","passed","Tue Nov 03 15:20:12 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"","1","Verify unsaved changes pop-up displays after click the X icon in the 'Додати питання' modal","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testUnsavedChangesPopUpOnCloseAddQuestionModal"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","22319","Verify entered values are preserved when discarding changes is declined","","Tue Nov 03 15:18:57 UTC 2026","passed","Tue Nov 03 15:19:19 UTC 2026","","Admin FAQ","Verify entered values are preserved when discarding changes is declined",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","14062","Verify that the contact form rejects invalid email addresses","","Tue Nov 03 15:19:30 UTC 2026","passed","Tue Nov 03 15:19:44 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","18929","Verify validation messages for 'Опис' field in 'Що ми робимо' block","","Tue Nov 03 15:20:38 UTC 2026","broken","Tue Nov 03 15:20:57 UTC 2026","","Admin Who We Are Management","Verify validation messages for 'Опис' field in 'Що ми робимо' block",""
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","14403","Verify View Programs opens Programs page in a new tab","","Tue Nov 03 15:20:14 UTC 2026","passed","Tue Nov 03 15:20:29 UTC 2026","","Main Page Head Section Functionality","Verify View Programs opens Programs page in a new tab",""
+"","1069","Verify the public Team page objects can read categories and member cards","Surefire suite","Tue Nov 03 15:16:02 UTC 2026","passed","Tue Nov 03 15:16:03 UTC 2026","org.academy.ui.TestTeamPage","Surefire test","org.academy.ui.TestTeamPage","testTeamPagePom"
+"","746","Verify Contact Us page displays company address from Admin Panel field when EN is selected","Surefire suite","Tue Nov 03 15:16:04 UTC 2026","passed","Tue Nov 03 15:16:05 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testContactAddressEN"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","11893","Verify 'Опублікувати' button is disabled when Admin enters the ""Люди"" tab","","Tue Nov 03 15:20:26 UTC 2026","passed","Tue Nov 03 15:20:38 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button is disabled when Admin enters the ""Люди"" tab",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","12581","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page","","Tue Nov 03 15:20:58 UTC 2026","broken","Tue Nov 03 15:21:10 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","15693","Verify that the contact form rejects invalid email addresses","","Tue Nov 03 15:19:33 UTC 2026","passed","Tue Nov 03 15:19:49 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","15174","Footer navigation links open the corresponding pages","","Tue Nov 03 15:19:58 UTC 2026","passed","Tue Nov 03 15:20:13 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"","41","testAdminPanel","Surefire suite","Tue Nov 03 15:18:05 UTC 2026","passed","Tue Nov 03 15:18:05 UTC 2026","org.academy.ui.TestAdminPage","Surefire test","org.academy.ui.TestAdminPage","testAdminPanel"
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","26641","Confirming the close discards the entered category values","","Tue Nov 03 15:19:09 UTC 2026","broken","Tue Nov 03 15:19:35 UTC 2026","","Team categories in the admin panel","Confirming the close discards the entered category values",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","10637","Page sections follow the expected order","","Tue Nov 03 15:20:16 UTC 2026","passed","Tue Nov 03 15:20:26 UTC 2026","","Partners page content and layout","Page sections follow the expected order",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","21682","Verify entered values are discarded when modal closure is confirmed","","Tue Nov 03 15:18:57 UTC 2026","passed","Tue Nov 03 15:19:19 UTC 2026","","Admin FAQ","Verify entered values are discarded when modal closure is confirmed",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","17763","Verify publication is enabled when all required FAQ fields are valid","","Tue Nov 03 15:18:57 UTC 2026","passed","Tue Nov 03 15:19:15 UTC 2026","","Admin FAQ","Verify publication is enabled when all required FAQ fields are valid",""
+"","1409","Verify Contact Us page displays all localized content in English after selecting","Surefire suite","Tue Nov 03 15:16:26 UTC 2026","passed","Tue Nov 03 15:16:27 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testLocalizationPageEN"
+"","0","Verify if the deletion of a published question can be cancelled","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testDeletionOfPublishedQuestionCanBeCancelled"
+"","766","Verify EN localization of the footer","Surefire suite","Tue Nov 03 15:18:02 UTC 2026","passed","Tue Nov 03 15:18:03 UTC 2026","org.academy.ui.TestMainPage","Surefire test","org.academy.ui.TestMainPage","testFooterEN"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","16884","Footer opens a social media profile in a new tab","","Tue Nov 03 15:20:13 UTC 2026","passed","Tue Nov 03 15:20:30 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"Verify Add Category option is present in the context menu and opens the Add Category modal","725","testAddCategoryModal","Surefire suite","Tue Nov 03 15:18:06 UTC 2026","passed","Tue Nov 03 15:18:07 UTC 2026","org.academy.ui.TestTeamPageAdmin","Surefire test","org.academy.ui.TestTeamPageAdmin","testAddCategoryModal"
+"Verify that the Head section is displayed correctly","483","testHeadSectionIsDisplayed","Surefire suite","Tue Nov 03 15:17:40 UTC 2026","passed","Tue Nov 03 15:17:41 UTC 2026","org.academy.ui.HeadSectionTest","Surefire test","org.academy.ui.HeadSectionTest","testHeadSectionIsDisplayed"
+"Verify that Delete Category modal opens with the correct elements and button states","686","testDeleteCategoryModal","Surefire suite","Tue Nov 03 15:18:10 UTC 2026","passed","Tue Nov 03 15:18:10 UTC 2026","org.academy.ui.TestTeamPageAdmin","Surefire test","org.academy.ui.TestTeamPageAdmin","testDeleteCategoryModal"
+"","629","Verify copy email and phone number buttons functionality on Contact Us page","Surefire suite","Tue Nov 03 15:16:24 UTC 2026","passed","Tue Nov 03 15:16:25 UTC 2026","org.academy.ui.TestContactUsPage","Surefire test","org.academy.ui.TestContactUsPage","testCopyEmailAndPhoneButtons"
+"","0","Verify if the FAQ section can be opened","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testFaqSectionCanBeOpened"
+"","1464","Verify that all monetary values on the 'Звітність' page are shown in UAH when the language drop-down is set to Ukrainian (UKR)","Surefire suite","Tue Nov 03 15:17:46 UTC 2026","passed","Tue Nov 03 15:17:47 UTC 2026","org.academy.ui.TestReportsPage","Surefire test","org.academy.ui.TestReportsPage","testReportsNavigationPages"
+"","139","Open and close the contact form on the Programs page","Surefire suite","Tue Nov 03 15:17:39 UTC 2026","passed","Tue Nov 03 15:17:39 UTC 2026","org.academy.ui.TestProgramsPage","Surefire test","org.academy.ui.TestProgramsPage","testContactFromProgramsPage"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","16154","Verify saving a draft is enabled with a page and valid question only","","Tue Nov 03 15:18:57 UTC 2026","passed","Tue Nov 03 15:19:13 UTC 2026","","Admin FAQ","Verify saving a draft is enabled with a page and valid question only",""
+"","0","Verify minimum length validation in 'Питання' and 'Відповідь' fields in 'Додати питання' modal","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testMinimumLengthValidation"
+"","1","Verify tooltip title and assigned web-pages list for Published questions","Surefire suite","Tue Nov 03 15:18:35 UTC 2026","skipped","Tue Nov 03 15:18:35 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","Surefire test","org.academy.ui.admin.TestAdminFaqPage","testPublishedQuestionTooltip"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","16057","Footer navigation links open the corresponding pages","","Tue Nov 03 15:20:06 UTC 2026","passed","Tue Nov 03 15:20:22 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"","269","Verify moving text bar across the footer","Surefire suite","Tue Nov 03 15:17:59 UTC 2026","passed","Tue Nov 03 15:18:00 UTC 2026","org.academy.ui.TestFooterContent","Surefire test","org.academy.ui.TestFooterContent","testFooterMovingTextBar"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","21063","Verify the character counter updates correctly on 'Люди' tab when entering special characters and pasting text","","Tue Nov 03 15:20:37 UTC 2026","broken","Tue Nov 03 15:20:58 UTC 2026","","Admin Who We Are Management","Verify the character counter updates correctly on 'Люди' tab when entering special characters and pasting text",""
