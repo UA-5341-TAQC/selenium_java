@@ -3,6 +3,7 @@ package org.academy.ui.pages.Admin;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -142,9 +143,14 @@ public class WhoWeAreAdminPage extends BaseAdminPage {
         });
     }
 
+    @Step("Wait until Who We Are Admin page is loaded")
+    public void waitForLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(mainSectionElement));
+    }
+
     @Step("Verify Who We Are Admin page is displayed")
     public boolean isPageDisplayed() {
-        return wait.until(driver -> mainSectionElement.isDisplayed());
+        return mainSectionElement.isDisplayed();
     }
 
     // Main Section Methods

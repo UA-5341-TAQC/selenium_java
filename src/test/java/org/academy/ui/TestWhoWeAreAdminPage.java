@@ -21,6 +21,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     public void testPeopleCardDescriptionValidationAndPublishState() {
         WhoWeAreAdminPage page = new WhoWeAreAdminPage(driver).open(testEnvProvider.getBaseUrl());
 
+        page.waitForLoaded();
         Assert.assertTrue(page.isPageDisplayed(), "Who We Are Admin page must be displayed");
         page.selectCategory("Люди");
         Assert.assertEquals(page.getCardsCount(), 4, "People section must contain four cards");
