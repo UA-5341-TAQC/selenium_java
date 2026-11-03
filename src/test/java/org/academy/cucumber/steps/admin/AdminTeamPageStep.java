@@ -127,7 +127,7 @@ public class AdminTeamPageStep {
         confirmation = categoryModal.requestCloseWithConfirmation();
     }
 
-    @Then("the {string} confirmation pop-up is displayed")
+    @Then("the Add category {string} confirmation pop-up is displayed")
     public void verifyConfirmationText(String expectedText) {
         Assert.assertEquals(confirmation.getTitle().replaceAll("\\s+", " "), expectedText,
                 "Unsaved changes pop-up text is wrong.");
@@ -140,7 +140,7 @@ public class AdminTeamPageStep {
         confirmation.confirm();
     }
 
-    @Then("the confirmation pop-up is closed")
+    @Then("the Add category confirmation pop-up is closed")
     public void verifyConfirmationClosed() {
         Assert.assertTrue(categoryModal.isConfirmationClosed(), "The confirmation pop-up should close.");
     }
