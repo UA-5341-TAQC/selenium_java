@@ -1,1 +1,0 @@
-Scenario started: Footer opens a social media profile in a new tab

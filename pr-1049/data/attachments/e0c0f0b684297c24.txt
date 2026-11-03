@@ -1,1 +1,0 @@
-Scenario started: Verify 'Опис' field of 'Що ми робимо' block stops at 300 characters by typing and pasting
