@@ -168,3 +168,115 @@ Feature: Admin Who We Are Management
       | tab          | unpublished_text                        |
       | Люди         | Неопубліковані зміни блоку Люди         |
       | Що ми робимо | Неопублікований опис місії Що ми робимо |
+
+  @Issue834
+  Scenario: Verify character counters of title and description
+    Given the admin navigates to the "Хто ми" page
+    When the admin selects the "Основне" tab
+    Then the title counter should be "14/50"
+    And the description counter should be "278/300"
+    When the admin saves the original title
+    And the admin saves the original description
+    And the admin enters 2 characters in the title
+    Then the title counter should be "16/50"
+    When the admin clears the title
+    Then the title counter should be "0/50"
+    When the admin enters 51 characters in the title
+    Then the title counter should be "50/50"
+    And the title should contain 50 characters
+    When the admin reloads the page without publishing
+    Then the original title should be restored
+    And the original description should be restored
+    And the title counter should be "14/50"
+    And the description counter should be "278/300"
+
+  @Issue835
+  Scenario: Verify editable fields remain recoverable without publishing
+    Given the admin navigates to the "Хто ми" page
+    When the admin selects the "Основне" tab
+    And the admin saves the original title
+    And the admin clears the title
+    Then the title counter should be "0/50"
+    And the title validation message should be "Заголовок обов'язковий"
+    And the "Опублікувати" button is disabled
+    When the admin enters 51 characters in the title
+    Then the title counter should be "50/50"
+    And the title should contain 50 characters
+    When the admin reloads the page without publishing
+    Then the original title should be restored
+
+  @Issue874
+  Scenario: Verify min/max boundary values for title and description
+    Given the admin navigates to the "Хто ми" page
+    When the admin selects the "Основне" tab
+    And the admin clears the title
+    And the admin clears the main description
+    And the admin enters 10 characters in the title
+    And the admin enters 10 characters in the description
+    Then the title counter should be "10/50"
+    And the description counter should be "10/300"
+    And no title validation error should be displayed
+    And no description validation error should be displayed
+    And the "Опублікувати" button is enabled
+    When the admin enters 40 characters in the title
+    And the admin enters 290 characters in the description
+    Then the title counter should be "50/50"
+    And the description counter should be "300/300"
+    And no title validation error should be displayed
+    And no description validation error should be displayed
+    And the "Опублікувати" button is enabled
+
+  @Issue875
+  Scenario: Verify minimum length validation for title and description
+    Given the admin navigates to the "Хто ми" page
+    When the admin selects the "Основне" tab
+    And the admin clears the title
+    And the admin clears the main description
+    And the admin enters 9 characters in the title
+    Then the title counter should be "9/50"
+    And the title validation message should be "Не менше 10 символів"
+    When the admin applies bold formatting to the title
+    Then the title counter should be "9/50"
+    And the title validation message should be "Не менше 10 символів"
+    When the admin applies italic formatting to the title
+    Then the title counter should be "9/50"
+    And the title validation message should be "Не менше 10 символів"
+    When the admin enters 9 characters in the description
+    Then the description counter should be "9/300"
+    And the description validation message should be "Не менше 10 символів"
+    When the admin applies bold formatting to the description
+    Then the description counter should be "9/300"
+    And the description validation message should be "Не менше 10 символів"
+    When the admin applies italic formatting to the description
+    Then the description counter should be "9/300"
+    And the description validation message should be "Не менше 10 символів"
+    And the "Опублікувати" button is disabled
+
+  @Issue876
+  Scenario: Verify maximum character limits for title and description
+    Given the admin navigates to the "Хто ми" page
+    When the admin selects the "Основне" tab
+    And the admin clears the title
+    And the admin clears the main description
+    When the admin enters 50 characters in the title
+    Then the title counter should be "50/50"
+    And the title should contain 50 characters
+    When the admin enters 1 characters in the title
+    Then the title counter should be "50/50"
+    And the title should contain 50 characters
+    When the admin enters 300 characters in the description
+    Then the description counter should be "300/300"
+    And the description should contain 300 characters
+    When the admin enters 1 characters in the description
+    Then the description counter should be "300/300"
+    And the description should contain 300 characters
+    When the admin clears the title
+    And the admin clears the main description
+    Then the title counter should be "0/50"
+    And the description counter should be "0/300"
+    When the admin pastes 51 characters into the title
+    Then the title counter should be "50/50"
+    And the title should contain the first 50 pasted characters
+    When the admin pastes 301 characters into the description
+    Then the description counter should be "300/300"
+    And the description should contain the first 300 pasted characters

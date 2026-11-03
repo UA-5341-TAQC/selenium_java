@@ -21,6 +21,12 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @FindBy(css = ".input-error, p.error, [data-testid='image-error']")
     protected List<WebElement> errorElements;
 
+    @FindBy(css = "button[aria-label='Bold']")
+    protected WebElement boldButton;
+
+    @FindBy(css = "button[aria-label='Italic']")
+    protected WebElement italicButton;
+
     public WhoWeAreDescriptionEditorComponent(WebElement rootElement) {
         super(rootElement);
     }
@@ -129,6 +135,22 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @Step("Wait for validation error message to disappear")
     public WhoWeAreDescriptionEditorComponent waitForErrorMessageToDisappear() {
         wait.until(d -> !hasErrorMessage());
+        return this;
+    }
+
+    @Step("Apply bold formatting")
+    public WhoWeAreDescriptionEditorComponent applyBold() {
+        click(editorElement);
+        editorElement.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        click(boldButton);
+        return this;
+    }
+
+    @Step("Apply italic formatting")
+    public WhoWeAreDescriptionEditorComponent applyItalic() {
+        click(editorElement);
+        editorElement.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        click(italicButton);
         return this;
     }
 }

@@ -41,6 +41,12 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
     @FindBy(xpath = "//button[contains(@class,'button')][normalize-space()='Опублікувати'] | //button[@type='submit'][normalize-space()='Опублікувати']")
     private WebElement publishButton;
 
+    @FindBy(css = ".content-wrapper-title")
+    private WebElement titleContainer;
+
+    @FindBy(css = ".content-wrapper-description")
+    private WebElement descriptionContainer;
+
     public WhoWeArePageAdmin(WebDriver driver) {
         super(driver);
     }
@@ -102,6 +108,20 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
         getCategoryBar().selectTab(tabName);
         waitUntilVisible(mainSection);
         return this;
+    }
+
+    @Step("Get title editor")
+    public WhoWeAreDescriptionEditorComponent getTitleEditor() {
+        return new WhoWeAreDescriptionEditorComponent(
+                waitUntilVisible(titleContainer)
+        );
+    }
+
+    @Step("Get description editor")
+    public WhoWeAreDescriptionEditorComponent getMainDescriptionEditor() {
+        return new WhoWeAreDescriptionEditorComponent(
+                waitUntilVisible(descriptionContainer)
+        );
     }
 
     @Step("Get cards count")
