@@ -7,7 +7,6 @@ import org.academy.cucumber.hooks.CucumberHook;
 import org.academy.ui.components.admin.whoweare.WhoWeAreCardComponent;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
-import org.academy.ui.pages.Admin.WhoWeAreAdminPage;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
