@@ -5,7 +5,6 @@ import io.qameta.allure.Story;
 import org.academy.ui.components.ContactFormCardComponent;
 import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.testrunners.BaseUiTestRunner;
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -91,32 +90,12 @@ public class TestContactFormEmailValidation extends BaseUiTestRunner {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(form.getEmailValue(), email, "Entered e-mail should be displayed in the field");
 
-        submitForm(form);
+        form.submitForm();
 
-        softAssert.assertTrue(waitForInvalidEmailError(form),
+        softAssert.assertTrue(form.isValidationErrorDisplayed(INVALID_EMAIL_ERROR),
                 "Error '" + INVALID_EMAIL_ERROR + "' should be displayed for: " + email);
         softAssert.assertFalse(contactUsPage.isToastPresent(),
                 "Form must not be submitted for: " + email);
         softAssert.assertAll();
-    }
-
-    // The submit button can stay disabled in an automated browser (the Cloudflare Turnstile token is
-    // not issued), so when it is disabled the form is submitted the same way the button does it.
-    private void submitForm(ContactFormCardComponent form) {
-        if (form.isSubmitButtonEnabled()) {
-            form.clickSubmit();
-        } else {
-            ((JavascriptExecutor) driver).executeScript(
-                    "document.querySelector(\"input[name='email']\").form.requestSubmit();");
-        }
-    }
-
-    private boolean waitForInvalidEmailError(ContactFormCardComponent form) {
-        try {
-            form.waitForValidationError(INVALID_EMAIL_ERROR);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
     }
 }

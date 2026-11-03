@@ -2,6 +2,7 @@ package org.academy.ui.components;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -29,6 +30,9 @@ public class ContactFormCardComponent extends BaseComponent {
 
     @FindBy(css = "input[placeholder], textarea[placeholder]")
     private List<WebElement> placeholdersText;
+
+    @FindBy(css = "span[role='status'], [class*='contact-form-message--info']")
+    private List<WebElement> validationMessage;
 
     public ContactFormCardComponent(WebElement element) {
         super(element);
@@ -116,6 +120,18 @@ public class ContactFormCardComponent extends BaseComponent {
         return this;
     }
 
+    // The submit button can stay disabled in an automated browser (the Cloudflare Turnstile token
+    // is not issued), so when it is disabled the form is submitted the same way the button does it.
+    @Step("Submit contact form")
+    public ContactFormCardComponent submitForm() {
+        if (isSubmitButtonEnabled()) {
+            clickSubmit();
+        } else {
+            js.executeScript("arguments[0].form.requestSubmit();", emailInput);
+        }
+        return this;
+    }
+
     @Step("Get list of validation error messages")
     public List<String> getValidationErrors() {
         return validationErrors.stream()
@@ -135,6 +151,16 @@ public class ContactFormCardComponent extends BaseComponent {
     public ContactFormCardComponent waitForValidationError(String expectedError) {
         wait.until(driver -> getValidationErrors().contains(expectedError));
         return this;
+    }
+
+    @Step("Check if validation error is displayed: {expectedError}")
+    public boolean isValidationErrorDisplayed(String expectedError) {
+        try {
+            waitForValidationError(expectedError);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     @Step("Wait for validation error to disappear: {expectedError}")
@@ -223,4 +249,34 @@ public class ContactFormCardComponent extends BaseComponent {
                 .toList();
     }
 
+    @Step("Check if all validation messages are displayed and not empty")
+    public boolean areValidationMessageDisplayed() {
+        if (validationMessage.isEmpty()) {
+            return false;
+        }
+
+        return validationMessage.stream()
+                .allMatch(element -> {
+                    try {
+                        return isDisplayed(element) && !element.getText().trim().isEmpty();
+                    } catch (StaleElementReferenceException e) {
+                        return false;
+                    }
+                });
+    }
+
+    @Step("Get value of validation message textarea")
+    public List<String> getValidationMessageText() {
+        return validationMessage.stream()
+                .filter(this::isDisplayed)
+                .map(element -> {
+                    try {
+                        return element.getText().trim();
+                    } catch (StaleElementReferenceException e) {
+                        return "";
+                    }
+                })
+                .filter(text -> !text.isEmpty())
+                .toList();
+    }
 }

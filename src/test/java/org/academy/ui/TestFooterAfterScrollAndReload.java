@@ -24,20 +24,22 @@ public class TestFooterAfterScrollAndReload extends BaseUiTestRunner {
     @Story("Footer")
     public void testFooterAfterScrollingAndReload() {
         driver.get(URI.create(testEnvProvider.getBaseUrl()).resolve(ABOUT_US_PATH).toString());
-        new AboutUsPage(driver).getFooter();
+        AboutUsPage aboutUsPage = new AboutUsPage(driver);
+        aboutUsPage.getFooter();
 
         for (int i = 0; i < 3; i++) {
-            scrollToBottom();
-            scrollToTop();
+            aboutUsPage.scrollToBottom();
+            aboutUsPage.scrollToTop();
         }
 
         SoftAssert softAssert = new SoftAssert();
-        scrollToBottom();
+        aboutUsPage.scrollToBottom();
         assertFooterIsCorrect(softAssert, "before reload");
 
         driver.navigate().refresh();
-        new AboutUsPage(driver).getFooter();
-        scrollToBottom();
+        aboutUsPage = new AboutUsPage(driver);
+        aboutUsPage.getFooter();
+        aboutUsPage.scrollToBottom();
         assertFooterIsCorrect(softAssert, "after reload");
 
         softAssert.assertAll();
@@ -67,13 +69,5 @@ public class TestFooterAfterScrollAndReload extends BaseUiTestRunner {
                         + "return f.getBoundingClientRect().top >= prev.getBoundingClientRect().bottom - 1;");
         softAssert.assertTrue(Boolean.TRUE.equals(notOverlapping),
                 "Footer should not overlap the page content " + moment);
-    }
-
-    private void scrollToBottom() {
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-    }
-
-    private void scrollToTop() {
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
     }
 }
