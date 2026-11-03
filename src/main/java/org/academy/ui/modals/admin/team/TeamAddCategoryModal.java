@@ -32,6 +32,8 @@ public class TeamAddCategoryModal extends BaseModal {
     private WebElement descriptionCounter;
     @FindBy(css = ".team-category-modal-save-button")
     private WebElement saveButton;
+    @FindBy(css = "button[aria-label='Close modal']")
+    private WebElement closeButton;
 
     // Знаходить відкриту модалку та ініціалізує її поля.
     public TeamAddCategoryModal(WebDriver driver) {
@@ -212,5 +214,12 @@ public class TeamAddCategoryModal extends BaseModal {
     public TeamAddCategoryModal clickCloseIcon() {
         requestClose();
         return this;
+    }
+
+    @Step("Close Add Team Category modal")
+    public TeamPageAdmin close() {
+        click(closeButton);
+        wait.until(ExpectedConditions.stalenessOf(rootElement));
+        return new TeamPageAdmin(driver);
     }
 }
