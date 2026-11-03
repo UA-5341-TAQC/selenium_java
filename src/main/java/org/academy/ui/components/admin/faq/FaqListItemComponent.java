@@ -16,6 +16,7 @@ import java.util.List;
 public class FaqListItemComponent extends BaseComponent {
 
     private static final By PUBLICATION_PAGES = By.cssSelector(".faq-actions-tooltip > span");
+    private static final By PUBLICATION_TITLE = By.cssSelector(".faq-actions-tooltip > b");
 
     @FindBy(css = ".faq-info-question > p")
     private WebElement question;
@@ -112,5 +113,20 @@ public class FaqListItemComponent extends BaseComponent {
         }
         scrollIntoView(target.rootElement);
         actions.dragAndDrop(dragHandles.get(0), target.rootElement).perform();
+    }
+
+    public boolean isDisplayed() {
+        return rootElement.isDisplayed();
+    }
+
+    @Step("Read FAQ publication tooltip title")
+    public String getPublicationTooltipTitle() {
+        if (!isInformationOpen()) {
+            scrollIntoView(informationButton);
+            click(informationButton);
+        }
+        String tooltipId = waitUntilAttributeNotBlank(informationButton, HtmlAttribute.ARIA_DESCRIBED_BY.getValue());
+        WebElement tooltip = waitUntilVisible(By.id(tooltipId));
+        return tooltip.findElement(PUBLICATION_TITLE).getText();
     }
 }

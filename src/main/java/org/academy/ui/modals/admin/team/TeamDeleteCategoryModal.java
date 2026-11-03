@@ -18,6 +18,14 @@ public class TeamDeleteCategoryModal extends BaseModal {
     private WebElement deleteButton;
     @FindBy(css = ".modal-footer .btn-secondary")
     private WebElement cancelButton;
+    @FindBy(css = ".modal-header-text")
+    private WebElement modalTitle;
+
+    @FindBy(css = "label[for='delete-category-select'] .required-field")
+    private WebElement requiredField;
+
+    @FindBy(css = "button[aria-label='Close modal']")
+    private WebElement closeButton;
 
     // Знаходить відкриту модалку та ініціалізує її поля.
     public TeamDeleteCategoryModal(WebDriver driver) {
@@ -71,5 +79,30 @@ public class TeamDeleteCategoryModal extends BaseModal {
             }
         }
         throw new org.openqa.selenium.NoSuchElementException("Category not found: " + name);
+    }
+
+    @Step("Get delete category modal title")
+    public String getModalTitle() {
+        return getText(modalTitle);
+    }
+
+    @Step("Check category field is clickable")
+    public boolean isCategoryClickable() {
+        return isElementClickable(category);
+    }
+
+    @Step("Check category field is required")
+    public boolean isCategoryRequired() {
+        return isDisplayed(requiredField);
+    }
+
+    @Step("Check cancel button is clickable")
+    public boolean isCancelClickable() {
+        return isElementClickable(cancelButton);
+    }
+
+    @Step("Check close button is clickable")
+    public boolean isCloseClickable() {
+        return isElementClickable(closeButton);
     }
 }
