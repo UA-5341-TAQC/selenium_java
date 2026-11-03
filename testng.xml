@@ -7,14 +7,18 @@
 
     <test name="UI Tests" parallel="methods" thread-count="2">
         <classes>
+            <class name="org.academy.ui.admin.TestAdminFaqPage"/>
             <class name="org.academy.ui.HeadSectionTest"/>
             <class name="org.academy.ui.TestAdminPage"/>
             <class name="org.academy.ui.TestContactUsPage"/>
             <class name="org.academy.ui.TestFooter"/>
+            <class name="org.academy.ui.TestFooterContent"/>
+            <class name="org.academy.ui.TestHistoryPageAdmin"/>
             <class name="org.academy.ui.TestMainPage"/>
             <class name="org.academy.ui.TestPartnersPage"/>
             <class name="org.academy.ui.TestProgramsPage"/>
             <class name="org.academy.ui.TestTeamPage"/>
+            <class name="org.academy.ui.TestTeamPageAdmin"/>
 
         </classes>
     </test>
