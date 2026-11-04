@@ -19,6 +19,9 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @FindBy(css = "output")
     protected WebElement counterElement;
 
+    @FindBy(css = "button[aria-label='Bold']")
+    private WebElement boldButton;
+
     private static final By ERROR_ELEMENTS =
             By.cssSelector(".input-error, p.error, [data-testid='image-error']");
 
@@ -83,18 +86,14 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         clear();
         scrollIntoView(editorElement);
         click(editorElement);
+
         editorElement.sendKeys(" ");
-        js.executeScript(
-                "var el = arguments[0];" +
-                "el.focus();" +
-                "var range = document.createRange();" +
-                "range.selectNodeContents(el);" +
-                "var selection = window.getSelection();" +
-                "selection.removeAllRanges();" +
-                "selection.addRange(range);" +
-                "document.execCommand('bold', false, null);",
-                editorElement);
+        editorElement.sendKeys(Keys.CONTROL, "a");
+
+        click(boldButton);
+
         blurEditor();
+
         return this;
     }
 
@@ -166,6 +165,20 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @Step("Wait for validation error message to disappear")
     public WhoWeAreDescriptionEditorComponent waitForErrorMessageToDisappear() {
         wait.until(d -> !hasErrorMessage());
+        return this;
+    }
+
+    @Step("Select all description text and click the Bold button")
+    public WhoWeAreDescriptionEditorComponent selectAllAndMakeBold() {
+        scrollIntoView(editorElement);
+        click(editorElement);
+
+        editorElement.sendKeys(Keys.CONTROL, "a");
+
+        click(boldButton);
+
+        blurEditor();
+
         return this;
     }
 }

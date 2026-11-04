@@ -18,9 +18,12 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     private static final String MIN_LENGTH_ERROR = "Не менше 10 символів";
     private static final String REQUIRED_ERROR = "Поле обов'язкове";
     private static final int MAX_CHARACTERS = 60;
+    private static final int BEFORE_MAX_CHARACTERS = 59;
     private static final String MAX_COUNTER = "60/60";
+    private static final String COUNTER_59 = "59/60";
+    private static final String COUNTER_60 = "60/60";
     private static final String SIXTY_CHARACTERS = "А".repeat(MAX_CHARACTERS);
-    private static final String SIXTY_ONE_CHARACTERS = SIXTY_CHARACTERS + "Б";
+    private static final String TEST_TEXT_59 = "А".repeat(BEFORE_MAX_CHARACTERS);
     private static final String PASTE_TEXT = "Б".repeat(MAX_CHARACTERS + 1);
     private static final String EXPECTED_PASTED_TEXT = PASTE_TEXT.substring(0, MAX_CHARACTERS);
     private WhoWeArePageAdmin page;
@@ -176,6 +179,90 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         }
     }
 
+    @Test(description = "Verify real-time validation and 60-character limit for every people card")
+    public void testPeopleCardDescriptionRealTimeValidation() {
+        Assert.assertEquals(page.getCardsCount(), 4,
+                "People section must contain four cards");
+
+        List<String> originalTexts = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getDescriptionText)
+                .toList();
+
+        List<String> originalCounters = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getCounterText)
+                .toList();
+
+        for (int cardIndex = 0; cardIndex < 4; cardIndex++) {
+            int currentCardIndex = cardIndex;
+
+            Allure.step("Verify real-time validation on card " + (cardIndex + 1), () -> {
+                WhoWeAreDescriptionEditorComponent editor = page.getEditor(currentCardIndex);
+
+                assertOtherCardsTextsUnchanged(currentCardIndex, originalTexts);
+
+                editor.clear();
+
+                Assert.assertEquals(editor.getDescriptionText(), "",
+                        "Description must be empty after clearing");
+
+                // Вводимо 59 символів по одному та перевіряємо лічильник після кожного
+                for (int i = 0; i < TEST_TEXT_59.length(); i++) {
+                    editor.typeText(String.valueOf(TEST_TEXT_59.charAt(i)));
+
+                    String expectedCounter = (i + 1) + "/60";
+                    editor.waitForCounter(expectedCounter);
+
+                    Assert.assertEquals(editor.getCounterText(), expectedCounter,
+                            "Counter must update after entering character " + (i + 1));
+                }
+
+                Assert.assertEquals(editor.getDescriptionText(), TEST_TEXT_59,
+                        "Description must contain exactly 59 characters");
+
+                Assert.assertEquals(editor.getCounterText(), COUNTER_59,
+                        "Counter must show 59/60");
+
+                Assert.assertEquals(editor.getErrorMessage(), "",
+                        "No validation message must be displayed at 59 characters");
+
+                editor.typeText("Б");
+                editor.waitForCounter(COUNTER_60);
+
+                Assert.assertEquals(editor.getDescriptionText(), TEST_TEXT_59 + "Б",
+                        "Description must contain exactly 60 characters");
+
+                Assert.assertEquals(editor.getCounterText(), COUNTER_60,
+                        "Counter must show 60/60");
+
+                Assert.assertEquals(editor.getErrorMessage(), "",
+                        "No validation message must be displayed at 60 characters");
+
+                assertOtherCardsTextsUnchanged(currentCardIndex, originalTexts);
+
+                editor.selectAllAndMakeBold();
+
+                Assert.assertEquals(editor.getDescriptionText(), TEST_TEXT_59 + "Б",
+                        "Applying bold formatting must not change description text");
+
+                Assert.assertEquals(editor.getCounterText(), COUNTER_60,
+                        "Bold formatting must not change the character counter");
+
+                Assert.assertEquals(editor.getErrorMessage(), "",
+                        "No validation message must appear after applying bold formatting");
+
+                assertOtherCardsTextsUnchanged(currentCardIndex, originalTexts);
+            });
+
+            Allure.step("Reload page and verify original descriptions after editing card "
+                    + (cardIndex + 1), () -> {
+
+                reloadPage();
+
+                assertOriginalDescriptionsRestored(originalTexts, originalCounters);
+            });
+        }
+    }
+
     private void editText(WhoWeAreDescriptionEditorComponent editor, String text) {
         editor.clear().setText(text);
     }
@@ -310,5 +397,42 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
 
         Assert.assertEquals(currentTexts, originalTexts, "Reload must restore all original descriptions");
         Assert.assertEquals(currentCounters, originalCounters, "Reload must restore all character counters");
+    }
+
+    private void assertOtherCardsTextsUnchanged(
+            int editedCardIndex,
+            List<String> originalTexts) {
+
+        for (int i = 0; i < 4; i++) {
+            if (i == editedCardIndex) {
+                continue;
+            }
+
+            String actualText = page.getEditor(i).getDescriptionText();
+
+            Assert.assertEquals(actualText, originalTexts.get(i),
+                    "Description of card " + (i + 1) + " must not change");
+        }
+    }
+
+    private void assertOriginalDescriptionsRestored(
+            List<String> originalTexts,
+            List<String> originalCounters) {
+
+        page.waitForPeopleCards(4);
+
+        List<String> currentTexts = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getDescriptionText)
+                .toList();
+
+        List<String> currentCounters = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getCounterText)
+                .toList();
+
+        Assert.assertEquals(currentTexts, originalTexts,
+                "Reload must restore all original descriptions");
+
+        Assert.assertEquals(currentCounters, originalCounters,
+                "Reload must restore all original counters");
     }
 }
