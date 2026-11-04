@@ -46,9 +46,9 @@ Feature: Team categories in the admin panel
     When the admin enters "Autotest category" into the "Назва" field
     And the admin enters "Autotest category description" into the "Опис" field
     And the admin closes the Add category modal
-    Then the "Зміни будуть втрачені. Бажаєте продовжити?" confirmation pop-up is displayed
+    Then the Add category "Зміни будуть втрачені. Бажаєте продовжити?" confirmation pop-up is displayed
     When the admin confirms closing in the pop-up
-    Then the confirmation pop-up is closed
+    Then the Add category confirmation pop-up is closed
     And the Add category modal is closed
     And the category "Autotest category" is not displayed on the Team page
     When the admin opens the Add category modal
@@ -59,7 +59,7 @@ Feature: Team categories in the admin panel
   Scenario Outline: Closing the modal with a non-empty "<field>" field asks for confirmation
     When the admin enters "Autotest" into the "<field>" field
     And the admin closes the Add category modal
-    Then the "Зміни будуть втрачені. Бажаєте продовжити?" confirmation pop-up is displayed
+    Then the Add category "Зміни будуть втрачені. Бажаєте продовжити?" confirmation pop-up is displayed
     And the pop-up has the "Так" and "Ні" buttons
     And the Add category modal is still open
 

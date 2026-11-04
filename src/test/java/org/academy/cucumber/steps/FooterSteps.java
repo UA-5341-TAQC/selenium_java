@@ -93,8 +93,12 @@ public class FooterSteps {
         boolean isInstagramLogin = "Instagram".equals(socialMediaName)
                 && actualProfile.equals("www.instagram.com/accounts/login");
 
+        // Для Facebook також допускаємо перенаправлення на сторінку входу.
+        boolean isFacebookLogin = "Facebook".equals(socialMediaName)
+                && actualProfile.equals("www.facebook.com/login");
+
         Assert.assertTrue(
-                isExpectedProfile || isInstagramLogin,
+                isExpectedProfile || isInstagramLogin || isFacebookLogin,
                 socialMediaName + " opened an unexpected URL: " + actualProfile
         );
         driver.close();

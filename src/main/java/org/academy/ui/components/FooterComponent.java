@@ -59,6 +59,11 @@ public class FooterComponent extends BaseComponent {
         return waitUntilVisible(rootElement).getRect();
     }
 
+    @Step("Check if footer is displayed")
+    public boolean isDisplayed() {
+        return isDisplayed(rootElement);
+    }
+
     public FooterComponent scrollIntoView() {
         scrollIntoView(rootElement);
         return this;
