@@ -102,6 +102,9 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     public WhoWeAreDescriptionEditorComponent pasteText(String text) {
         scrollIntoView(editorElement);
         click(editorElement);
+
+        editorElement.sendKeys(Keys.CONTROL, "a");
+
         js.executeScript(
                 "var el = arguments[0];" +
                 "var text = arguments[1];" +

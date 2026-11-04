@@ -17,6 +17,12 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     private static final String TEN_CHARACTERS = "Тест коней";
     private static final String MIN_LENGTH_ERROR = "Не менше 10 символів";
     private static final String REQUIRED_ERROR = "Поле обов'язкове";
+    private static final int MAX_CHARACTERS = 60;
+    private static final String MAX_COUNTER = "60/60";
+    private static final String SIXTY_CHARACTERS = "А".repeat(MAX_CHARACTERS);
+    private static final String SIXTY_ONE_CHARACTERS = SIXTY_CHARACTERS + "Б";
+    private static final String PASTE_TEXT = "Б".repeat(MAX_CHARACTERS + 1);
+    private static final String EXPECTED_PASTED_TEXT = PASTE_TEXT.substring(0, MAX_CHARACTERS);
     private WhoWeArePageAdmin page;
 
     @BeforeMethod
@@ -92,6 +98,81 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             if (cardIndex < page.getCardsCount() - 1) {
                 reloadPage();
             }
+        }
+    }
+
+    @Test(description = "Verify that people card descriptions do not exceed 60 characters")
+    public void testPeopleCardDescriptionMaxLength() {
+        Assert.assertEquals(page.getCardsCount(), 4,
+                "People section must contain four cards");
+
+        List<String> originalTexts = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getDescriptionText)
+                .toList();
+
+        List<String> originalCounters = page.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getCounterText)
+                .toList();
+
+        Assert.assertEquals(originalTexts.size(), 4,
+                "Every people card description must be captured");
+
+        Assert.assertEquals(originalCounters.size(), 4,
+                "Every people card counter must be captured");
+
+        assertPublishState(false);
+
+        for (int cardIndex = 0; cardIndex < 4; cardIndex++) {
+            int currentCardIndex = cardIndex;
+
+            Allure.step("Verify 60-character limit on card " + (cardIndex + 1), () -> {
+                WhoWeAreDescriptionEditorComponent editor = page.getEditor(currentCardIndex);
+
+                editor.clear();
+                editor.typeText(SIXTY_CHARACTERS);
+
+                Assert.assertEquals(editor.getDescriptionText(), SIXTY_CHARACTERS,
+                        "The editor must contain exactly 60 characters");
+
+                Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
+                        "Counter must show 60/60");
+
+                editor.typeText("Б");
+
+                Assert.assertEquals(editor.getDescriptionText(), SIXTY_CHARACTERS,
+                        "The 61st character must not appear in the editor");
+
+                Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
+                        "Counter must remain 60/60 after typing the 61st character");
+
+                editor.blurEditor();
+
+                Assert.assertEquals(editor.getErrorMessage(), "",
+                        "No validation error must appear when the description contains 60 characters");
+
+                editor.pasteText(PASTE_TEXT);
+
+                Assert.assertEquals(editor.getDescriptionText(), EXPECTED_PASTED_TEXT,
+                        "After pasting 61 characters, the editor must contain only 60 characters");
+
+                Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
+                        "Counter must not exceed 60/60 after paste");
+
+                Assert.assertTrue(editor.getDescriptionText().length() <= MAX_CHARACTERS,
+                        "Description must not exceed 60 characters after paste");
+
+                editor.blurEditor();
+
+                Assert.assertEquals(editor.getErrorMessage(), "",
+                        "No validation error must appear after pasting 60 characters");
+
+                assertPublishState(true);
+            });
+
+            Allure.step("Reload page and verify original description on card " + (cardIndex + 1), () -> {
+                reloadPage();
+                assertReloadedState(page, originalTexts, originalCounters);
+            });
         }
     }
 
