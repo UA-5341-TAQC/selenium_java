@@ -1,15 +1,19 @@
 package org.academy.ui;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
 import org.academy.ui.testrunners.UITestRunnerWithAdmin;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import java.util.List;
 import java.time.Duration;
+import java.nio.file.Paths;
 
 public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
 
@@ -37,6 +41,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         page.waitForPeopleCards(4);
     }
 
+    @Issue("1000")
     @Test(description = "Verify publish button state for every people card description")
     public void testPeopleCardDescriptionValidationAndPublishState() {
         Assert.assertEquals(page.getCardsCount(), 4, "People section must contain four cards");
@@ -63,7 +68,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             }
         }
     }
-
+    @Issue("999")
     @Test(description = "Verify description validation messages for every people card")
     public void testPeopleCardDescriptionValidationMessages() {
         Assert.assertEquals(page.getCardsCount(), 4, "People section must contain four cards");
@@ -104,6 +109,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         }
     }
 
+    @Issue("998")
     @Test(description = "Verify that people card descriptions do not exceed 60 characters")
     public void testPeopleCardDescriptionMaxLength() {
         Assert.assertEquals(page.getCardsCount(), 4,
@@ -179,6 +185,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         }
     }
 
+    @Issue("997")
     @Test(description = "Verify real-time validation and 60-character limit for every people card")
     public void testPeopleCardDescriptionRealTimeValidation() {
         Assert.assertEquals(page.getCardsCount(), 4,
@@ -261,6 +268,79 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 assertOriginalDescriptionsRestored(originalTexts, originalCounters);
             });
         }
+    }
+
+    @Issue("981")
+    @Test(description = "Verify Publish button state after uploading valid and invalid People card images")
+    public void testPeopleCardImageUploadAndPublishState() {
+
+        String validImagePath = Paths.get(
+                "src/test/resources/assets/size-360x430-exact.png"
+        ).toAbsolutePath().toString();
+
+        String invalidImagePath = Paths.get(
+                "src/test/resources/assets/size-359x430-narrow.png"
+        ).toAbsolutePath().toString();
+
+        assertPublishState(false);
+
+        for (int i = 0; i < 4; i++) {
+            String previousSrc = page.getCard(i).getPreviewImageSrc();
+            page.uploadImageToCard(i, validImagePath);
+            page.getCard(i).waitForPreviewImageChanged(previousSrc);
+        }
+
+        assertPublishState(true);
+        reloadPage();
+        assertPublishState(false);
+
+        String firstCardPreviousSrc = page.getCard(0).getPreviewImageSrc();
+        String secondCardPreviousSrc = page.getCard(1).getPreviewImageSrc();
+
+        page.uploadImageToCard(0, validImagePath);
+        page.getCard(0).waitForPreviewImageChanged(firstCardPreviousSrc);
+
+        page.uploadImageToCard(1, invalidImagePath);
+        page.getCard(1).waitForErrorMessage(
+                "Розмір зображення менший за рекомендований"
+        );
+
+        Assert.assertEquals(
+                page.getCard(1).getPreviewImageSrc(),
+                secondCardPreviousSrc,
+                "Previous image must remain unchanged after invalid upload"
+        );
+
+        assertPublishState(false);
+        reloadPage();
+        assertPublishState(false);
+
+        String thirdCardPreviousSrc = page.getCard(2).getPreviewImageSrc();
+        String fourthCardPreviousSrc = page.getCard(3).getPreviewImageSrc();
+
+        page.uploadImageToCard(2, invalidImagePath);
+        page.getCard(2).waitForErrorMessage(
+                "Розмір зображення менший за рекомендований"
+        );
+
+        page.uploadImageToCard(3, invalidImagePath);
+        page.getCard(3).waitForErrorMessage(
+                "Розмір зображення менший за рекомендований"
+        );
+
+        Assert.assertEquals(
+                page.getCard(2).getPreviewImageSrc(),
+                thirdCardPreviousSrc,
+                "Third card image must remain unchanged after invalid upload"
+        );
+
+        Assert.assertEquals(
+                page.getCard(3).getPreviewImageSrc(),
+                fourthCardPreviousSrc,
+                "Fourth card image must remain unchanged after invalid upload"
+        );
+
+        assertPublishState(false);
     }
 
     private void editText(WhoWeAreDescriptionEditorComponent editor, String text) {

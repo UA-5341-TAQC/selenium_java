@@ -163,6 +163,11 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
         return this;
     }
 
+    @Step("Upload image to People card {cardIndex}")
+    public void uploadImageToCard(int cardIndex, String filePath) {
+        getCard(cardIndex).uploadImage(filePath);
+    }
+
     @Step("Check if 'Опублікувати' button is displayed")
     public boolean isPublishButtonDisplayed() {
         return isVisible(publishButton);
