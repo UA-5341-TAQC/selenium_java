@@ -2,11 +2,12 @@ package org.academy.ui.pages.Admin;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.*;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.academy.ui.components.admin.ToolbarAdminComponent;
+import org.academy.ui.modals.admin.history.HistoryTranslateModal;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,9 @@ public class AdminHistoryPage extends BaseAdminPage {
 
     @FindBy(css = "[class*='HistoryForm_sections-divider']")
     private List<WebElement> sectionsDividerElements;
+
+    @FindBy(css = "[class*='HistoryPageToolbar_history-page-toolbar']")
+    private WebElement toolbarElement;
 
     // Bottom Buttons Locators
     @FindBy(css = "[class*='HistoryPageContent_functional-button-container']")
@@ -152,6 +156,26 @@ public class AdminHistoryPage extends BaseAdminPage {
     @Step("Get history page content")
     public WebElement getHistoryPageContent() {
         return waitUntilVisible(historyPageContentElement);
+    }
+
+    @Step("Get History toolbar")
+    public ToolbarAdminComponent getToolbar() {
+        return new ToolbarAdminComponent(waitUntilVisible(toolbarElement));
+    }
+
+    @Step("Open History translation modal")
+    public HistoryTranslateModal openTranslationModal() {
+        wait.until(driver -> !sectionContainerElements.isEmpty());
+
+        getToolbar().clickTranslateButton();
+
+        WebElement modalRoot = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.cssSelector(HistoryTranslateModal.ROOT_SELECTOR)
+                )
+        );
+
+        return new HistoryTranslateModal(modalRoot);
     }
 
     // Sections Container Methods
@@ -285,12 +309,34 @@ public class AdminHistoryPage extends BaseAdminPage {
 
     @Step("Click move up section button by section title: {title}")
     public void clickMoveUpSectionButton(String title) {
+        actions.moveToElement(findSectionByTitle(title)).perform();
         click(findInSection(title, moveUpSectionButtonElements));
     }
 
     @Step("Click move down section button by section title: {title}")
     public void clickMoveDownSectionButton(String title) {
+        actions.moveToElement(findSectionByTitle(title)).perform();
         click(findInSection(title, moveDownSectionButtonElements));
+    }
+
+    @Step("Wait for section order")
+    public void waitForSectionOrder(List<String> expectedOrder) {
+        wait.until(driver -> getSectionTitles().equals(expectedOrder));
+    }
+
+    @Step("Restore original section order")
+    public void restoreSectionOrder(List<String> originalOrder) {
+        for (int i = 0; i < originalOrder.size(); i++) {
+            String sectionTitle = originalOrder.get(i);
+            List<String> currentOrder = getSectionTitles();
+
+            while (currentOrder.indexOf(sectionTitle) > i) {
+                clickMoveUpSectionButton(sectionTitle);
+                currentOrder = getSectionTitles();
+            }
+        }
+
+        waitForSectionOrder(originalOrder);
     }
 
     // Section Text Content Methods
