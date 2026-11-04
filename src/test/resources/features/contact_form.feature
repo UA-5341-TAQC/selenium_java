@@ -34,4 +34,16 @@ Feature: Contact Us Form Functionality
       | entry_point  |  expected_message_1| expected_message_2 |expected_message_3 | limit_message |
       | EntryPointC  | Залишилось 20 символів|Залишилось 19 символів|Залишився 1 символ|Ліміт символів вичерпано|
 
+  @Issue-755 @UI @Functional
+  Scenario Outline: Verify threshold warning message for Message field
+    Given the user opens the contact form via "<entry_point>"
+    When the visitor enters a string of 1799 "A" characters into the message field into form
+    Then the system displays the counter message empty
+    When the visitor enters a string of 1800 "A" characters into the message field into form
+    Then the system displays the counter message "<expected_message>"
 
+    Examples: Entry Point
+      | entry_point  | expected_message|
+      | EntryPointA  | Залишилось 200 символів|
+      | EntryPointB  | Залишилось 200 символів|
+      | EntryPointC  | Залишилось 200 символів|

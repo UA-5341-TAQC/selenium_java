@@ -1,18 +1,14 @@
 package org.academy.cucumber.steps;
 
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.academy.cucumber.hooks.CucumberHook;
 import org.academy.ui.components.ContactFormCardComponent;
-import org.academy.ui.components.ContactFormPopUpComponent;
 import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.pages.ProgramsPage;
 import org.academy.ui.pages.SupportUsPage;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+
 import org.testng.Assert;
 
 import java.net.URI;
@@ -21,6 +17,7 @@ import java.util.List;
 public class ContactUsFormSteps {
 
     private final CucumberHook cucumberHook;
+    private ContactFormCardComponent.ContactFormData lastSubmittedData;
 
     private ContactFormCardComponent activeContactForm;
 
@@ -73,7 +70,6 @@ public class ContactUsFormSteps {
             default -> throw new IllegalArgumentException("Unsupported entry point: " + entryPoint);
         }
 
-        // Перевірка відображення форми
         Assert.assertNotNull(activeContactForm, "Contact form was not initialized for " + entryPoint);
         Assert.assertTrue(activeContactForm.areAllFieldsDisplayed(),
                 "There is an issue with form display on entry point: " + entryPoint);
@@ -94,9 +90,15 @@ public class ContactUsFormSteps {
                 "There is a validation message");
     }
 
-    // duplicate but specific for only Contact Form component
+    // duplicate but specific for only Contact Form component tests
     @When("the visitor enters a string of {int} {string} characters into the subject field into form")
     public void theVisitorEnterTextIntoTheSubjectFieldForm(int count, String text) {
         activeContactForm.enterSubject(text.repeat(count));
     }
+
+    @When("the visitor enters a string of {int} {string} characters into the message field into form")
+    public void theVisitorEnterStringIntoTheMessageFieldForm(int count, String text) {
+        activeContactForm.enterMessage(text.repeat(count));
+    }
+
 }
