@@ -256,4 +256,12 @@ public class ContactFormCardComponent extends BaseComponent {
                 .filter(text -> !text.isEmpty())
                 .toList();
     }
+
+    @Step("Wait for any of validation errors: {expectedErrors}")
+    public ContactFormCardComponent waitForAnyValidationError(List<String> expectedErrors) {
+        wait.until(driver ->
+                expectedErrors.stream().anyMatch(getValidationErrors()::contains)
+        );
+        return this;
+    }
 }
