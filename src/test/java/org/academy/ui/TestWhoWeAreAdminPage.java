@@ -2,14 +2,12 @@ package org.academy.ui;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
 import org.academy.ui.testrunners.UITestRunnerWithAdmin;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 import java.util.List;
 import java.time.Duration;
