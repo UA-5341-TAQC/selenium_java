@@ -1,1 +1,0 @@
-Scenario started: Partners are grouped into separate sections
