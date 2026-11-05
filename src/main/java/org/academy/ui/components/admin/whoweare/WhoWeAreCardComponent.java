@@ -14,6 +14,9 @@ public class WhoWeAreCardComponent extends WhoWeAreDescriptionEditorComponent {
     @FindBy(css = "[class*='WhoWeAreImageInput_container']")
     private WebElement imageContainer;
 
+    @FindBy(css="input[data-testid='image-input-hidden']")
+    private WebElement imageInput;
+
     @FindBy(css = "img[data-testid='preview-image'], img")
     private List<WebElement> previewImages;
 
@@ -32,5 +35,27 @@ public class WhoWeAreCardComponent extends WhoWeAreDescriptionEditorComponent {
         String styleAttr = getDomAttribute(imageContainer, "style");
         return (bgImage != null && bgImage.contains("url("))
                 || (styleAttr != null && styleAttr.contains("url("));
+    }
+
+    @Step("Get current preview image source")
+    public String getPreviewImageSrc() {
+        if (previewImages.isEmpty()) {
+            return null;
+        }
+
+        return previewImages.get(0).getAttribute("src");
+    }
+
+    @Step("Wait until preview image changes")
+    public void waitForPreviewImageChanged(String previousSrc) {
+        wait.until(driver -> {
+            String currentSrc = getPreviewImageSrc();
+            return currentSrc != null && !currentSrc.equals(previousSrc);
+        });
+    }
+
+    @Step("Upload image to People card")
+    public void uploadImage(String filePath) {
+        imageInput.sendKeys(filePath);
     }
 }
