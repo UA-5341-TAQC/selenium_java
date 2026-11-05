@@ -71,7 +71,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
     private static final String WRITE_MESSAGE_PLACEHOLDER_EN = "Write your message";
     private static final String REPORTS_EN = "/en/reports";
     private static final String CONTACT_US_PATH_EN = "/en/contact-us";
-    private static final String MESSAGE = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
+    private static final String MESSAGE = "A";
 
     private static final String ERROR_MESSAGE = "1";
     private static final String WARNING_INFO_MESSAGE_FILED = "Залишилось 200 символів";
@@ -440,10 +440,11 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "The text in report file labels contains CYRILLIC PATTERN");
 
 
-        headerComponent.clickContactUs();
-        String nextCurrentUrl = String.valueOf(driver.getCurrentUrl());
-        softAssert.assertTrue(nextCurrentUrl.contains(CONTACT_US_PATH_EN),
-                "URL validation for contact us page failed");
+        ContactUsPage enContactUsPage = headerComponent.clickContactUs();
+        enContactUsPage.waitForContentText();
+        String updCurrentUrl = String.valueOf(driver.getCurrentUrl());
+        softAssert.assertTrue(updCurrentUrl.contains(CONTACT_US_PATH_EN),
+                "Updated URL validation for contact us page failed");
 
         // 3. Left Contact Information Section
         softAssert.assertTrue(detailsSection.isTextEnglish(infoTitle),
@@ -484,10 +485,12 @@ public class TestContactUsPage extends BaseUiTestRunner {
         headerComponent.clickContactUs();
         ContactFormCardComponent formContactPage = contactUsPage.getContactFormCard();
 
+        int count = 1799;
+        String message = MESSAGE.repeat(count);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(formContactPage.areAllFieldsDisplayed(), "Not all are displayed.");
 
-        formContactPage.enterMessage(MESSAGE);
+        formContactPage.enterMessage(message);
         softAssert.assertTrue(formContactPage.isMessageTextareaDisplayed(),
                 "Contact us page: There is no text entered.");
         List<String> validationMessagesContact = formContactPage.getValidationMessageText();
@@ -496,7 +499,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertFalse(formContactPage.areValidationMessageDisplayed(),
                 "Contact us page:There is a validation message");
 
-        formContactPage.enterMessage(MESSAGE + ERROR_MESSAGE);
+        formContactPage.enterMessage(message+ERROR_MESSAGE);
         List<String> errorValidationMessageContact = formContactPage.getValidationMessageText();
         softAssert.assertFalse(errorValidationMessageContact.isEmpty(),
                 "Contact us page:There is no text for validation message");
@@ -517,7 +520,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
         softAssert.assertTrue(formProgramPage.areAllFieldsDisplayed(),
                 "Program page: Not all are displayed.");
 
-        formProgramPage.enterMessage(MESSAGE);
+        formProgramPage.enterMessage(message);
         List<String> validationMessageProgram = formProgramPage.getValidationMessageText();
         softAssert.assertTrue(validationMessageProgram.isEmpty(),
                 "Programs page: There is a text for validation message");
@@ -525,7 +528,7 @@ public class TestContactUsPage extends BaseUiTestRunner {
                 "Programs page: There is a validation message");
 
 
-        formProgramPage.enterMessage(MESSAGE + ERROR_MESSAGE);
+        formProgramPage.enterMessage(message + ERROR_MESSAGE);
         List<String> errorValidationMessageProgram = formProgramPage.getValidationMessageText();
         softAssert.assertFalse(errorValidationMessageProgram.isEmpty(),
                 "Programs page: There is no text for validation message");
@@ -540,18 +543,18 @@ public class TestContactUsPage extends BaseUiTestRunner {
         headerComponent.clickSupportUs();
         SupportUsPage supportUsPage = new SupportUsPage(driver);
         supportUsPage.scrollIntoViewContactForm();
-        ContactFormCardComponent formSupportPage = supportUsPage.getContactCardComponent();
+        ContactFormCardComponent formSupportPage = supportUsPage.getContactFormCard();
         softAssert.assertTrue(formSupportPage.areAllFieldsDisplayed(),
                 "Support page: Not all are displayed.");
 
-        formSupportPage.enterMessage(MESSAGE);
+        formSupportPage.enterMessage(message);
         List<String> validationMessageSupport = formSupportPage.getValidationMessageText();
         softAssert.assertTrue(validationMessageSupport.isEmpty(),
                 "Support page: is a text for validation message");
         softAssert.assertFalse(formSupportPage.areValidationMessageDisplayed(),
                 "Support page:There is a validation message");
 
-        formSupportPage.enterMessage(MESSAGE + ERROR_MESSAGE);
+        formSupportPage.enterMessage(message + ERROR_MESSAGE);
         List<String> errorValidationMessageSupport = formSupportPage.getValidationMessageText();
         softAssert.assertFalse(errorValidationMessageSupport.isEmpty(),
                 "Support page:There is no text for validation message");

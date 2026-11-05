@@ -114,6 +114,17 @@ public class ReportsPage extends BasePublicPage {
         return getTexts(waitUntilAllVisible(reportDownloadButtonElements));
     }
 
+    public int getReportDownloadButtonCount() {
+        scrollIntoView(reportsSectionTitleElement);
+        wait.until(ExpectedConditions.visibilityOfAllElements(reportDownloadButtonElements));
+        return reportDownloadButtonElements.size();
+    }
+
+    public boolean areReportDownloadButtonDisplayed() {
+        return !reportDownloadButtonElements.isEmpty()
+                && reportDownloadButtonElements.stream().allMatch(WebElement::isDisplayed);
+    }
+
     @Step("Click report download button")
     public void clickReportDownloadButton(int index) {
         List<WebElement> buttons =

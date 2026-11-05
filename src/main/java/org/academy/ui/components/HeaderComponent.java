@@ -1,6 +1,7 @@
 package org.academy.ui.components;
 
 import io.qameta.allure.Step;
+import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.pages.ProgramsPage;
 import org.academy.ui.pages.ReportsPage;
 import org.academy.ui.pages.StoriesOfVictoryPage;
@@ -66,21 +67,19 @@ public class HeaderComponent extends BaseComponent {
 
     @Step("Click 'Programs' link")
     public ProgramsPage clickPrograms() {
-        waitUntilVisible(programsLink);
+        clickHippotherapyDropdown();
         click(programsLink);
         return new ProgramsPage(driver);
     }
 
     @Step("Click 'Reporting' link")
     public ReportsPage clickReports() {
-        waitUntilVisible(reportsLink);
         click(reportsLink);
         return new ReportsPage(driver);
     }
 
     @Step("Click 'Stories of Victory' link")
     public StoriesOfVictoryPage clickStories() {
-        waitUntilVisible(storiesLink);
         click(storiesLink);
         return new StoriesOfVictoryPage(driver);
     }
@@ -96,8 +95,9 @@ public class HeaderComponent extends BaseComponent {
     }
 
     @Step("Click 'Contact Us' button in header")
-    public void clickContactUs() {
+    public ContactUsPage clickContactUs() {
         click(contactUsButton);
+        return new ContactUsPage(driver);
     }
 
     @Step("Check if 'Contact Us' button in header is displayed")

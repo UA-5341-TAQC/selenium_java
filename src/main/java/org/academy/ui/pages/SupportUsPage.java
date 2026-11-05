@@ -49,8 +49,8 @@ public class SupportUsPage extends BasePublicPage {
     @FindBy(css = "[class*='CtaSection_root'] a[href='/donate']")
     private WebElement donateLinkElement;
 
-    @FindBy(css = "[class*='ContactSection_form-container']")
-    private WebElement contactSectionElement;
+    @FindBy(css = "form[class*='ContactSection_form']")
+    private WebElement contactFormElement;
 
     public SupportUsPage(WebDriver driver) {
         super(driver);
@@ -151,11 +151,11 @@ public class SupportUsPage extends BasePublicPage {
     }
 
     public void scrollIntoViewContactForm(){
-        scrollIntoView(contactSectionElement);
+        scrollIntoView(contactFormElement);
     }
 
     @Step("Get Contact us form component")
-    public ContactFormCardComponent getContactCardComponent() {
-        return new ContactFormCardComponent(contactSectionElement);
+    public ContactFormCardComponent getContactFormCard() {
+        return new ContactFormCardComponent(waitUntilVisible(contactFormElement));
     }
 }
