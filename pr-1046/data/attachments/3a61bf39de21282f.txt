@@ -1,1 +1,0 @@
-Scenario failed: Closing the modal with a non-empty "Опис" field asks for confirmation

@@ -1,1 +1,0 @@
-Scenario passed: Verify multiple FAQ pages can be selected and one selection removed
