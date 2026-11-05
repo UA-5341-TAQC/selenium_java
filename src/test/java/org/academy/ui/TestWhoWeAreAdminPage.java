@@ -146,10 +146,16 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
                         "Counter must show 60/60");
 
-                editor.clear();
+                editor.typeText("Б");
 
-                Assert.assertEquals(editor.getDescriptionText(), "",
-                        "The editor must be empty after clearing");
+                Assert.assertEquals(editor.getDescriptionText(), SIXTY_CHARACTERS,
+                        "The 61st typed character must not appear in the editor");
+
+                Assert.assertFalse(editor.getDescriptionText().contains("Б"),
+                        "The 61st typed character must not be present");
+
+                Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
+                        "Counter must remain 60/60 after typing the 61st character");
 
                 String textToPaste = SIXTY_CHARACTERS + "Б";
                 editor.pasteText(textToPaste);

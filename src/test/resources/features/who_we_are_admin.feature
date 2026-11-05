@@ -280,3 +280,123 @@ Feature: Admin Who We Are Management
     When the admin pastes 301 characters into the description
     Then the description counter should be "300/300"
     And the description should contain the first 300 pasted characters
+
+  @Issue-1000
+  Scenario Outline: Verify 'Опублікувати' button state for the description of every card in the "Люди" block (card <first_card> is the starting one)
+    When the admin selects the "Люди" tab
+    And the admin waits for 4 people cards to be loaded
+    Then exactly 4 cards are displayed
+    And the "Опублікувати" button becomes disabled
+    When the admin remembers the original descriptions and counters of all cards
+    # 9 символів -> помилка, кнопка вимкнена
+    And the admin clears the "Опис" field of card <first_card> and enters "Тест коня"
+    And the admin triggers validation by blurring the "Опис" field of card <first_card>
+    Then the validation message "Не менше 10 символів" is displayed under the "Опис" field of card <first_card>
+    And the "Опублікувати" button becomes disabled
+    # 10 символів -> помилки немає, кнопка активна
+    When the admin clears the "Опис" field of card <first_card> and enters "Тест коней"
+    And the admin triggers validation by blurring the "Опис" field of card <first_card>
+    Then no validation message is displayed under the "Опис" field of card <first_card>
+    And the "Опублікувати" button becomes enabled
+    # інша картка порожня -> помилка, кнопка знову вимкнена
+    When the admin clears the "Опис" field of card <other_card>
+    And the admin triggers validation by blurring the "Опис" field of card <other_card>
+    Then the validation message "Поле обов'язкове" is displayed under the "Опис" field of card <other_card>
+    And the "Опублікувати" button becomes disabled
+    # інша картка валідна -> кнопка активна
+    When the admin clears the "Опис" field of card <other_card> and enters "Тест коней"
+    And the admin triggers validation by blurring the "Опис" field of card <other_card>
+    Then no validation message is displayed under the "Опис" field of card <other_card>
+    And the "Опублікувати" button becomes enabled
+    # перезавантаження скидає зміни
+    When the admin refreshes the page and reopens the "Люди" tab with 4 cards
+    Then all cards display their original descriptions and counters
+    And the "Опублікувати" button becomes disabled
+    # жирний пробіл вважається порожнім описом
+    When the admin enters a bold space into the "Опис" field of card <first_card>
+    Then the validation message "Поле обов'язкове" is displayed under the "Опис" field of card <first_card>
+    And the "Опублікувати" button becomes disabled
+    When the admin refreshes the page and reopens the "Люди" tab with 4 cards
+    Then all cards display their original descriptions and counters
+    And the "Опублікувати" button becomes disabled
+    # додали і видалили символ -> повернення до початкового стану
+    When the admin adds and deletes the character "X" in the "Опис" field of card <first_card>
+    Then the "Опис" field and counter of card <first_card> match the original ones
+    And the "Опублікувати" button becomes disabled
+    When the admin refreshes the page and reopens the "Люди" tab with 4 cards
+    Then all cards display their original descriptions and counters
+    And the "Опублікувати" button becomes disabled
+
+    Examples:
+      | first_card | other_card |
+      | 1          | 2          |
+      | 2          | 3          |
+      | 3          | 4          |
+      | 4          | 1          |
+
+  @Issue-999
+  Scenario Outline: Verify validation messages for the description of card <card> in the "Люди" block
+    When the admin selects the "Люди" tab
+    And the admin waits for 4 people cards to be loaded
+    Then exactly 4 cards are displayed
+    When the admin clears the "Опис" field of card <card> and enters "Тест коня"
+    Then no validation message is displayed under the "Опис" field of card <card> while it is focused
+    When the admin triggers validation by blurring the "Опис" field of card <card>
+    Then the validation message "Не менше 10 символів" is displayed under the "Опис" field of card <card>
+    And exactly 1 validation message is displayed under the "Опис" field of card <card>
+    And no validation messages are displayed under the cards other than card <card>
+    When the admin clears the "Опис" field of card <card> and enters "Тест коней"
+    And the admin triggers validation by blurring the "Опис" field of card <card>
+    Then no validation message is displayed under the "Опис" field of card <card>
+    When the admin clears the "Опис" field of card <card>
+    Then no validation message is displayed under the "Опис" field of card <card> while it is focused
+    When the admin triggers validation by blurring the "Опис" field of card <card>
+    Then the validation message "Поле обов'язкове" is displayed under the "Опис" field of card <card>
+    And exactly 1 validation message is displayed under the "Опис" field of card <card>
+    And no validation messages are displayed under the cards other than card <card>
+    # лише пробіли вважаються порожнім полем
+    When the admin types 12 spaces into the "Опис" field of card <card>
+    And the admin triggers validation by blurring the "Опис" field of card <card>
+    Then the validation message "Поле обов'язкове" is displayed under the "Опис" field of card <card>
+    And exactly 1 validation message is displayed under the "Опис" field of card <card>
+    And no validation messages are displayed under the cards other than card <card>
+
+    Examples:
+      | card |
+      | 1    |
+      | 2    |
+      | 3    |
+      | 4    |
+
+  @Issue-998
+  Scenario Outline: Verify that the description of card <card> in the "Люди" block does not exceed 60 characters
+    When the admin selects the "Люди" tab
+    And the admin waits for 4 people cards to be loaded
+    Then exactly 4 cards are displayed
+    And the "Опублікувати" button becomes disabled
+    When the admin remembers the original descriptions and counters of all cards
+    And the admin clears the "Опис" field of card <card> and types 60 characters
+    Then the "Опис" field of card <card> consists of 60 repeated characters "А"
+    And the character counter for card <card> reads "60/60"
+    When the admin types an additional character "B" into the "Опис" field of card <card>
+    Then the "Опис" field of card <card> consists of 60 repeated characters "А"
+    And the character counter for card <card> reads "60/60"
+    When the admin triggers validation by blurring the "Опис" field of card <card>
+    Then no validation message is displayed under the "Опис" field of card <card>
+    When the admin clears the "Опис" field of card <card>
+    And the admin pastes text "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA" into the "Опис" field of card <card>
+    Then the "Опис" field of card <card> consists of 60 repeated characters "B"
+    And the character counter for card <card> reads "60/60"
+    When the admin triggers validation by blurring the "Опис" field of card <card>
+    Then no validation message is displayed under the "Опис" field of card <card>
+    And the "Опублікувати" button becomes enabled
+    When the admin refreshes the page and reopens the "Люди" tab with 4 cards
+    Then all cards display their original descriptions and counters
+    And the "Опублікувати" button becomes disabled
+
+    Examples:
+      | card |
+      | 1    |
+      | 2    |
+      | 3    |
+      | 4    |
