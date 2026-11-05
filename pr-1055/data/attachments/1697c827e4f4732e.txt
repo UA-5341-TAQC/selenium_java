@@ -1,1 +1,0 @@
-Scenario passed: Verify 'Опублікувати' button enables only after 'Опис' passes validation in 'Що ми робимо' block
