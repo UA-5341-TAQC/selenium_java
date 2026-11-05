@@ -1,0 +1,1 @@
+Scenario failed: Category name rejects a short value and blocks characters beyond its limit
