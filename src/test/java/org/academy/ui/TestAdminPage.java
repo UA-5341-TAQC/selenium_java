@@ -1,6 +1,6 @@
 package org.academy.ui;
 
-import org.academy.ui.testrunners.UITestRunnerWithAdmin;
+import org.academy.utils.testrunners.UITestRunnerWithAdmin;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

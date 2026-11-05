@@ -4,7 +4,7 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.academy.ui.components.ContactFormCardComponent;
 import org.academy.ui.pages.ContactUsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

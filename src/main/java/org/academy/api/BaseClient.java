@@ -1,0 +1,38 @@
+package org.academy.api;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import lombok.Getter;
+import lombok.Setter;
+
+
+public class BaseClient {
+    protected final String baseAPIUrl;
+    protected final ContentType contentType;
+
+    @Getter
+    @Setter
+    protected String token;
+
+    public BaseClient(String baseAPIUrl) {
+        this.baseAPIUrl = baseAPIUrl;
+        this.contentType = ContentType.JSON;
+    }
+
+    public BaseClient(String baseAPIUrl, ContentType contentType) {
+        this.baseAPIUrl = baseAPIUrl;
+        this.contentType = contentType;
+    }
+    protected RequestSpecification prepareRequest() {
+        RequestSpecification request = RestAssured.given()
+                .log()
+                .all()
+                .baseUri(baseAPIUrl)
+                .contentType(contentType);
+        if (token != null) {
+            request.header("Authorization", "Bearer " + token);
+        }
+        return request;
+    }
+}

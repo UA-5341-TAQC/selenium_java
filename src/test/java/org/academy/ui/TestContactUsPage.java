@@ -8,7 +8,7 @@ import org.academy.ui.pages.ContactUsPage;
 import org.academy.ui.pages.ProgramsPage;
 import org.academy.ui.pages.ReportsPage;
 import org.academy.ui.pages.SupportUsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

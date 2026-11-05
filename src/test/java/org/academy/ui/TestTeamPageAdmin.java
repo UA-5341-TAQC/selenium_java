@@ -9,7 +9,7 @@ import org.academy.ui.modals.admin.team.TeamAddCategoryModal;
 import org.academy.ui.modals.admin.team.TeamDeleteCategoryModal;
 import org.academy.ui.modals.admin.team.TeamEditCategoryModal;
 import org.academy.ui.pages.Admin.TeamPageAdmin;
-import org.academy.ui.testrunners.UITestRunnerWithAdmin;
+import org.academy.utils.testrunners.UITestRunnerWithAdmin;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

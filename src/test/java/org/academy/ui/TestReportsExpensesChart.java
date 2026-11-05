@@ -5,7 +5,7 @@ import io.qameta.allure.Story;
 import org.academy.ui.components.ExpensesBreakdownChartComponent;
 import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.pages.ReportsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.json.Json;
 import org.testng.annotations.BeforeMethod;
