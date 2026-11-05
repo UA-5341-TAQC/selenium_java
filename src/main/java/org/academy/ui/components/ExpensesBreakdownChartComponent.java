@@ -71,6 +71,11 @@ public class ExpensesBreakdownChartComponent extends BaseComponent {
                 .toList();
     }
 
+    @Step("Read chart percentage texts")
+    public List<String> getChartPercentageTexts() {
+        return getTexts(waitUntilAllVisible(chartPercentElements));
+    }
+
     @Step("Read chart amounts")
     public List<String> getChartAmounts() {
         return getTexts(waitUntilAllVisible(chartAmountElements));
