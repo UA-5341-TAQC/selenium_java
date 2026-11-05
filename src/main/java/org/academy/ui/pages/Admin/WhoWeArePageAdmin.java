@@ -6,6 +6,7 @@ import org.academy.ui.components.admin.whoweare.WhoWeAreCategoryBarComponent;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

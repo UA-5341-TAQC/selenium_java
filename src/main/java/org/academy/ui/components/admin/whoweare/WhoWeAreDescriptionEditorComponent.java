@@ -22,14 +22,11 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @FindBy(css = "button[aria-label='Bold']")
     private WebElement boldButton;
 
-    private static final By ERROR_ELEMENTS =
-            By.cssSelector(".input-error, p.error, [data-testid='image-error']");
-
-    @FindBy(css = "button[aria-label='Bold']")
-    protected WebElement boldButton;
-
     @FindBy(css = "button[aria-label='Italic']")
     protected WebElement italicButton;
+
+    @FindBy(css = ".input-error, p.error, [data-testid='image-error']")
+    private List<WebElement> errorElements;
 
     public WhoWeAreDescriptionEditorComponent(WebElement rootElement) {
         super(rootElement);
