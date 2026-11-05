@@ -1,0 +1,1 @@
+Scenario passed: Verify 'Опублікувати' button state for the description of every card in the "Люди" block (card 4 is the starting one)

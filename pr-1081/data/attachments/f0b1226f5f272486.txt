@@ -1,0 +1,1 @@
+Scenario started: Verify minimum length validation for title and description

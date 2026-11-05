@@ -1,0 +1,1 @@
+Scenario passed: Verify publication is enabled when all required FAQ fields are valid

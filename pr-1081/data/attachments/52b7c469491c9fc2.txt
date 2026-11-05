@@ -1,0 +1,1 @@
+Scenario passed: Verify "Опис" field is editable on the "Команда" tab
