@@ -1,1 +1,0 @@
-Scenario failed: Clean-up icon follows focus and clears the "Назва" field

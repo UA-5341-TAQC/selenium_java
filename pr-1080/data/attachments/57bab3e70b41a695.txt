@@ -1,1 +1,0 @@
-Scenario failed: Verify 'Опублікувати' button is disabled when Admin enters the "Люди" tab
