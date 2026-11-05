@@ -2,6 +2,9 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.ExpensesBreakdownChartComponent;
+import org.academy.ui.components.FundingSourcesChartComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +19,12 @@ public class ReportsPage extends BasePublicPage {
 
     @FindBy(css = "[class*='StatCard_card']")
     private List<WebElement> statCardElements;
+
+    @FindBy(css = "[class*='StatCard_wrapper']")
+    private List<WebElement> statCardWrapperElements;
+
+    @FindBy(css = "[class*='FundingSourcesChart_root']")
+    private WebElement fundingSourcesChartElement;
 
     @FindBy(css = "[class*='ExpensesBreakdownChart_container']")
     private WebElement expensesBreakdownChartElement;
@@ -53,6 +62,23 @@ public class ReportsPage extends BasePublicPage {
     @Step("Read stat card texts")
     public List<String> getStatCardTexts() {
         return getTexts(waitUntilAllVisible(statCardElements));
+    }
+
+    @Step("Read stat card value by label: {labelPart}")
+    public String getStatCardValueByLabel(String labelPart) {
+        for (WebElement card : waitUntilAllVisible(statCardWrapperElements)) {
+            String label = card.findElement(By.cssSelector("[class*='StatCard_label']")).getText();
+            if (label.contains(labelPart)) {
+                return card.findElement(By.cssSelector("[class*='StatCard_value']")).getText().trim();
+            }
+        }
+        throw new NoSuchElementException("Stat card not found by label: " + labelPart);
+    }
+
+    @Step("Get FundingSourcesChart component")
+    public FundingSourcesChartComponent getFundingSourcesChart() {
+        scrollIntoView(fundingSourcesChartElement);
+        return new FundingSourcesChartComponent(waitUntilVisible(fundingSourcesChartElement));
     }
 
     @Step("Get ExpensesBreakdownChart component")
