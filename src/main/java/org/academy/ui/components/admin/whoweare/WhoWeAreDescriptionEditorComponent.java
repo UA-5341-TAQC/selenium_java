@@ -2,6 +2,7 @@ package org.academy.ui.components.admin.whoweare;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.BaseComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,8 +19,11 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @FindBy(css = "output")
     protected WebElement counterElement;
 
-    @FindBy(css = ".input-error, p.error, [data-testid='image-error']")
-    protected List<WebElement> errorElements;
+    @FindBy(css = "button[aria-label='Bold']")
+    private WebElement boldButton;
+
+    private static final By ERROR_ELEMENTS =
+            By.cssSelector(".input-error, p.error, [data-testid='image-error']");
 
     public WhoWeAreDescriptionEditorComponent(WebElement rootElement) {
         super(rootElement);
@@ -64,6 +68,33 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         for (int i = 0; i < count; i++) {
             editorElement.sendKeys(Keys.BACK_SPACE);
         }
+        return this;
+    }
+
+    @Step("Replace description text temporarily and restore it at the end")
+    public WhoWeAreDescriptionEditorComponent addAndDeleteCharacter(String character) {
+        scrollIntoView(editorElement);
+        click(editorElement);
+        editorElement.sendKeys(Keys.END);
+        editorElement.sendKeys(character);
+        editorElement.sendKeys(Keys.BACK_SPACE);
+        blurEditor();
+        return this;
+    }
+
+    @Step("Enter a bold space into the description editor")
+    public WhoWeAreDescriptionEditorComponent enterBoldSpace() {
+        clear();
+        scrollIntoView(editorElement);
+        click(editorElement);
+
+        editorElement.sendKeys(" ");
+        editorElement.sendKeys(Keys.CONTROL, "a");
+
+        click(boldButton);
+
+        blurEditor();
+
         return this;
     }
 
@@ -113,6 +144,7 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         List<WebElement> visibleErrors = errorElements.stream()
                 .filter(this::isDisplayed)
                 .toList();
+
         return visibleErrors.isEmpty() ? "" : getText(visibleErrors.get(0));
     }
 
@@ -130,6 +162,20 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
     @Step("Wait for validation error message to disappear")
     public WhoWeAreDescriptionEditorComponent waitForErrorMessageToDisappear() {
         wait.until(d -> !hasErrorMessage());
+        return this;
+    }
+
+    @Step("Select all description text and click the Bold button")
+    public WhoWeAreDescriptionEditorComponent selectAllAndMakeBold() {
+        scrollIntoView(editorElement);
+        click(editorElement);
+
+        editorElement.sendKeys(Keys.CONTROL, "a");
+
+        click(boldButton);
+
+        blurEditor();
+
         return this;
     }
 }
