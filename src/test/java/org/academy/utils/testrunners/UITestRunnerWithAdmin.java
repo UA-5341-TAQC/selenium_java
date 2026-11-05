@@ -1,4 +1,4 @@
-package org.academy.ui.testrunners;
+package org.academy.utils.testrunners;
 
 import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.utils.AdminSession;

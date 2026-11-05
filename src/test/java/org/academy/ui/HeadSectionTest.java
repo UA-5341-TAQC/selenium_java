@@ -8,7 +8,7 @@ import org.academy.ui.components.IntroSectionComponent;
 import org.academy.ui.components.ProgramsIntroSectionComponent;
 import org.academy.ui.pages.MainPage;
 import org.academy.ui.pages.ProgramsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

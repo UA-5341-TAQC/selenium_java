@@ -3,7 +3,7 @@ package org.academy.ui;
 import org.academy.ui.components.TeamCategoryComponent;
 import org.academy.ui.components.TeamMemberCardComponent;
 import org.academy.ui.pages.TeamPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;

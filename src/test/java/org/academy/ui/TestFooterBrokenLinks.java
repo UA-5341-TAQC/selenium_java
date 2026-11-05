@@ -3,7 +3,7 @@ package org.academy.ui;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.academy.ui.pages.BasePublicPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;

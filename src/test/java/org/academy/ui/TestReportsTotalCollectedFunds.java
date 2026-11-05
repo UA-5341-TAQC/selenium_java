@@ -5,7 +5,7 @@ import io.qameta.allure.Story;
 import org.academy.ui.components.FundingSourcesChartComponent;
 import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.pages.ReportsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.devtools.NetworkInterceptor;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.remote.http.Contents;

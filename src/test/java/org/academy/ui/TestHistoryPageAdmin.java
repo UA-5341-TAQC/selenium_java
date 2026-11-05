@@ -6,7 +6,7 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.Owner;
 import org.academy.ui.modals.admin.history.HistoryTranslateModal;
 import org.academy.ui.pages.Admin.AdminHistoryPage;
-import org.academy.ui.testrunners.UITestRunnerWithAdmin;
+import org.academy.utils.testrunners.UITestRunnerWithAdmin;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

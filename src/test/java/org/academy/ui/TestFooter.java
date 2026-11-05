@@ -5,7 +5,7 @@ import io.qameta.allure.Issue;
 import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
 import org.academy.ui.pages.BasePublicPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
