@@ -1,1 +1,0 @@
-Scenario started: Min length error and clean-up icon in the "Опис" field
