@@ -4,10 +4,12 @@ import org.academy.utils.TestEnvProvider;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseTestRunner {
-    protected static TestEnvProvider testEnvProvider;
+    protected static TestEnvProvider testEnvProvider = new TestEnvProvider();
 
     @BeforeSuite
     public void beforeSuite() {
-        testEnvProvider = new TestEnvProvider();
+        if (testEnvProvider == null) {
+            testEnvProvider = new TestEnvProvider();
+        }
     }
 }

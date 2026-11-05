@@ -15,6 +15,10 @@ public class BaseClient {
     @Setter
     protected String token;
 
+    @Getter
+    @Setter
+    protected String refreshToken;
+
     public BaseClient(String baseAPIUrl) {
         this.baseAPIUrl = baseAPIUrl;
         this.contentType = ContentType.JSON;
@@ -24,6 +28,7 @@ public class BaseClient {
         this.baseAPIUrl = baseAPIUrl;
         this.contentType = contentType;
     }
+
     protected RequestSpecification prepareRequest() {
         RequestSpecification request = RestAssured.given()
                 .log()
@@ -32,6 +37,9 @@ public class BaseClient {
                 .contentType(contentType);
         if (token != null) {
             request.header("Authorization", "Bearer " + token);
+        }
+        if (refreshToken != null) {
+            request.cookie("refreshToken", refreshToken);
         }
         return request;
     }
