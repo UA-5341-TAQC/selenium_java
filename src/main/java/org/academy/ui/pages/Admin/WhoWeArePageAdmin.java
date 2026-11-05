@@ -6,8 +6,6 @@ import org.academy.ui.components.admin.whoweare.WhoWeAreCategoryBarComponent;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.modals.admin.ConfirmationModal;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -158,11 +156,30 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
 
     @Step("Check if 'Опублікувати' button is enabled")
     public boolean isPublishButtonEnabled() {
-        try {
-            return publishButton.isDisplayed() && publishButton.isEnabled();
-        } catch (NoSuchElementException | StaleElementReferenceException e) {
-            return false;
-        }
+        return isElementClickable(publishButton);
+    }
+
+    @Step("Wait for 'Опублікувати' button enabled state: {enabled}")
+    public WhoWeArePageAdmin waitForPublishButtonEnabled(boolean enabled) {
+        wait.until(d -> isPublishButtonEnabled() == enabled);
+        return this;
+    }
+
+    @Step("Wait for people cards to be loaded: {expectedCount}")
+    public WhoWeArePageAdmin waitForPeopleCards(int expectedCount) {
+        wait.until(d -> {
+            try {
+                return cardElements.size() == expectedCount;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+        return this;
+    }
+
+    @Step("Upload image to People card {cardIndex}")
+    public void uploadImageToCard(int cardIndex, String filePath) {
+        getCard(cardIndex).uploadImage(filePath);
     }
 
     @Step("Check if 'Опублікувати' button is displayed")
