@@ -15,7 +15,8 @@ public class AuthTests extends BaseAPITestRunner {
         Response response = authClientApi.login(testEnvProvider.getAdminEmail(), testEnvProvider.getAdminPassword());
         response.then().statusCode(200);
         response.then().body("accessToken", org.hamcrest.Matchers.notNullValue());
-        Assert.assertNotNull(authClientApi.getRefreshToken(), "Refresh token should be extracted from cookie");
+        Assert.assertTrue(authClientApi.getRefreshToken() != null && !authClientApi.getRefreshToken().isBlank(),
+                "Refresh token should be extracted from cookie");
     }
 
     @Test
@@ -25,8 +26,10 @@ public class AuthTests extends BaseAPITestRunner {
         loginData.setPassword(testEnvProvider.getAdminPassword());
         AuthClient authClientApi = new AuthClient(testEnvProvider.getBaseApiUrl());
         LoginResponse response = authClientApi.login(loginData);
-        Assert.assertNotNull(response.getAccessToken(), "Access token should not be null");
-        Assert.assertNotNull(authClientApi.getRefreshToken(), "Refresh token should not be null");
+        Assert.assertTrue(response.getAccessToken() != null && !response.getAccessToken().isBlank(),
+                "Access token should not be null");
+        Assert.assertTrue(authClientApi.getRefreshToken() != null && !authClientApi.getRefreshToken().isBlank(),
+                "Refresh token should not be null");
     }
 
     @Test
@@ -36,14 +39,16 @@ public class AuthTests extends BaseAPITestRunner {
         loginData.setPassword(testEnvProvider.getAdminPassword());
         AuthClient authClientApi = new AuthClient(testEnvProvider.getBaseApiUrl());
         authClientApi.login(loginData);
-        Assert.assertNotNull(authClientApi.getRefreshToken(), "Refresh token should be present after login");
+        Assert.assertTrue(authClientApi.getRefreshToken() != null && !authClientApi.getRefreshToken().isBlank(),
+                "Refresh token should be present after login");
 
         LoginResponse refreshResponse = authClientApi.refresh();
-        Assert.assertNotNull(refreshResponse.getAccessToken(), "Refreshed access token should not be null");
+        Assert.assertTrue(refreshResponse.getAccessToken() != null && !refreshResponse.getAccessToken().isBlank(),
+                "Refreshed access token should not be null");
 
         Response logoutResponse = authClientApi.logout();
         logoutResponse.then().statusCode(200);
-        Assert.assertNull(authClientApi.getToken(), "Access token should be cleared after logout");
-        Assert.assertNull(authClientApi.getRefreshToken(), "Refresh token should be cleared after logout");
+        Assert.assertTrue(authClientApi.getToken() == null, "Access token should be cleared after logout");
+        Assert.assertTrue(authClientApi.getRefreshToken() == null, "Refresh token should be cleared after logout");
     }
 }

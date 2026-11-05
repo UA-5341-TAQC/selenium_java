@@ -1,6 +1,8 @@
 package org.academy.api;
 
 import io.restassured.RestAssured;
+import io.restassured.config.LogConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
@@ -31,8 +33,9 @@ public class BaseClient {
 
     protected RequestSpecification prepareRequest() {
         RequestSpecification request = RestAssured.given()
-                .log()
-                .all()
+                .config(RestAssuredConfig.config().logConfig(
+                        LogConfig.logConfig().blacklistHeader("Authorization")
+                ))
                 .baseUri(baseAPIUrl)
                 .contentType(contentType);
         if (token != null) {
