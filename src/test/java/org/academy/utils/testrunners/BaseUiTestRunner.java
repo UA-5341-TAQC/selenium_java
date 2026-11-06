@@ -16,6 +16,7 @@ public class BaseUiTestRunner extends BaseTestRunner {
 
     @BeforeSuite
     public void beforeSuite() {
+        super.beforeSuite();
         WebDriverManager.chromedriver().setup();
     }
 
