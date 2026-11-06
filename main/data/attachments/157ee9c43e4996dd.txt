@@ -1,0 +1,1 @@
+Scenario failed: Verify cancelling publication via "Ні" button does not update public "Хто ми" page
