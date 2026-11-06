@@ -4,7 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Issue;
 import org.academy.ui.components.admin.whoweare.WhoWeAreDescriptionEditorComponent;
 import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
-import org.academy.ui.testrunners.UITestRunnerWithAdmin;
+import org.academy.utils.testrunners.UITestRunnerWithAdmin;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

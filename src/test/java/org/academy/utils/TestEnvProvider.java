@@ -60,6 +60,9 @@ public class TestEnvProvider {
     public String getBaseUrl() {
         return getProperty("BASE_URL");
     }
+    public String getBaseApiUrl() {
+        return getProperty("BASE_URL_API");
+    }
 
     public String getAdminLoginUrl() {
         return getProperty("ADMIN_LOGIN_URL");

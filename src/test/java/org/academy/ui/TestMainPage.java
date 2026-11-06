@@ -1,19 +1,16 @@
 package org.academy.ui;
 
 import org.academy.ui.components.LanguageSwitcherComponent;
-import org.academy.ui.pages.ContactUsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Story;
 import org.academy.ui.components.HeaderComponent;
 import org.academy.ui.components.FooterComponent;
 import org.academy.ui.pages.MainPage;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.net.URI;
 import java.util.List;
 
 public class TestMainPage  extends BaseUiTestRunner {
