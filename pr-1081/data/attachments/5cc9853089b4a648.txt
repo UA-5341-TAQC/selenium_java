@@ -1,1 +1,0 @@
-Scenario started: Confirming the close discards the entered category values

@@ -1,1 +1,0 @@
-Scenario passed: Verify min/max boundary values for title and description

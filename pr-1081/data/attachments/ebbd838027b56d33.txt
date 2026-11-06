@@ -1,1 +1,0 @@
-Scenario passed: Category name accepts the minimum and maximum valid lengths
