@@ -1,1 +1,0 @@
-Scenario started: Declining closure preserves the category edits in the open form
