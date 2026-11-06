@@ -1,0 +1,479 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17436","Verify character counters of title and description","","Fri Nov 06 16:10:05 UTC 2026","broken","Fri Nov 06 16:10:23 UTC 2026","","Admin Who We Are Management","Verify character counters of title and description",""
+"","377","testGetForeignBankDetailsAuthenticated","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:03 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetForeignBankDetailsAuthenticated"
+"Verify that Delete Category modal opens with the correct elements and button states","712","testDeleteCategoryModal","Test Suite","Fri Nov 06 16:12:50 UTC 2026","passed","Fri Nov 06 16:12:51 UTC 2026","org.academy.ui.TestTeamPageAdmin","UI Tests","org.academy.ui.TestTeamPageAdmin","testDeleteCategoryModal"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","32396","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page","","Fri Nov 06 16:10:04 UTC 2026","passed","Fri Nov 06 16:10:37 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page",""
+"","1276","Verify partner profiles run left-to-right within rows and wrap below the previous row","Test Suite","Fri Nov 06 16:12:26 UTC 2026","passed","Fri Nov 06 16:12:28 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testPartnerProfilesHorizontalLayout"
+"","0","testGetLocalizedMainPageWithLanguageId","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetLocalizedMainPageWithLanguageId"
+"","21348","Verify EN language selection is retained when navigating between public pages","Test Suite","Fri Nov 06 16:07:04 UTC 2026","broken","Fri Nov 06 16:07:25 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testContactPageRevisitEN"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","20858","Verify the 'Опис' field is editable on the ""Люди"" tab and displays an accurate character counter","","Fri Nov 06 16:09:30 UTC 2026","passed","Fri Nov 06 16:09:51 UTC 2026","","Admin Who We Are Management","Verify the 'Опис' field is editable on the ""Люди"" tab and displays an accurate character counter",""
+"","8384","TC #840: Footer social media links open company profiles in new tabs","Test Suite","Fri Nov 06 16:11:52 UTC 2026","passed","Fri Nov 06 16:12:00 UTC 2026","org.academy.ui.TestFooter","UI Tests","org.academy.ui.TestFooter","testFooterSocialMediaLinks"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","18705","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:05 UTC 2026","passed","Fri Nov 06 16:08:23 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","238744","Verify validation messages for 'Опис' field in 'Що ми робимо' block","","Fri Nov 06 16:09:36 UTC 2026","passed","Fri Nov 06 16:13:35 UTC 2026","","Admin Who We Are Management","Verify validation messages for 'Опис' field in 'Що ми робимо' block",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10722","Category description accepts the minimum and maximum valid lengths","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:31 UTC 2026","","Team category form validation and discarding changes","Category description accepts the minimum and maximum valid lengths",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","36351","Contact form rejects an invalid e-mail","","Fri Nov 06 16:07:10 UTC 2026","passed","Fri Nov 06 16:07:46 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","1870","Verify partner profiles are grouped into separate sections with headings and descriptions","Test Suite","Fri Nov 06 16:12:30 UTC 2026","passed","Fri Nov 06 16:12:32 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testPartnerSectionsGrouping"
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9611","Edited category counters update after every character typed or removed without blur","","Fri Nov 06 16:05:32 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Edited category counters update after every character typed or removed without blur",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10758","Closing an unchanged edit form requires no confirmation","","Fri Nov 06 16:05:31 UTC 2026","failed","Fri Nov 06 16:05:42 UTC 2026","","Team category form validation and discarding changes","Closing an unchanged edit form requires no confirmation",""
+"","12061","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:11:11 UTC 2026","passed","Fri Nov 06 16:11:23 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"","954","Verify EN localization of the footer","Test Suite","Fri Nov 06 16:12:17 UTC 2026","passed","Fri Nov 06 16:12:18 UTC 2026","org.academy.ui.TestMainPage","UI Tests","org.academy.ui.TestMainPage","testFooterEN"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","91841","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 3 is the starting one)","","Fri Nov 06 16:10:34 UTC 2026","passed","Fri Nov 06 16:12:06 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 3 is the starting one)",""
+"","80468","Verify 'Повідомлення' field length validation (min/max boundaries)","Test Suite","Fri Nov 06 16:08:38 UTC 2026","passed","Fri Nov 06 16:09:59 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testMessageFieldLengthValidationBoundaries"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","16412","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:28 UTC 2026","passed","Fri Nov 06 16:08:44 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9783","Both category fields are required before saving can be enabled","","Fri Nov 06 16:05:21 UTC 2026","failed","Fri Nov 06 16:05:30 UTC 2026","","Team category form validation and discarding changes","Both category fields are required before saving can be enabled",""
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","16451","Verify Main page remains open after opening Programs","","Fri Nov 06 16:08:52 UTC 2026","passed","Fri Nov 06 16:09:09 UTC 2026","","Main Page Head Section Functionality","Verify Main page remains open after opening Programs",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","19443","Clean-up icon follows focus and clears the ""Назва"" field","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Team categories in the admin panel","Clean-up icon follows focus and clears the ""Назва"" field",""
+"","0","testGetLocalizedMainPageWithoutLanguageId","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetLocalizedMainPageWithoutLanguageId"
+"","112","testGetHistoryLocalizationsByLanguageId","Test Suite","Fri Nov 06 16:05:04 UTC 2026","passed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.HistoryTests","API Tests","org.academy.api.HistoryTests","testGetHistoryLocalizationsByLanguageId"
+"","0","Verify tooltip title and assigned web-pages list for Published questions","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testPublishedQuestionTooltip"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","41483","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:33 UTC 2026","passed","Fri Nov 06 16:07:15 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","12449","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:11:40 UTC 2026","passed","Fri Nov 06 16:11:52 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9315","Category fields normalize consecutive spaces and update their counters on blur","","Fri Nov 06 16:05:32 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Category fields normalize consecutive spaces and update their counters on blur",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","19800","Verify valid question and answer lengths are accepted and counters updated","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:21 UTC 2026","","Admin FAQ","Verify valid question and answer lengths are accepted and counters updated",""
+"","2245","Verify that all monetary values on the 'Звітність' page are shown in UAH when the language drop-down is set to Ukrainian (UKR)","Test Suite","Fri Nov 06 16:12:35 UTC 2026","passed","Fri Nov 06 16:12:37 UTC 2026","org.academy.ui.TestReportsPage","UI Tests","org.academy.ui.TestReportsPage","testReportsNavigationPages"
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","52848","Verify threshold warning message for Subject field","","Fri Nov 06 16:05:41 UTC 2026","passed","Fri Nov 06 16:06:34 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Subject field",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","11437","Category name rejects a short value and blocks characters beyond its limit","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:32 UTC 2026","","Team category form validation and discarding changes","Category name rejects a short value and blocks characters beyond its limit",""
+"","1353","Verify the Partners intro displays an image, heading and description","Test Suite","Fri Nov 06 16:12:20 UTC 2026","passed","Fri Nov 06 16:12:22 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testIntroSectionContent"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","34922","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:58 UTC 2026","passed","Fri Nov 06 16:07:33 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","19029","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:18 UTC 2026","passed","Fri Nov 06 16:08:37 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"","97","testGetSupportOptionsAuthenticated","Test Suite","Fri Nov 06 16:05:04 UTC 2026","failed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetSupportOptionsAuthenticated"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","41876","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:34 UTC 2026","passed","Fri Nov 06 16:07:16 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","13829","Verify 'Опублікувати' button is disabled when Admin enters the ""Люди"" tab","","Fri Nov 06 16:09:27 UTC 2026","passed","Fri Nov 06 16:09:41 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button is disabled when Admin enters the ""Люди"" tab",""
+"","23683","Verify publish button state for every people card description","Test Suite","Fri Nov 06 16:13:33 UTC 2026","broken","Fri Nov 06 16:13:56 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardDescriptionValidationAndPublishState"
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9484","The edit form lists existing categories without duplicates and selects one at a time","","Fri Nov 06 16:05:30 UTC 2026","failed","Fri Nov 06 16:05:40 UTC 2026","","Team category form validation and discarding changes","The edit form lists existing categories without duplicates and selects one at a time",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","39480","Verify that the contact form accepts valid email addresses","","Fri Nov 06 16:07:59 UTC 2026","passed","Fri Nov 06 16:08:39 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"","5404","Verify required validation for all contact form fields","Test Suite","Fri Nov 06 16:10:03 UTC 2026","passed","Fri Nov 06 16:10:08 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testRequiredFieldsValidation"
+"","942","Verify moving text bar across the footer","Test Suite","Fri Nov 06 16:12:11 UTC 2026","passed","Fri Nov 06 16:12:12 UTC 2026","org.academy.ui.TestFooterContent","UI Tests","org.academy.ui.TestFooterContent","testFooterMovingTextBar"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","38440","Contact form rejects an invalid e-mail","","Fri Nov 06 16:05:42 UTC 2026","passed","Fri Nov 06 16:06:20 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","19449","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled","","Fri Nov 06 16:09:52 UTC 2026","passed","Fri Nov 06 16:10:12 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","39478","Verify that the contact form accepts valid email addresses","","Fri Nov 06 16:07:57 UTC 2026","passed","Fri Nov 06 16:08:36 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"","13537","TC #838: Footer navigation links open the corresponding pages","Test Suite","Fri Nov 06 16:11:31 UTC 2026","passed","Fri Nov 06 16:11:45 UTC 2026","org.academy.ui.TestFooter","UI Tests","org.academy.ui.TestFooter","testFooterNavigationLinks"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","14446","Verify editable fields remain recoverable without publishing","","Fri Nov 06 16:10:12 UTC 2026","broken","Fri Nov 06 16:10:26 UTC 2026","","Admin Who We Are Management","Verify editable fields remain recoverable without publishing",""
+"  As a visitor of the Victory Center website
+  I want to see how much money was collected and how it was spent
+  So that I can trust the foundation","20818","Expenses chart shows a percentage and an absolute amount for every segment","","Fri Nov 06 16:09:26 UTC 2026","passed","Fri Nov 06 16:09:47 UTC 2026","","Reports page: total collected funds and expenses chart","Expenses chart shows a percentage and an absolute amount for every segment",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","70231","Verify that the description of card 3 in the ""Люди"" block does not exceed 60 characters","","Fri Nov 06 16:12:05 UTC 2026","passed","Fri Nov 06 16:13:15 UTC 2026","","Admin Who We Are Management","Verify that the description of card 3 in the ""Люди"" block does not exceed 60 characters",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","148261","Verify validation messages for the description of card 3 in the ""Люди"" block","","Fri Nov 06 16:11:00 UTC 2026","passed","Fri Nov 06 16:13:28 UTC 2026","","Admin Who We Are Management","Verify validation messages for the description of card 3 in the ""Люди"" block",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17699","Verify the character counter updates correctly on 'Люди' tab when entering special characters and pasting text","","Fri Nov 06 16:09:34 UTC 2026","passed","Fri Nov 06 16:09:52 UTC 2026","","Admin Who We Are Management","Verify the character counter updates correctly on 'Люди' tab when entering special characters and pasting text",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Partners"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17018","Verify that Publish button remains disabled when both Banner title and description are empty","","Fri Nov 06 16:09:10 UTC 2026","passed","Fri Nov 06 16:09:27 UTC 2026","","Admin Partners Management","Verify that Publish button remains disabled when both Banner title and description are empty",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","202977","Verify 'Опис' field of 'Що ми робимо' block stops at 300 characters by typing and pasting","","Fri Nov 06 16:09:42 UTC 2026","passed","Fri Nov 06 16:13:05 UTC 2026","","Admin Who We Are Management","Verify 'Опис' field of 'Що ми робимо' block stops at 300 characters by typing and pasting",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","11557","Intro section displays an image, title and description","","Fri Nov 06 16:09:06 UTC 2026","passed","Fri Nov 06 16:09:17 UTC 2026","","Partners page content and layout","Intro section displays an image, title and description",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","19409","Verify publication is enabled when all required FAQ fields are valid","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Admin FAQ","Verify publication is enabled when all required FAQ fields are valid",""
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","107978","Verify threshold warning message for Message field","","Fri Nov 06 16:05:41 UTC 2026","passed","Fri Nov 06 16:07:29 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Message field",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","15208","Footer opens a social media profile in a new tab","","Fri Nov 06 16:08:39 UTC 2026","passed","Fri Nov 06 16:08:54 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","23348","Verify contacts form and details UI elements on the public Contact Us page","","Fri Nov 06 16:07:19 UTC 2026","passed","Fri Nov 06 16:07:42 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify contacts form and details UI elements on the public Contact Us page",""
+"","3514","Verify validation errors for under-minimum input in Subject and Message fields","Test Suite","Fri Nov 06 16:10:25 UTC 2026","passed","Fri Nov 06 16:10:28 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testUnderMinimumInputValidationErrors"
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10797","Confirming closure discards category edits without persisting them","","Fri Nov 06 16:05:31 UTC 2026","failed","Fri Nov 06 16:05:42 UTC 2026","","Team category form validation and discarding changes","Confirming closure discards category edits without persisting them",""
+"","283","TC #839: Footer displays the expected email and phone number","Test Suite","Fri Nov 06 16:11:20 UTC 2026","passed","Fri Nov 06 16:11:20 UTC 2026","org.academy.ui.TestFooter","UI Tests","org.academy.ui.TestFooter","testFooterContactInformation"
+"","1395","Verify that the circular chart in the 'Основні витрати' block shows each expenditure as both a percentage and an absolute amount","Test Suite","Fri Nov 06 16:12:32 UTC 2026","passed","Fri Nov 06 16:12:33 UTC 2026","org.academy.ui.TestReportsExpensesChart","UI Tests","org.academy.ui.TestReportsExpensesChart","testExpensesChartShowsPercentageAndAmount"
+"","219","testGetPublishedUahBankDetails","Test Suite","Fri Nov 06 16:05:04 UTC 2026","passed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetPublishedUahBankDetails"
+"","0","Verify if the deletion of a published question can be cancelled","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testDeletionOfPublishedQuestionCanBeCancelled"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","88398","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 4 is the starting one)","","Fri Nov 06 16:10:37 UTC 2026","passed","Fri Nov 06 16:12:05 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 4 is the starting one)",""
+"","142","testGetHistoryLocalizationsByEntityId","Test Suite","Fri Nov 06 16:05:04 UTC 2026","passed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.HistoryTests","API Tests","org.academy.api.HistoryTests","testGetHistoryLocalizationsByEntityId"
+"","18089","Verify that the contact form is available on the Зв’язатися page and accepts valid input","Test Suite","Fri Nov 06 16:06:32 UTC 2026","passed","Fri Nov 06 16:06:50 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testContactFormAvailableAndAcceptsInput"
+"","33540","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:05:52 UTC 2026","passed","Fri Nov 06 16:06:26 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","11267","Category name accepts the minimum and maximum valid lengths","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:32 UTC 2026","","Team category form validation and discarding changes","Category name accepts the minimum and maximum valid lengths",""
+"","1590","Verify the public Team page objects can read categories and member cards","Test Suite","Fri Nov 06 16:12:43 UTC 2026","passed","Fri Nov 06 16:12:45 UTC 2026","org.academy.ui.TestTeamPage","UI Tests","org.academy.ui.TestTeamPage","testTeamPagePom"
+"","1856","Verify that spaces cannot be entered into the «E-mail» field of the Contact form","Test Suite","Fri Nov 06 16:12:01 UTC 2026","passed","Fri Nov 06 16:12:03 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testSpacesAreRemovedFromEmail"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","18315","Verify entered values are preserved when discarding changes is declined","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:19 UTC 2026","","Admin FAQ","Verify entered values are preserved when discarding changes is declined",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","10943","Verify confirmation pop-up is displayed when publishing changes in the ""Люди"" block","","Fri Nov 06 16:09:50 UTC 2026","passed","Fri Nov 06 16:10:01 UTC 2026","","Admin Who We Are Management","Verify confirmation pop-up is displayed when publishing changes in the ""Люди"" block",""
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","96075","Verify threshold warning message for Message field","","Fri Nov 06 16:05:42 UTC 2026","passed","Fri Nov 06 16:07:18 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Message field",""
+"","337","Verify the quote section displays Become a Partner and Donate buttons","Test Suite","Fri Nov 06 16:12:33 UTC 2026","passed","Fri Nov 06 16:12:34 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testQuoteSectionButtons"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","20775","Footer opens a social media profile in a new tab","","Fri Nov 06 16:08:37 UTC 2026","passed","Fri Nov 06 16:08:58 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","44085","Contact form rejects an invalid e-mail","","Fri Nov 06 16:05:42 UTC 2026","passed","Fri Nov 06 16:06:26 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","21064","Verify that the contact form rejects invalid email addresses","","Fri Nov 06 16:07:49 UTC 2026","passed","Fri Nov 06 16:08:10 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","71179","Verify that the description of card 2 in the ""Люди"" block does not exceed 60 characters","","Fri Nov 06 16:11:58 UTC 2026","passed","Fri Nov 06 16:13:10 UTC 2026","","Admin Who We Are Management","Verify that the description of card 2 in the ""Люди"" block does not exceed 60 characters",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","33203","Contact form rejects an invalid e-mail","","Fri Nov 06 16:07:02 UTC 2026","passed","Fri Nov 06 16:07:35 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","2173","Verify footer responsiveness at desktop, tablet, and mobile viewports","Test Suite","Fri Nov 06 16:11:47 UTC 2026","failed","Fri Nov 06 16:11:49 UTC 2026","org.academy.ui.TestFooter","UI Tests","org.academy.ui.TestFooter","testFooterResponsiveLayout"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","16027","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:34 UTC 2026","passed","Fri Nov 06 16:08:50 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","19094","Verify multiple FAQ pages can be selected and one selection removed","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Admin FAQ","Verify multiple FAQ pages can be selected and one selection removed",""
+"","24961","Verify real-time validation and 60-character limit for every people card","Test Suite","Fri Nov 06 16:13:05 UTC 2026","passed","Fri Nov 06 16:13:30 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardDescriptionRealTimeValidation"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Partners"" section,
+  So that information across all blocks is accurate, validated, and safely published.","18857","Verify that Publish button remains disabled when both Banner title and description are invalid","","Fri Nov 06 16:09:11 UTC 2026","passed","Fri Nov 06 16:09:30 UTC 2026","","Admin Partners Management","Verify that Publish button remains disabled when both Banner title and description are invalid",""
+"","124","testGetUahBankDetailsAuthenticated","Test Suite","Fri Nov 06 16:05:04 UTC 2026","failed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetUahBankDetailsAuthenticated"
+"","1814","Verify that spaces cannot be entered into the «E-mail» field of the Contact form","Test Suite","Fri Nov 06 16:11:56 UTC 2026","passed","Fri Nov 06 16:11:57 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testSpacesAreRemovedFromEmail"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","16607","Verify maximum character limits for title and description","","Fri Nov 06 16:10:24 UTC 2026","broken","Fri Nov 06 16:10:41 UTC 2026","","Admin Who We Are Management","Verify maximum character limits for title and description",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","20744","Verify that the contact form rejects invalid email addresses","","Fri Nov 06 16:07:56 UTC 2026","passed","Fri Nov 06 16:08:16 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"","15560","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:10:00 UTC 2026","passed","Fri Nov 06 16:10:16 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"","1621","Verify footer after scrolling and page reload","Test Suite","Fri Nov 06 16:12:04 UTC 2026","passed","Fri Nov 06 16:12:06 UTC 2026","org.academy.ui.TestFooterAfterScrollAndReload","UI Tests","org.academy.ui.TestFooterAfterScrollAndReload","testFooterAfterScrollingAndReload"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","35974","Verify that the system stores the defaulted pre-uploaded image in the ""Команда"" block","","Fri Nov 06 16:09:29 UTC 2026","passed","Fri Nov 06 16:10:05 UTC 2026","","Admin Who We Are Management","Verify that the system stores the defaulted pre-uploaded image in the ""Команда"" block",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","8338","Edited category counters update after every character typed or removed without blur","","Fri Nov 06 16:05:40 UTC 2026","failed","Fri Nov 06 16:05:48 UTC 2026","","Team category form validation and discarding changes","Edited category counters update after every character typed or removed without blur",""
+"","6479","Verify copy email and phone number buttons functionality on Contact Us page","Test Suite","Fri Nov 06 16:07:57 UTC 2026","passed","Fri Nov 06 16:08:04 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testCopyEmailAndPhoneButtons"
+"Verify that Main page remains open after clicking View Programs","8037","testMainPageRemainsOpen","Test Suite","Fri Nov 06 16:05:28 UTC 2026","passed","Fri Nov 06 16:05:36 UTC 2026","org.academy.ui.HeadSectionTest","UI Tests","org.academy.ui.HeadSectionTest","testMainPageRemainsOpen"
+"","11561","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:10:58 UTC 2026","passed","Fri Nov 06 16:11:10 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","35018","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:23 UTC 2026","passed","Fri Nov 06 16:06:58 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Partners"" section,
+  So that information across all blocks is accurate, validated, and safely published.","44148","Verify that Banner title and description accept up to 30 characters","","Fri Nov 06 16:09:06 UTC 2026","passed","Fri Nov 06 16:09:50 UTC 2026","","Admin Partners Management","Verify that Banner title and description accept up to 30 characters",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9408","Valid edits enable saving only after both category fields pass validation","","Fri Nov 06 16:05:32 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Valid edits enable saving only after both category fields pass validation",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","18494","Spaces cannot be entered into the e-mail field","","Fri Nov 06 16:07:16 UTC 2026","passed","Fri Nov 06 16:07:35 UTC 2026","","Contact form e-mail validation","Spaces cannot be entered into the e-mail field",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","22596","Verify that the contact form rejects invalid email addresses","","Fri Nov 06 16:07:42 UTC 2026","passed","Fri Nov 06 16:08:05 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"  As a visitor of the Victory Center website
+  I want to see how much money was collected and how it was spent
+  So that I can trust the foundation","17301","Total collected funds with kopiykas above 50 are truncated, not rounded up","","Fri Nov 06 16:09:17 UTC 2026","passed","Fri Nov 06 16:09:34 UTC 2026","","Reports page: total collected funds and expenses chart","Total collected funds with kopiykas above 50 are truncated, not rounded up",""
+"","0","testGetLocalizedMainPageWithNonExistentLanguageId","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetLocalizedMainPageWithNonExistentLanguageId"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","22674","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page","","Fri Nov 06 16:10:01 UTC 2026","passed","Fri Nov 06 16:10:24 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button does not update public ""Хто ми"" page",""
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","50440","Verify threshold warning message for Subject field","","Fri Nov 06 16:05:41 UTC 2026","passed","Fri Nov 06 16:06:31 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Subject field",""
+"","5589","Verify 'Тема звернення' field length validation (min/max boundaries)","Test Suite","Fri Nov 06 16:10:15 UTC 2026","passed","Fri Nov 06 16:10:21 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testSubjectFieldLengthValidationBoundaries"
+"","20518","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:09:35 UTC 2026","passed","Fri Nov 06 16:09:56 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17786","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:25 UTC 2026","passed","Fri Nov 06 16:08:43 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","45526","Verify ""Повідомлення"" field minimum length validation boundaries","","Fri Nov 06 16:07:33 UTC 2026","passed","Fri Nov 06 16:08:18 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify ""Повідомлення"" field minimum length validation boundaries",""
+"","1","beforeMethod","Test Suite","Fri Nov 06 16:05:13 UTC 2026","failed","Fri Nov 06 16:05:13 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","beforeMethod"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","47349","Verify ""Опис"" field is editable on the ""Команда"" tab","","Fri Nov 06 16:09:30 UTC 2026","passed","Fri Nov 06 16:10:17 UTC 2026","","Admin Who We Are Management","Verify ""Опис"" field is editable on the ""Команда"" tab",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","37644","Verify that the contact form accepts valid email addresses","","Fri Nov 06 16:07:56 UTC 2026","passed","Fri Nov 06 16:08:34 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form accepts valid email addresses",""
+"","360","testGetPublishedSupportOptions","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetPublishedSupportOptions"
+"","23782","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:09:02 UTC 2026","passed","Fri Nov 06 16:09:26 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17272","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:10 UTC 2026","passed","Fri Nov 06 16:08:28 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","11382","Page sections follow the expected order","","Fri Nov 06 16:08:54 UTC 2026","passed","Fri Nov 06 16:09:06 UTC 2026","","Partners page content and layout","Page sections follow the expected order",""
+"","1","beforeClass","Test Suite","Fri Nov 06 16:05:04 UTC 2026","failed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","beforeClass"
+"","27736","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:07:49 UTC 2026","passed","Fri Nov 06 16:08:17 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","19078","Every partner profile has an image and description","","Fri Nov 06 16:08:57 UTC 2026","passed","Fri Nov 06 16:09:17 UTC 2026","","Partners page content and layout","Every partner profile has an image and description",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","19184","Min length error and clean-up icon in the ""Опис"" field","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Team categories in the admin panel","Min length error and clean-up icon in the ""Опис"" field",""
+"","868","testLogin2","Test Suite","Fri Nov 06 16:05:02 UTC 2026","passed","Fri Nov 06 16:05:03 UTC 2026","org.academy.api.AuthTests","API Tests","org.academy.api.AuthTests","testLogin2"
+"","5492","Verify there are no broken links in the footer","Test Suite","Fri Nov 06 16:12:09 UTC 2026","passed","Fri Nov 06 16:12:14 UTC 2026","org.academy.ui.TestFooterBrokenLinks","UI Tests","org.academy.ui.TestFooterBrokenLinks","testFooterHasNoBrokenLinks"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","19279","Verify entered values are discarded when modal closure is confirmed","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Admin FAQ","Verify entered values are discarded when modal closure is confirmed",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","20068","Verify that the contact form rejects invalid email addresses","","Fri Nov 06 16:07:46 UTC 2026","passed","Fri Nov 06 16:08:06 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form rejects invalid email addresses",""
+"","7638","Verify footer is displayed with the same structure on every public page","Test Suite","Fri Nov 06 16:11:22 UTC 2026","passed","Fri Nov 06 16:11:30 UTC 2026","org.academy.ui.TestFooter","UI Tests","org.academy.ui.TestFooter","testFooterIsConsistentAcrossPublicPages"
+"","0","Verify typing is blocked in 'Питання' and 'Відповідь' fields once the character limit is reached","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testCharacterLimitBlocksTyping"
+"","1","testGetLocalizedMainPageWithInvalidLanguageIdReturnsProblemDetails","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetLocalizedMainPageWithInvalidLanguageIdReturnsProblemDetails"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","14699","Verify ""Опублікувати"" button is disabled in the ""Команда"" block when no changes are made","","Fri Nov 06 16:09:27 UTC 2026","passed","Fri Nov 06 16:09:42 UTC 2026","","Admin Who We Are Management","Verify ""Опублікувати"" button is disabled in the ""Команда"" block when no changes are made",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","17896","Verify minimum length validation for title and description","","Fri Nov 06 16:10:23 UTC 2026","broken","Fri Nov 06 16:10:41 UTC 2026","","Admin Who We Are Management","Verify minimum length validation for title and description",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","113069","Verify maximum character limit blocks further input on Subject and Message fields","","Fri Nov 06 16:07:33 UTC 2026","passed","Fri Nov 06 16:09:26 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify maximum character limit blocks further input on Subject and Message fields",""
+"","15240","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:10:19 UTC 2026","passed","Fri Nov 06 16:10:34 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"","1030","Verify the order of sections on the public Partners page","Test Suite","Fri Nov 06 16:12:36 UTC 2026","passed","Fri Nov 06 16:12:37 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testSectionsOrder"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Partners"" section,
+  So that information across all blocks is accurate, validated, and safely published.","19140","Verify that Publish button remains disabled when Banner title is invalid and description is valid","","Fri Nov 06 16:09:08 UTC 2026","passed","Fri Nov 06 16:09:27 UTC 2026","","Admin Partners Management","Verify that Publish button remains disabled when Banner title is invalid and description is valid",""
+"Verify language dropdown in 'Редагувати переклад' modal window","1162","testTranslationLanguageDropdown","Test Suite","Fri Nov 06 16:12:24 UTC 2026","passed","Fri Nov 06 16:12:25 UTC 2026","org.academy.ui.TestHistoryPageAdmin","UI Tests","org.academy.ui.TestHistoryPageAdmin","testTranslationLanguageDropdown"
+"  Administrators can select FAQ publication pages, validate form fields,
+  and discard entered values without saving or publishing a question.","19494","Verify saving a draft is enabled with a page and valid question only","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Admin FAQ","Verify saving a draft is enabled with a page and valid question only",""
+"","12077","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:11:25 UTC 2026","passed","Fri Nov 06 16:11:38 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","24521","Verify ""Тема звернення"" field minimum length validation boundaries","","Fri Nov 06 16:07:32 UTC 2026","passed","Fri Nov 06 16:07:56 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify ""Тема звернення"" field minimum length validation boundaries",""
+"  As a public visitor of the Victory Center website
+  I want to be able to review published reports on the ""Звітність"" page","12625","Verify that the download icon is displayed for each PDF file","","Fri Nov 06 16:09:17 UTC 2026","passed","Fri Nov 06 16:09:29 UTC 2026","","Reports Page Functionality","Verify that the download icon is displayed for each PDF file",""
+"","12872","Verify Contact Us page displays all localized content in English after selecting","Test Suite","Fri Nov 06 16:08:15 UTC 2026","passed","Fri Nov 06 16:08:28 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testLocalizationPageEN"
+"Verify Add Category option is present in the context menu and opens the Add Category modal","582","testAddCategoryModal","Test Suite","Fri Nov 06 16:12:46 UTC 2026","passed","Fri Nov 06 16:12:47 UTC 2026","org.academy.ui.TestTeamPageAdmin","UI Tests","org.academy.ui.TestTeamPageAdmin","testAddCategoryModal"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","35755","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:26 UTC 2026","passed","Fri Nov 06 16:07:02 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","25125","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:08:28 UTC 2026","passed","Fri Nov 06 16:08:53 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"","859","Verify that the total collected funds with cents greater than 50 (for example 1 249 854,99) is truncated to 1 249 854 and not rounded up","Test Suite","Fri Nov 06 16:12:41 UTC 2026","passed","Fri Nov 06 16:12:42 UTC 2026","org.academy.ui.TestReportsTotalCollectedFunds","UI Tests","org.academy.ui.TestReportsTotalCollectedFunds","testTotalCollectedFundsIsNotRoundedUp"
+"","0","Verify Publish button state after uploading valid and invalid People card images","Test Suite","Fri Nov 06 16:14:08 UTC 2026","skipped","Fri Nov 06 16:14:08 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardImageUploadAndPublishState"
+"","7507","Verify contacts form UI elements on the public 'Зв'язатися' web-page","Test Suite","Fri Nov 06 16:07:37 UTC 2026","passed","Fri Nov 06 16:07:44 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testContactsFormUiElements"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","19403","Verify copy email and phone number buttons functionality","","Fri Nov 06 16:07:36 UTC 2026","passed","Fri Nov 06 16:07:56 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify copy email and phone number buttons functionality",""
+"","26761","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:06:35 UTC 2026","passed","Fri Nov 06 16:07:02 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As a visitor of the Victory Center website
+  I want the footer to work correctly on every page
+  So that I can rely on its links and always find it at the bottom of the page","13347","Footer stays correct after scrolling and page reload on the ""Хто ми"" page","","Fri Nov 06 16:08:44 UTC 2026","passed","Fri Nov 06 16:08:57 UTC 2026","","Footer links and layout","Footer stays correct after scrolling and page reload on the ""Хто ми"" page",""
+"","23619","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:05:21 UTC 2026","passed","Fri Nov 06 16:05:45 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"","3437","testLogin","Test Suite","Fri Nov 06 16:04:58 UTC 2026","failed","Fri Nov 06 16:05:02 UTC 2026","org.academy.api.AuthTests","API Tests","org.academy.api.AuthTests","testLogin"
+"","9147","Verify that people card descriptions do not exceed 60 characters","Test Suite","Fri Nov 06 16:12:54 UTC 2026","passed","Fri Nov 06 16:13:03 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardDescriptionMaxLength"
+"","0","testGetMainPage","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetMainPage"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","14079","Verify social media links navigation URLs and target attributes","","Fri Nov 06 16:07:35 UTC 2026","passed","Fri Nov 06 16:07:49 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify social media links navigation URLs and target attributes",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","13326","Partner profiles are arranged from left to right","","Fri Nov 06 16:08:59 UTC 2026","passed","Fri Nov 06 16:09:12 UTC 2026","","Partners page content and layout","Partner profiles are arranged from left to right",""
+"","459","testRefreshTokenAndLogout","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:03 UTC 2026","org.academy.api.AuthTests","API Tests","org.academy.api.AuthTests","testRefreshTokenAndLogout"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","79111","Verify 'Опублікувати' button enables only after 'Опис' passes validation in 'Що ми робимо' block","","Fri Nov 06 16:09:41 UTC 2026","passed","Fri Nov 06 16:11:00 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button enables only after 'Опис' passes validation in 'Що ми робимо' block",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","41061","Contact form rejects an invalid e-mail","","Fri Nov 06 16:05:42 UTC 2026","passed","Fri Nov 06 16:06:23 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","8539","Quote section displays partnership and support buttons","","Fri Nov 06 16:09:02 UTC 2026","passed","Fri Nov 06 16:09:10 UTC 2026","","Partners page content and layout","Quote section displays partnership and support buttons",""
+"","0","Verify the 'Додати питання' modal closes without confirmation when no changes were made","Test Suite","Fri Nov 06 16:05:13 UTC 2026","skipped","Fri Nov 06 16:05:13 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testAddQuestionModalClosesWithoutConfirmationWhenNoChanges"
+"  As a visitor of the Victory Center website
+  I want to view partner sections and partnership options
+  So that I can learn about the partners and support the organization","18646","Partners are grouped into separate sections","","Fri Nov 06 16:08:58 UTC 2026","passed","Fri Nov 06 16:09:17 UTC 2026","","Partners page content and layout","Partners are grouped into separate sections",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","10871","Closing the modal with a non-empty ""Опис"" field asks for confirmation","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:31 UTC 2026","","Team categories in the admin panel","Closing the modal with a non-empty ""Опис"" field asks for confirmation",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","9892","Category description rejects a short value and blocks characters beyond its limit","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:30 UTC 2026","","Team category form validation and discarding changes","Category description rejects a short value and blocks characters beyond its limit",""
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","100506","Verify threshold warning message for Message field","","Fri Nov 06 16:05:41 UTC 2026","passed","Fri Nov 06 16:07:22 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Message field",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","31085","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled","","Fri Nov 06 16:10:01 UTC 2026","passed","Fri Nov 06 16:10:32 UTC 2026","","Admin Who We Are Management","Verify cancelling publication via ""Ні"" button closes pop-up and keeps ""Опублікувати"" enabled",""
+"  As a visitor of the Victory Center website
+  I want the footer to work correctly on every page
+  So that I can rely on its links and always find it at the bottom of the page","28256","Footer has no broken links","","Fri Nov 06 16:08:43 UTC 2026","passed","Fri Nov 06 16:09:11 UTC 2026","","Footer links and layout","Footer has no broken links",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","37083","Verify the content display in the ""Кого підтримуємо"" tab","","Fri Nov 06 16:09:27 UTC 2026","passed","Fri Nov 06 16:10:04 UTC 2026","","Admin Who We Are Management","Verify the content display in the ""Кого підтримуємо"" tab",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","11040","Category fields trim leading and trailing spaces on blur","","Fri Nov 06 16:05:21 UTC 2026","failed","Fri Nov 06 16:05:32 UTC 2026","","Team category form validation and discarding changes","Category fields trim leading and trailing spaces on blur",""
+"","117","testGetHistory","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.HistoryTests","API Tests","org.academy.api.HistoryTests","testGetHistory"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","69604","Verify that the description of card 1 in the ""Люди"" block does not exceed 60 characters","","Fri Nov 06 16:11:47 UTC 2026","passed","Fri Nov 06 16:12:57 UTC 2026","","Admin Who We Are Management","Verify that the description of card 1 in the ""Люди"" block does not exceed 60 characters",""
+"","90","testGetForeignBankDetailsWithInvalidCurrencyReturnsProblemDetails","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:03 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetForeignBankDetailsWithInvalidCurrencyReturnsProblemDetails"
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","19393","Clean-up icon follows focus and clears the ""Опис"" field","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Team categories in the admin panel","Clean-up icon follows focus and clears the ""Опис"" field",""
+"","1","Verify description validation messages for every people card","Test Suite","Fri Nov 06 16:14:08 UTC 2026","skipped","Fri Nov 06 16:14:08 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","testPeopleCardDescriptionValidationMessages"
+"","0","Verify minimum length validation in 'Питання' and 'Відповідь' fields in 'Додати питання' modal","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testMinimumLengthValidation"
+"","30485","Verify that the PDF-file list collapses after clicking the ""Показати менше"" button","Test Suite","Fri Nov 06 16:12:39 UTC 2026","broken","Fri Nov 06 16:13:10 UTC 2026","org.academy.ui.TestReportsPage","UI Tests","org.academy.ui.TestReportsPage","testShowLessReportsButton"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17791","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:23 UTC 2026","passed","Fri Nov 06 16:08:41 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","16673","Verify min/max boundary values for title and description","","Fri Nov 06 16:10:17 UTC 2026","broken","Fri Nov 06 16:10:34 UTC 2026","","Admin Who We Are Management","Verify min/max boundary values for title and description",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10193","Declining closure preserves the category edits in the open form","","Fri Nov 06 16:05:31 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Declining closure preserves the category edits in the open form",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","49110","Contact form rejects an invalid e-mail","","Fri Nov 06 16:05:48 UTC 2026","passed","Fri Nov 06 16:06:37 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As a visitor of the Victory Center website
+  I want to see how much money was collected and how it was spent
+  So that I can trust the foundation","13447","Total collected funds use spaces as thousands separators and have no kopiykas","","Fri Nov 06 16:09:17 UTC 2026","passed","Fri Nov 06 16:09:30 UTC 2026","","Reports page: total collected funds and expenses chart","Total collected funds use spaces as thousands separators and have no kopiykas",""
+"","483","Verify that the total collected funds on the 'Звітність' page uses spaces as thousand separators, shows no kopiykas and is not rounded up (current report data)","Test Suite","Fri Nov 06 16:12:39 UTC 2026","passed","Fri Nov 06 16:12:39 UTC 2026","org.academy.ui.TestReportsTotalCollectedFunds","UI Tests","org.academy.ui.TestReportsTotalCollectedFunds","testTotalCollectedFundsFormat"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","38398","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:31 UTC 2026","passed","Fri Nov 06 16:07:10 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"Verify that the Head section is displayed correctly","5001","testHeadSectionIsDisplayed","Test Suite","Fri Nov 06 16:05:16 UTC 2026","passed","Fri Nov 06 16:05:21 UTC 2026","org.academy.ui.HeadSectionTest","UI Tests","org.academy.ui.HeadSectionTest","testHeadSectionIsDisplayed"
+"Verify clicking the Down arrow moves the section one position lower","2310","testMoveSectionDown","Test Suite","Fri Nov 06 16:12:16 UTC 2026","passed","Fri Nov 06 16:12:18 UTC 2026","org.academy.ui.TestHistoryPageAdmin","UI Tests","org.academy.ui.TestHistoryPageAdmin","testMoveSectionDown"
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","24812","Verify validation errors for simultaneous under-minimum input in Subject and Message fields","","Fri Nov 06 16:07:35 UTC 2026","passed","Fri Nov 06 16:07:59 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify validation errors for simultaneous under-minimum input in Subject and Message fields",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","81153","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 1 is the starting one)","","Fri Nov 06 16:10:26 UTC 2026","passed","Fri Nov 06 16:11:47 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 1 is the starting one)",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","10846","Closing the unchanged Add category modal does not ask for confirmation","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:31 UTC 2026","","Team categories in the admin panel","Closing the unchanged Add category modal does not ask for confirmation",""
+"  As a public visitor of the Victory Center website
+  I want to be able to review available programs on the ""Програми"" page","24174","[ContactUs] [Visitor] Open and close the contact form on the Programs page","","Fri Nov 06 16:09:12 UTC 2026","passed","Fri Nov 06 16:09:36 UTC 2026","","Programs Page Functionality","[ContactUs] [Visitor] Open and close the contact form on the Programs page",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","34292","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:20 UTC 2026","passed","Fri Nov 06 16:06:55 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","177","Open and close the contact form on the Programs page","Test Suite","Fri Nov 06 16:12:30 UTC 2026","passed","Fri Nov 06 16:12:30 UTC 2026","org.academy.ui.TestProgramsPage","UI Tests","org.academy.ui.TestProgramsPage","testContactFromProgramsPage"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","115943","Verify space management of the ""Опис"" field in the ""Команда"" block","","Fri Nov 06 16:09:47 UTC 2026","passed","Fri Nov 06 16:11:43 UTC 2026","","Admin Who We Are Management","Verify space management of the ""Опис"" field in the ""Команда"" block",""
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","12923","Verify Head section is displayed correctly","","Fri Nov 06 16:08:49 UTC 2026","passed","Fri Nov 06 16:09:02 UTC 2026","","Main Page Head Section Functionality","Verify Head section is displayed correctly",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","38249","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:55 UTC 2026","passed","Fri Nov 06 16:07:33 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","18529","Spaces cannot be entered into the e-mail field","","Fri Nov 06 16:07:18 UTC 2026","passed","Fri Nov 06 16:07:36 UTC 2026","","Contact form e-mail validation","Spaces cannot be entered into the e-mail field",""
+"","26101","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:07:13 UTC 2026","passed","Fri Nov 06 16:07:39 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","155291","Verify validation messages for the description of card 1 in the ""Люди"" block","","Fri Nov 06 16:10:41 UTC 2026","passed","Fri Nov 06 16:13:16 UTC 2026","","Admin Who We Are Management","Verify validation messages for the description of card 1 in the ""Люди"" block",""
+"","0","setUp","Test Suite","Fri Nov 06 16:14:08 UTC 2026","broken","Fri Nov 06 16:14:08 UTC 2026","org.academy.ui.TestWhoWeAreAdminPage","UI Tests","org.academy.ui.TestWhoWeAreAdminPage","setUp"
+"Verify clicking the Up arrow moves the section one position higher","1897","testMoveSectionUp","Test Suite","Fri Nov 06 16:12:21 UTC 2026","passed","Fri Nov 06 16:12:23 UTC 2026","org.academy.ui.TestHistoryPageAdmin","UI Tests","org.academy.ui.TestHistoryPageAdmin","testMoveSectionUp"
+"Verify that View Programs opens Programs page in a new tab","10874","testViewProgramsOpensNewTab","Test Suite","Fri Nov 06 16:05:42 UTC 2026","passed","Fri Nov 06 16:05:53 UTC 2026","org.academy.ui.HeadSectionTest","UI Tests","org.academy.ui.HeadSectionTest","testViewProgramsOpensNewTab"
+"Verify 'Редагувати переклад' modal opens with the correct History structure and existing English translation","697","testTranslationModalContent","Test Suite","Fri Nov 06 16:12:27 UTC 2026","passed","Fri Nov 06 16:12:28 UTC 2026","org.academy.ui.TestHistoryPageAdmin","UI Tests","org.academy.ui.TestHistoryPageAdmin","testTranslationModalContent"
+"","0","Verify unsaved changes pop-up displays after click the X icon in the 'Додати питання' modal","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testUnsavedChangesPopUpOnCloseAddQuestionModal"
+"","0","Verify if the FAQ section can be opened","Test Suite","Fri Nov 06 16:05:14 UTC 2026","skipped","Fri Nov 06 16:05:14 UTC 2026","org.academy.ui.admin.TestAdminFaqPage","UI Tests","org.academy.ui.admin.TestAdminFaqPage","testFaqSectionCanBeOpened"
+"","1","testAdminPanel","Test Suite","Fri Nov 06 16:05:16 UTC 2026","skipped","Fri Nov 06 16:05:16 UTC 2026","org.academy.ui.TestAdminPage","UI Tests","org.academy.ui.TestAdminPage","testAdminPanel"
+"","1629","Verify that spaces cannot be entered into the «E-mail» field of the Contact form","Test Suite","Fri Nov 06 16:12:06 UTC 2026","passed","Fri Nov 06 16:12:08 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testSpacesAreRemovedFromEmail"
+"","644","Verify social media links navigation and target attributes on Contact Us page","Test Suite","Fri Nov 06 16:10:12 UTC 2026","passed","Fri Nov 06 16:10:13 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testSocialMediaLinksAttributes"
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","17020","Spaces cannot be entered into the e-mail field","","Fri Nov 06 16:07:15 UTC 2026","passed","Fri Nov 06 16:07:32 UTC 2026","","Contact form e-mail validation","Spaces cannot be entered into the e-mail field",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10487","Edited category fields validate lengths and block extra characters","","Fri Nov 06 16:05:30 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Edited category fields validate lengths and block extra characters",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17483","Footer opens a social media profile in a new tab","","Fri Nov 06 16:08:41 UTC 2026","passed","Fri Nov 06 16:08:59 UTC 2026","","Main Page - Footer Section","Footer opens a social media profile in a new tab",""
+"","974","Verify every partner profile has a loaded image and description within its section","Test Suite","Fri Nov 06 16:12:23 UTC 2026","passed","Fri Nov 06 16:12:24 UTC 2026","org.academy.ui.TestPartnersPage","UI Tests","org.academy.ui.TestPartnersPage","testPartnerProfilesContent"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","10064","Verify confirmation popup is displayed after clicking the enabled ""Опублікувати"" button in ""Кого підтримуємо"" block","","Fri Nov 06 16:09:51 UTC 2026","passed","Fri Nov 06 16:10:01 UTC 2026","","Admin Who We Are Management","Verify confirmation popup is displayed after clicking the enabled ""Опублікувати"" button in ""Кого підтримуємо"" block",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10995","Declining closure preserves values in the new category form","","Fri Nov 06 16:05:30 UTC 2026","failed","Fri Nov 06 16:05:41 UTC 2026","","Team category form validation and discarding changes","Declining closure preserves values in the new category form",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","18856","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:33 UTC 2026","passed","Fri Nov 06 16:08:52 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","71108","Verify that the description of card 4 in the ""Люди"" block does not exceed 60 characters","","Fri Nov 06 16:12:06 UTC 2026","passed","Fri Nov 06 16:13:17 UTC 2026","","Admin Who We Are Management","Verify that the description of card 4 in the ""Люди"" block does not exceed 60 characters",""
+"Verify that selecting a Team category automatically populates its description","1286","testCategoryDescriptionAutoPopulation","Test Suite","Fri Nov 06 16:12:48 UTC 2026","passed","Fri Nov 06 16:12:49 UTC 2026","org.academy.ui.TestTeamPageAdmin","UI Tests","org.academy.ui.TestTeamPageAdmin","testCategoryDescriptionAutoPopulation"
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","19376","Min length error and clean-up icon in the ""Назва"" field","","Fri Nov 06 16:05:01 UTC 2026","failed","Fri Nov 06 16:05:20 UTC 2026","","Team categories in the admin panel","Min length error and clean-up icon in the ""Назва"" field",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","12251","Footer displays contact information","","Fri Nov 06 16:08:36 UTC 2026","passed","Fri Nov 06 16:08:49 UTC 2026","","Main Page - Footer Section","Footer displays contact information",""
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","17004","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:16 UTC 2026","passed","Fri Nov 06 16:08:33 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","34706","Verify that the contact form is available and accepts valid input","","Fri Nov 06 16:07:22 UTC 2026","passed","Fri Nov 06 16:07:57 UTC 2026","","Contact Us Page Functionality and Form Validation","Verify that the contact form is available and accepts valid input",""
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","10768","Confirming the close discards the entered category values","","Fri Nov 06 16:05:19 UTC 2026","failed","Fri Nov 06 16:05:30 UTC 2026","","Team categories in the admin panel","Confirming the close discards the entered category values",""
+"","0","beforeMethod","Test Suite","Fri Nov 06 16:05:16 UTC 2026","failed","Fri Nov 06 16:05:16 UTC 2026","org.academy.ui.TestAdminPage","UI Tests","org.academy.ui.TestAdminPage","beforeMethod"
+"  Admins can create team member categories
+  and get validation feedback while filling in the category form.","10690","Closing the modal with a non-empty ""Назва"" field asks for confirmation","","Fri Nov 06 16:05:20 UTC 2026","failed","Fri Nov 06 16:05:31 UTC 2026","","Team categories in the admin panel","Closing the modal with a non-empty ""Назва"" field asks for confirmation",""
+"  As a visitor of the Victory Center website
+  I want to be told when the e-mail I entered is not valid
+  So that the form is sent only with an address that can be used for the reply","41266","Contact form rejects an invalid e-mail","","Fri Nov 06 16:06:37 UTC 2026","passed","Fri Nov 06 16:07:19 UTC 2026","","Contact form e-mail validation","Contact form rejects an invalid e-mail",""
+"","315","testGetPublishedForeignBankDetails","Test Suite","Fri Nov 06 16:05:03 UTC 2026","passed","Fri Nov 06 16:05:03 UTC 2026","org.academy.api.BankDetailsTests","API Tests","org.academy.api.BankDetailsTests","testGetPublishedForeignBankDetails"
+"","11537","Verify Contact Us page displays company address from Admin Panel field when EN is selected","Test Suite","Fri Nov 06 16:06:10 UTC 2026","passed","Fri Nov 06 16:06:22 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testContactAddressEN"
+"  As a public visitor of the Victory Center website
+  I want  use the contact form in three available ways
+  So that I can reach out to the organization","52169","Verify threshold warning message for Subject field","","Fri Nov 06 16:05:41 UTC 2026","passed","Fri Nov 06 16:06:33 UTC 2026","","Contact Us Form Functionality","Verify threshold warning message for Subject field",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","149453","Verify validation messages for the description of card 4 in the ""Люди"" block","","Fri Nov 06 16:11:43 UTC 2026","passed","Fri Nov 06 16:14:12 UTC 2026","","Admin Who We Are Management","Verify validation messages for the description of card 4 in the ""Люди"" block",""
+"  As a public visitor of the Victory Center website
+  I want to view contact details and use the contact form on the ""Зв'язатися"" page
+  So that I can reach out to the organization or connect via social media","96188","Normalize whitespace and reject whitespace-only required fields","","Fri Nov 06 16:07:30 UTC 2026","passed","Fri Nov 06 16:09:06 UTC 2026","","Contact Us Page Functionality and Form Validation","Normalize whitespace and reject whitespace-only required fields",""
+"","47787","Verify threshold warning message for 'Повідомлення' field","Test Suite","Fri Nov 06 16:10:31 UTC 2026","broken","Fri Nov 06 16:11:19 UTC 2026","org.academy.ui.TestContactUsPage","UI Tests","org.academy.ui.TestContactUsPage","testWarningMessageFiled"
+"  Description:
+  Verify that the Head section is displayed correctly on the Main page.
+  Verify that clicking the ""Переглянути програми"" button opens
+  the Programs page in a new browser tab.
+  Verify that the Main page remains open after navigation.","17584","Verify View Programs opens Programs page in a new tab","","Fri Nov 06 16:08:50 UTC 2026","passed","Fri Nov 06 16:09:08 UTC 2026","","Main Page Head Section Functionality","Verify View Programs opens Programs page in a new tab",""
+"","1215","Verify the newsletter subscription block is not displayed in the footer","Test Suite","Fri Nov 06 16:12:14 UTC 2026","passed","Fri Nov 06 16:12:16 UTC 2026","org.academy.ui.TestFooterContent","UI Tests","org.academy.ui.TestFooterContent","testNewsletterBlockIsNotDisplayed"
+"  Visitors can use the footer to navigate the website,
+  view contact information and open Victory Center social media profiles.","18300","Footer navigation links open the corresponding pages","","Fri Nov 06 16:08:06 UTC 2026","passed","Fri Nov 06 16:08:25 UTC 2026","","Main Page - Footer Section","Footer navigation links open the corresponding pages",""
+"","16918","Verify that the Contact form rejects invalid e-mail addresses and shows «Некоректний E-mail»","Test Suite","Fri Nov 06 16:10:40 UTC 2026","passed","Fri Nov 06 16:10:57 UTC 2026","org.academy.ui.TestContactFormEmailValidation","UI Tests","org.academy.ui.TestContactFormEmailValidation","testInvalidEmailIsRejected"
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Partners"" section,
+  So that information across all blocks is accurate, validated, and safely published.","18110","Verify that Publish button remains disabled when Banner title is valid and description is invalid","","Fri Nov 06 16:09:09 UTC 2026","passed","Fri Nov 06 16:09:27 UTC 2026","","Admin Partners Management","Verify that Publish button remains disabled when Banner title is valid and description is invalid",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","86460","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 2 is the starting one)","","Fri Nov 06 16:10:32 UTC 2026","passed","Fri Nov 06 16:11:58 UTC 2026","","Admin Who We Are Management","Verify 'Опублікувати' button state for the description of every card in the ""Люди"" block (card 2 is the starting one)",""
+"  Administrators can validate category fields and discard form changes.
+  No scenario saves, publishes or deletes a category.","10655","Edited category fields validate lengths and block extra characters","","Fri Nov 06 16:05:31 UTC 2026","failed","Fri Nov 06 16:05:42 UTC 2026","","Team category form validation and discarding changes","Edited category fields validate lengths and block extra characters",""
+"  As an administrator of the Victory Center admin panel,
+  I want to view, validate, and manage content in the ""Хто ми"" section,
+  So that information across all blocks is accurate, validated, and safely published.","154785","Verify validation messages for the description of card 2 in the ""Люди"" block","","Fri Nov 06 16:10:41 UTC 2026","passed","Fri Nov 06 16:13:15 UTC 2026","","Admin Who We Are Management","Verify validation messages for the description of card 2 in the ""Люди"" block",""
+"","0","testGetMainPageAuthenticated","Test Suite","Fri Nov 06 16:05:04 UTC 2026","skipped","Fri Nov 06 16:05:04 UTC 2026","org.academy.api.MainPageTests","API Tests","org.academy.api.MainPageTests","testGetMainPageAuthenticated"

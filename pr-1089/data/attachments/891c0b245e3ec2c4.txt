@@ -1,0 +1,1 @@
+Scenario passed: Verify cancelling publication via "Ні" button closes pop-up and keeps "Опублікувати" enabled

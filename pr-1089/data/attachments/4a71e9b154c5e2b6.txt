@@ -1,0 +1,1 @@
+Scenario started: Verify the character counter updates correctly on 'Люди' tab when entering special characters and pasting text
