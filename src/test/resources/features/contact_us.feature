@@ -25,12 +25,54 @@ Feature: Contact Us Page Functionality and Form Validation
   Scenario: Verify that the contact form is available and accepts valid input
     Then all contact form fields and the submit button should be displayed
     When the visitor fills the contact form with the following data:
-      | name    | Олександр Тестовий                                   |
-      | email   | test.user@example.com                                |
-      | subject | Загальне запитання                                   |
+      | name    | Олександр Тестовий                                  |
+      | email   | test.user@example.com                               |
+      | subject | Загальне запитання                                  |
       | message | Доброго дня! Це перевірка форми зворотного зв'язку. |
     Then the contact form fields should contain the entered values
     And the submit button with text "Надіслати" should be displayed
+
+  @Issue-801 @Validation
+  Scenario: Normalize whitespace and reject whitespace-only required fields
+    When the visitor enters "   Name           Name       " into the "Ваше ім'я" contact form field
+    Then the "Ваше ім'я" contact form field should equal "Name Name" when trimmed
+    When the visitor enters "       test@gmail.com       " into the "E-mail" contact form field
+    Then the "E-mail" contact form field should equal "test@gmail.com" when trimmed
+    When the visitor enters "    Test            subject    " into the "Тема звернення" contact form field
+    Then the "Тема звернення" contact form field should equal "Test subject" when trimmed
+    When the visitor enters "   An           important       test         message    " into the "Напишіть ваше повідомлення" contact form field
+    Then the "Напишіть ваше повідомлення" contact form field should equal "An important test message" when trimmed
+
+    When the visitor moves focus away from the "Ваше ім'я" contact form field
+    Then the "Ваше ім'я" contact form field should contain "Name Name"
+    When the visitor moves focus away from the "E-mail" contact form field
+    Then the "E-mail" contact form field should contain "test@gmail.com"
+    When the visitor moves focus away from the "Тема звернення" contact form field
+    Then the "Тема звернення" contact form field should contain "Test subject"
+    When the visitor moves focus away from the "Напишіть ваше повідомлення" contact form field
+    Then the "Напишіть ваше повідомлення" contact form field should contain "An important test message"
+
+    When the visitor clears all contact form fields
+    And the visitor enters "   " into the "Ваше ім'я" contact form field
+    And the visitor enters "   " into the "E-mail" contact form field
+    And the visitor enters "   " into the "Тема звернення" contact form field
+    And the visitor enters "   " into the "Напишіть ваше повідомлення" contact form field
+    And the visitor moves focus away from the "Ваше ім'я" contact form field
+    And the visitor moves focus away from the "E-mail" contact form field
+    And the visitor moves focus away from the "Тема звернення" contact form field
+    And the visitor moves focus away from the "Напишіть ваше повідомлення" contact form field
+    Then the following validation errors should be displayed:
+      | Введіть Ваше ім'я          |
+      | Введіть E-mail для зв'язку |
+      | Введіть тему звернення     |
+      | Введіть повідомлення       |
+    When the visitor attempts to submit the contact form
+    Then the following validation errors should be displayed:
+      | Введіть Ваше ім'я          |
+      | Введіть E-mail для зв'язку |
+      | Введіть тему звернення     |
+      | Введіть повідомлення       |
+    And the contact form should remain displayed and not be submitted
 
   @Issue-749 @Validation @Boundary
   Scenario: Verify "Тема звернення" field minimum length validation boundaries
@@ -96,7 +138,7 @@ Feature: Contact Us Page Functionality and Form Validation
     Then the validation error "Некоректний E-mail" should not be displayed
 
     Examples:
-      | valid_email              |
-      | test.user@example.com    |
-      | info@victorycenter.ua    |
-      | user_123+tag@sub.org.ua  |
+      | valid_email             |
+      | test.user@example.com   |
+      | info@victorycenter.ua   |
+      | user_123+tag@sub.org.ua |

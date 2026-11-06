@@ -110,12 +110,80 @@ public class ContactUsStep {
                 "Entered form values should match expected ContactFormData");
     }
 
+    @When("the visitor enters {string} into the {string} contact form field")
+    public void enterContactFormField(String value, String field) {
+        ContactFormCardComponent form = getContactUsPage().getContactFormCard();
+        switch (field) {
+            case "Ваше ім'я" -> form.enterName(value);
+            case "E-mail" -> form.enterEmail(value);
+            case "Тема звернення" -> form.enterSubject(value);
+            case "Напишіть ваше повідомлення" -> form.enterMessage(value);
+            default -> throw new IllegalArgumentException("Unsupported contact form field: " + field);
+        }
+    }
+
+    @Then("the {string} contact form field should equal {string} when trimmed")
+    public void verifyContactFormFieldEqualsWhenTrimmed(String field, String expectedValue) {
+        String actualValue = getContactFormFieldValue(field);
+        Assert.assertEquals(actualValue.trim(), expectedValue,
+                "Consecutive spaces should be collapsed immediately in " + field);
+    }
+
+    @When("the visitor moves focus away from the {string} contact form field")
+    public void blurContactFormField(String field) {
+        ContactFormCardComponent form = getContactUsPage().getContactFormCard();
+        switch (field) {
+            case "Ваше ім'я" -> form.triggerNameBlur();
+            case "E-mail" -> form.triggerEmailBlur();
+            case "Тема звернення" -> form.triggerSubjectBlur();
+            case "Напишіть ваше повідомлення" -> form.triggerMessageBlur();
+            default -> throw new IllegalArgumentException("Unsupported contact form field: " + field);
+        }
+    }
+
+    @Then("the {string} contact form field should contain {string}")
+    public void verifyContactFormFieldValue(String field, String expectedValue) {
+        Assert.assertEquals(getContactFormFieldValue(field), expectedValue,
+                "Unexpected value in contact form field: " + field);
+    }
+
+    @When("the visitor clears all contact form fields")
+    public void clearContactFormFields() {
+        getContactUsPage().getContactFormCard().clearFields();
+    }
+
+    @When("the visitor attempts to submit the contact form")
+    public void submitContactForm() {
+        getContactUsPage().getContactFormCard().submitForm();
+    }
+
+    @Then("the contact form should remain displayed and not be submitted")
+    public void verifyContactFormWasNotSubmitted() {
+        ContactUsPage page = getContactUsPage();
+        ContactFormCardComponent form = page.getContactFormCard();
+        Assert.assertTrue(form.areAllFieldsDisplayed(), "Contact form should remain displayed");
+        Assert.assertEquals(form.getFormData(), new ContactFormCardComponent.ContactFormData("", "", "", ""),
+                "Whitespace-only values should be treated as empty");
+        Assert.assertFalse(page.isToastPresent(), "No submission confirmation should be displayed");
+    }
+
     @Then("the submit button with text {string} should be displayed")
     public void verifySubmitButtonWithTextDisplayed(String expectedText) {
         ContactFormCardComponent form = getContactUsPage().getContactFormCard();
         Assert.assertTrue(form.isSubmitButtonDisplayed(), "Submit button should be displayed");
         Assert.assertEquals(form.getSubmitButtonText(), expectedText,
                 "Submit button text should match expected");
+    }
+
+    private String getContactFormFieldValue(String field) {
+        ContactFormCardComponent form = getContactUsPage().getContactFormCard();
+        return switch (field) {
+            case "Ваше ім'я" -> form.getNameValue();
+            case "E-mail" -> form.getEmailValue();
+            case "Тема звернення" -> form.getSubjectValue();
+            case "Напишіть ваше повідомлення" -> form.getMessageValue();
+            default -> throw new IllegalArgumentException("Unsupported contact form field: " + field);
+        };
     }
 
     @When("the visitor enters {string} into the subject field and triggers blur")

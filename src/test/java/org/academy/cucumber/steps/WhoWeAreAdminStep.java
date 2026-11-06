@@ -22,6 +22,8 @@ public class WhoWeAreAdminStep {
     private ConfirmationModal confirmationModal;
     private String originalTitle;
     private String originalDescription;
+    private List<String> originalTexts;
+    private List<String> originalCounters;
 
     public WhoWeAreAdminStep(CucumberHook cucumberHook) {
         this.cucumberHook = cucumberHook;
@@ -442,5 +444,153 @@ public class WhoWeAreAdminStep {
         };
 
         Assert.assertEquals(editor.getDescriptionText(), "A".repeat(maxLength), "Only the first " + maxLength + " characters should be retained");
+    }
+
+    @When("the admin waits for {int} people cards to be loaded")
+    public void waitForPeopleCardsToLoad(int expectedCount) {
+        whoWeArePageAdmin.waitForPeopleCards(expectedCount);
+    }
+
+    @Then("the \"Опублікувати\" button becomes enabled")
+    public void waitPublishButtonEnabled() {
+        whoWeArePageAdmin.waitForPublishButtonEnabled(true);
+        Assert.assertTrue(whoWeArePageAdmin.isPublishButtonEnabled(), "Publish button must be enabled");
+    }
+
+    @Then("the \"Опублікувати\" button becomes disabled")
+    public void waitPublishButtonDisabled() {
+        whoWeArePageAdmin.waitForPublishButtonEnabled(false);
+        Assert.assertFalse(whoWeArePageAdmin.isPublishButtonEnabled(), "Publish button must be disabled");
+    }
+
+    @When("the admin remembers the original descriptions and counters of all cards")
+    public void rememberOriginalDescriptionsAndCounters() {
+        originalTexts = whoWeArePageAdmin.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getDescriptionText)
+                .toList();
+        originalCounters = whoWeArePageAdmin.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getCounterText)
+                .toList();
+        Assert.assertEquals(originalTexts.size(), originalCounters.size(),
+                "Every card description and counter must be captured");
+    }
+
+    @When("the admin refreshes the page and reopens the {string} tab with {int} cards")
+    public void refreshPageAndReopenTab(String tabName, int cardsCount) {
+        whoWeArePageAdmin.refresh();
+        whoWeArePageAdmin = new WhoWeArePageAdmin(cucumberHook.getDriver());
+        whoWeArePageAdmin.selectTab(tabName);
+        whoWeArePageAdmin.waitForPeopleCards(cardsCount);
+    }
+
+    @Then("all cards display their original descriptions and counters")
+    public void verifyOriginalDescriptionsAndCountersRestored() {
+        whoWeArePageAdmin.waitForPeopleCards(originalTexts.size());
+
+        List<String> currentTexts = whoWeArePageAdmin.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getDescriptionText)
+                .toList();
+        List<String> currentCounters = whoWeArePageAdmin.getCards().stream()
+                .map(WhoWeAreDescriptionEditorComponent::getCounterText)
+                .toList();
+
+        Assert.assertEquals(currentTexts, originalTexts, "Reload must restore all original descriptions");
+        Assert.assertEquals(currentCounters, originalCounters, "Reload must restore all character counters");
+    }
+
+    @Then("the \"Опис\" field and counter of card {int} match the original ones")
+    public void verifyCardMatchesOriginal(int cardNumber) {
+        int index = toZeroBasedIndex(cardNumber);
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getEditor(index);
+        Assert.assertEquals(editor.getDescriptionText(), originalTexts.get(index),
+                "Description of card " + cardNumber + " must match the original one");
+        Assert.assertEquals(editor.getCounterText(), originalCounters.get(index),
+                "Counter of card " + cardNumber + " must match the original one");
+    }
+
+    @When("the admin clears the \"Опис\" field of card {int} and enters {string}")
+    public void clearAndEnterTextIntoCardDescription(int cardNumber, String text) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).clear().setText(text);
+    }
+
+    @When("the admin clears the \"Опис\" field of card {int} and types {int} characters")
+    public void clearAndTypeCharactersIntoCard(int cardNumber, int count) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).clear().typeText("А".repeat(count));
+    }
+
+    @When("the admin types an additional character {string} into the \"Опис\" field of card {int}")
+    public void typeAdditionalCharacterIntoCard(String character, int cardNumber) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).typeText(character);
+    }
+
+    @When("the admin triggers validation by blurring the \"Опис\" field of card {int}")
+    public void blurCardDescription(int cardNumber) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).blurEditor();
+    }
+
+    @When("the admin enters a bold space into the \"Опис\" field of card {int}")
+    public void enterBoldSpaceIntoCard(int cardNumber) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).enterBoldSpace();
+    }
+
+    @When("the admin adds and deletes the character {string} in the \"Опис\" field of card {int}")
+    public void addAndDeleteCharacterInCard(String character, int cardNumber) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).addAndDeleteCharacter(character);
+    }
+
+    @Then("the validation message {string} is displayed under the \"Опис\" field of card {int}")
+    public void verifyCardValidationMessage(String expectedError, int cardNumber) {
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber));
+        editor.waitForErrorMessage(expectedError);
+        Assert.assertEquals(editor.getErrorMessage(), expectedError,
+                "Incorrect validation message under card " + cardNumber);
+    }
+
+    @Then("no validation message is displayed under the \"Опис\" field of card {int}")
+    public void verifyNoCardValidationMessage(int cardNumber) {
+        WhoWeAreDescriptionEditorComponent editor = whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber));
+        editor.waitForErrorMessageToDisappear();
+        Assert.assertFalse(editor.hasErrorMessage(),
+                "Expected no validation message under card " + cardNumber + ", but got: " + editor.getErrorMessage());
+    }
+
+    @Then("no validation message is displayed under the \"Опис\" field of card {int} while it is focused")
+    public void verifyNoCardValidationMessageWhileFocused(int cardNumber) {
+        Assert.assertFalse(whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).hasErrorMessage(),
+                "Validation message must not be shown while the field of card " + cardNumber + " has focus");
+    }
+
+    @Then("no validation messages are displayed under the cards other than card {int}")
+    public void verifyOtherCardsHaveNoValidationMessages(int cardNumber) {
+        int currentIndex = toZeroBasedIndex(cardNumber);
+        for (int i = 0; i < whoWeArePageAdmin.getCardsCount(); i++) {
+            if (i == currentIndex) {
+                continue;
+            }
+            Assert.assertFalse(whoWeArePageAdmin.getEditor(i).hasErrorMessage(),
+                    "Validation error must not be shown under card " + (i + 1));
+        }
+    }
+
+    @Then("the \"Опис\" field of card {int} consists of {int} repeated characters {string}")
+    public void verifyCardDescriptionConsistsOfRepeatedCharacters(
+            int cardNumber, int count, String character) {
+        Assert.assertEquals(
+                whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).getDescriptionText(),
+                character.repeat(count),
+                "The 'Опис' field of card " + cardNumber + " must contain exactly " + count + " characters"
+        );
+    }
+
+    @When("the admin types {int} spaces into the \"Опис\" field of card {int}")
+    public void typeSpacesIntoCardDescription(int count, int cardNumber) {
+        whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).typeText(" ".repeat(count));
+    }
+
+    @Then("exactly {int} validation message(s) is/are displayed under the \"Опис\" field of card {int}")
+    public void verifyValidationMessagesCount(int expectedCount, int cardNumber) {
+        Assert.assertEquals(whoWeArePageAdmin.getEditor(toZeroBasedIndex(cardNumber)).getErrorMessagesCount(),
+                expectedCount,
+                "Incorrect number of validation messages under card " + cardNumber);
     }
 }

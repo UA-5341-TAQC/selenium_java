@@ -151,6 +151,13 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         return visibleErrors.isEmpty() ? "" : getText(visibleErrors.get(0));
     }
 
+    @Step("Get number of visible validation error messages")
+    public int getErrorMessagesCount() {
+        return (int) errorElements.stream()
+                .filter(WebElement::isDisplayed)
+                .count();
+    }
+
     @Step("Check if validation error message is displayed")
     public boolean hasErrorMessage() {
         return errorElements.stream().anyMatch(this::isDisplayed);
