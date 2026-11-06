@@ -8,7 +8,7 @@ Feature: Admin Partners Management
     Given the administrator is logged in
     And the admin navigates to the "Партнери" page
 
-  @Issue-484
+  @Issue-1
   Scenario: Verify that Banner title and description accept up to 30 characters
     Given the admin clears the Banner title field
     And the admin clears the Banner description field

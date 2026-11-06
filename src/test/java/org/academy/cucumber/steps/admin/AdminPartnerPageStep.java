@@ -16,7 +16,7 @@ public class AdminPartnerPageStep {
         this.cucumberHook = cucumberHook;
     }
 
-    @Given("the admin navigates to the {string} page")
+    @Given("the admin navigates to the \"Патрнери\" page")
     public void navigateToAdminPartnerPage(String pageName) {
         Assert.assertEquals(pageName, "Партнери");
 
