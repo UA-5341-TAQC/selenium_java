@@ -1,0 +1,1 @@
+Scenario passed: Verify validation messages for the description of card 3 in the "Люди" block

@@ -1,0 +1,1 @@
+Scenario passed: Closing the unchanged Add category modal does not ask for confirmation
