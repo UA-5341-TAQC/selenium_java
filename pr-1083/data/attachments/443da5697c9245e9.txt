@@ -1,0 +1,1 @@
+Scenario started: Verify confirmation pop-up is displayed when publishing changes in the "Люди" block

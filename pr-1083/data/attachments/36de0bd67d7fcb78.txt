@@ -1,0 +1,1 @@
+Scenario started: Verify saving a draft is enabled with a page and valid question only

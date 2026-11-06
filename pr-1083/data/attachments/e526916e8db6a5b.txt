@@ -1,0 +1,1 @@
+Scenario passed: Closing an unchanged edit form requires no confirmation
