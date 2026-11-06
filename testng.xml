@@ -30,6 +30,15 @@
         </classes>
     </test>
 
+    <test name="API Tests" parallel="classes" thread-count="2">
+        <classes>
+            <class name="org.academy.api.AuthTests"/>
+            <class name="org.academy.api.BankDetailsTests"/>
+            <class name="org.academy.api.HistoryTests"/>
+            <class name="org.academy.api.MainPageTests"/>
+        </classes>
+    </test>
+
     <test name="Cucumber BDD Tests" parallel="data-providers" thread-count="2">
         <classes>
             <class name="org.academy.cucumber.RunCucumberTest"/>
