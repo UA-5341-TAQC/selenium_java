@@ -23,16 +23,16 @@ Feature: Contact Us Form Functionality
     Then the system displays the counter message "<limit_message>"
 
     Examples: Entry Point A
-      | entry_point  | expected_message_1| expected_message_2 |expected_message_3 | limit_message |
-      | EntryPointA  | Залишилось 20 символів|Залишилось 19 символів|Залишився 1 символ|Ліміт символів вичерпано|
+      | entry_point | expected_message_1     | expected_message_2     | expected_message_3 | limit_message            |
+      | EntryPointA | Залишилось 20 символів | Залишилось 19 символів | Залишився 1 символ | Ліміт символів вичерпано |
 
     Examples: Entry Point B
-      | entry_point  | expected_message_1| expected_message_2 |expected_message_3 | limit_message |
-      | EntryPointB  | Залишилось 20 символів|Залишилось 19 символів|Залишився 1 символ|Ліміт символів вичерпано|
+      | entry_point | expected_message_1     | expected_message_2     | expected_message_3 | limit_message            |
+      | EntryPointB | Залишилось 20 символів | Залишилось 19 символів | Залишився 1 символ | Ліміт символів вичерпано |
 
     Examples: Entry Point C
-      | entry_point  |  expected_message_1| expected_message_2 |expected_message_3 | limit_message |
-      | EntryPointC  | Залишилось 20 символів|Залишилось 19 символів|Залишився 1 символ|Ліміт символів вичерпано|
+      | entry_point | expected_message_1     | expected_message_2     | expected_message_3 | limit_message            |
+      | EntryPointC | Залишилось 20 символів | Залишилось 19 символів | Залишився 1 символ | Ліміт символів вичерпано |
 
   @Issue-755 @UI @Functional
   Scenario Outline: Verify threshold warning message for Message field
@@ -43,7 +43,7 @@ Feature: Contact Us Form Functionality
     Then the system displays the counter message "<expected_message>"
 
     Examples: Entry Point
-      | entry_point  | expected_message|
-      | EntryPointA  | Залишилось 200 символів|
-      | EntryPointB  | Залишилось 200 символів|
-      | EntryPointC  | Залишилось 200 символів|
+      | entry_point | expected_message        |
+      | EntryPointA | Залишилось 200 символів |
+      | EntryPointB | Залишилось 200 символів |
+      | EntryPointC | Залишилось 200 символів |
