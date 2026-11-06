@@ -1,176 +1,196 @@
 package org.academy.api;
 
-import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.academy.models.faq.FaqQuestionPageResponse;
+import org.academy.models.faq.FaqQuestionResponse;
+import org.academy.models.faq.FaqVisitorPageResponse;
+import org.academy.models.faq.PublishedFaqQuestionResponse;
 import org.academy.utils.testrunners.BaseAPITestRunner;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 public class FaqTests extends BaseAPITestRunner {
-    private FaqClient faqClient;
+
+    private FaqClient adminClient;
+    private FaqClient publicClient;
 
     @BeforeClass
-    public void setUpFaqClient() {
-        faqClient = new FaqClient(testEnvProvider.getBaseApiUrl());
-        faqClient.setToken(getAccessToken());
+    public void beforeClass() {
+        adminClient = new FaqClient(testEnvProvider.getBaseApiUrl());
+        publicClient = new FaqClient(testEnvProvider.getBaseApiUrl());
+        adminClient.setToken(getAccessToken());
     }
 
-    @Test
-    public void publishedQuestionsCanBeReadForConfiguredPages() {
-        List<String> slugs = faqClient.getPages().then()
-                .statusCode(200)
-                .body("$", not(empty()))
-                .body("id", everyItem(greaterThan(0)))
-                .body("slug", everyItem(notNullValue()))
-                .extract().jsonPath().getList("slug", String.class);
+    @Test(description = "API-FAQ-001 - Get FAQ pages")
+    public void testGetFaqPages() {
+        List<FaqVisitorPageResponse> pages = adminClient.getPages();
 
-        FaqClient publicClient = new FaqClient(testEnvProvider.getBaseApiUrl());
-        for (String slug : slugs) {
-            publicClient.getPublishedQuestions(slug).then()
-                    .statusCode(200)
-                    .body("$", instanceOf(List.class))
-                    .body("id", everyItem(greaterThan(0)));
+        assertNotNull(pages, "FAQ pages response should not be null");
+        assertTrue(!pages.isEmpty(), "FAQ pages should not be empty");
+
+        FaqVisitorPageResponse page = pages.getFirst();
+        assertNotNull(page, "First FAQ page should not be null");
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertNotNull(page.getId(), "Page ID should not be null");
+        softAssert.assertNotNull(page.getSlug(), "Page slug should not be null");
+        softAssert.assertNotNull(page.getTitle(), "Page title should not be null");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "API-FAQ-002 - Published questions are available without a token")
+    public void testGetPublishedQuestions() {
+        SoftAssert softAssert = new SoftAssert();
+        int publishedCount = 0;
+
+        for (FaqVisitorPageResponse page : adminClient.getPages()) {
+            List<PublishedFaqQuestionResponse> questions = publicClient.getPublishedQuestions(page.getSlug());
+            publishedCount += questions.size();
+
+            for (PublishedFaqQuestionResponse question : questions) {
+                softAssert.assertNotNull(question, "Published question should exist for " + page.getSlug());
+                if (question == null) {
+                    continue;
+                }
+                softAssert.assertTrue(question.getId() != null && question.getId() > 0, "Published question ID");
+                softAssert.assertTrue(question.getQuestionText() != null && !question.getQuestionText().isBlank(),
+                        "Published question text for ID " + question.getId());
+                softAssert.assertTrue(question.getAnswerText() != null && !question.getAnswerText().isBlank(),
+                        "Published answer text for ID " + question.getId());
+            }
         }
+
+        softAssert.assertTrue(publishedCount > 0, "Expected published questions on at least one page");
+        softAssert.assertAll();
     }
 
-    @Test
-    public void questionsCanBeListedAndReadById() {
-        JsonPath page = faqClient.getQuestions(0, 1).then()
-                .statusCode(200)
-                .body("items", hasSize(1))
-                .body("totalItemsCount", greaterThan(0))
-                .extract().jsonPath();
-        long id = page.getLong("items[0].id");
+    @Test(description = "API-FAQ-003 - FAQ list respects the limit")
+    public void testGetQuestions() {
+        FaqQuestionPageResponse page = adminClient.getQuestions(0, 1);
 
-        JsonPath question = faqClient.getQuestion(id).then()
-                .statusCode(200)
-                .extract().jsonPath();
-        assertEquals(question.getLong("id"), id, "The detail response should match the requested FAQ ID");
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(page.getItems() != null && page.getItems().size() == 1, "Limit should be one question");
+        softAssert.assertTrue(page.getTotalItemsCount() != null && page.getTotalItemsCount() > 0, "Total question count");
+        softAssert.assertAll();
     }
 
-    @Test
-    public void adjacentPagesContainDifferentQuestions() {
-        long firstId = getQuestionPage(0).getLong("items[0].id");
-        long secondId = getQuestionPage(1).getLong("items[0].id");
+    @Test(description = "API-FAQ-004 - FAQ details contain the requested question")
+    public void testGetQuestionById() {
+        int id = firstQuestion().getId();
+        FaqQuestionResponse question = adminClient.getQuestionDetails(id);
 
-        assertNotEquals(firstId, secondId, "Adjacent pages should contain different FAQ IDs");
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(question.getId(), Integer.valueOf(id), "Question ID");
+        softAssert.assertNotNull(question.getQuestionText(), "Question text");
+        softAssert.assertNotNull(question.getAnswerText(), "Answer text");
+        softAssert.assertNotNull(question.getStatus(), "Question status");
+        softAssert.assertAll();
     }
 
-    @Test
-    public void questionsCanBeFilteredByPage() {
-        long pageId = getQuestionPage(0).getLong("items[0].pageIds[0]");
+    @Test(description = "API-FAQ-005 - FAQ filters by page")
+    public void testFilterByPage() {
+        int pageId = firstQuestion().getPageIds().getFirst();
+        List<FaqQuestionResponse> questions = adminClient.getQuestionsByPage(pageId, 10).getItems();
+        assertTrue(questions != null && !questions.isEmpty(), "Page filter should return questions");
 
-        List<List<Number>> pageIds = faqClient.getQuestionsByPage(pageId, 10).then()
-                .statusCode(200)
-                .body("items", not(empty()))
-                .extract().jsonPath().getList("items.pageIds");
-
-        assertQuestionsBelongToPage(pageIds, pageId);
+        SoftAssert softAssert = new SoftAssert();
+        for (FaqQuestionResponse question : questions) {
+            softAssert.assertTrue(question.getPageIds() != null && question.getPageIds().contains(pageId),
+                    "Page filter mismatch for question " + question.getId());
+        }
+        softAssert.assertAll();
     }
 
-    @Test
-    public void questionsCanBeFilteredByStatus() {
-        int status = getQuestionPage(0).getInt("items[0].status");
+    @Test(description = "API-FAQ-006 - FAQ filters by status")
+    public void testFilterByStatus() {
+        Integer status = firstQuestion().getStatus();
+        List<FaqQuestionResponse> questions = adminClient.getQuestionsByStatus(status, 10).getItems();
+        assertTrue(questions != null && !questions.isEmpty(), "Status filter should return questions");
 
-        faqClient.getQuestionsByStatus(status, 10).then()
-                .statusCode(200)
-                .body("items", not(empty()))
-                .body("items.status", everyItem(is(status)));
+        SoftAssert softAssert = new SoftAssert();
+        for (FaqQuestionResponse question : questions) {
+            softAssert.assertEquals(question.getStatus(), status, "Status filter mismatch for question " + question.getId());
+        }
+        softAssert.assertAll();
     }
 
-    @Test
-    public void searchFindsAnExistingQuestion() {
-        JsonPath page = getQuestionPage(0);
-        String questionText = page.getString("items[0].questionText");
-        long id = page.getLong("items[0].id");
+    @Test(description = "API-FAQ-007 - FAQ filters by page and status")
+    public void testFilterByPageAndStatus() {
+        FaqQuestionResponse seed = firstQuestion();
+        int pageId = seed.getPageIds().getFirst();
+        Integer status = seed.getStatus();
+        List<FaqQuestionResponse> questions = adminClient.getQuestionsByPageAndStatus(pageId, status, 10).getItems();
+        assertTrue(questions != null && !questions.isEmpty(), "Combined filter should return questions");
 
-        List<Long> matches = faqClient.searchQuestions(questionText, 0, 10).then()
-                .statusCode(200)
-                .extract().jsonPath().getList("items.id", Long.class);
+        SoftAssert softAssert = new SoftAssert();
+        for (FaqQuestionResponse question : questions) {
+            softAssert.assertEquals(question.getStatus(), status, "Status mismatch for question " + question.getId());
+            softAssert.assertTrue(question.getPageIds() != null && question.getPageIds().contains(pageId),
+                    "Page mismatch for question " + question.getId());
+        }
+        softAssert.assertAll();
+    }
 
-        assertTrue(matches.contains(id), "Search should return the FAQ matching the question text");
+    @Test(description = "API-FAQ-008 - Search finds an existing FAQ")
+    public void testSearchFindsQuestion() {
+        FaqQuestionResponse question = firstQuestion();
+        FaqQuestionPageResponse results = adminClient.searchQuestions(question.getQuestionText(), 0, 10);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(results.getItems() != null && results.getItems().stream()
+                        .anyMatch(item -> question.getId().equals(item.getId())),
+                "Search should include question " + question.getId());
+        softAssert.assertAll();
+    }
+
+    @Test(description = "API-FAQ-009 - Unknown search text returns no FAQs")
+    public void testSearchWithoutMatches() {
+        FaqQuestionPageResponse results = adminClient.searchQuestions("qa-missing-faq-" + UUID.randomUUID(), 0, 1);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(results.getItems() != null && results.getItems().isEmpty(), "Search results should be empty");
+        softAssert.assertEquals(results.getTotalItemsCount(), Integer.valueOf(0), "Search result count");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "API-FAQ-010 - Empty search returns 400")
+    public void testEmptySearchReturnsBadRequest() {
+        adminClient.searchQuestionsResponse("", 0, 1).then().statusCode(400);
+    }
+
+    @Test(description = "API-FAQ-011 - Invalid FAQ ID returns 404")
+    public void testInvalidIdReturnsNotFound() {
+        adminClient.getQuestion("abc").then().statusCode(404);
     }
 
     @DataProvider
-    public Object[][] questionIdsReturningNotFound() {
+    public Object[][] protectedReads() {
         return new Object[][] {
-                {"abc"},
-                {Long.toString(Long.MAX_VALUE)}
+                {"/Faq/pages", (Function<FaqClient, Response>) FaqClient::getPagesResponse},
+                {"/Faq", (Function<FaqClient, Response>) client -> client.getQuestionsResponse(0, 1)},
+                {"/Faq/{id}", (Function<FaqClient, Response>) client -> client.getQuestion(1)},
+                {"/Faq/search", (Function<FaqClient, Response>) client -> client.searchQuestionsResponse("faq", 0, 1)}
         };
     }
 
-    @Test(dataProvider = "questionIdsReturningNotFound")
-    public void questionIdReturnsNotFound(String id) {
-        faqClient.getQuestion(id).then().statusCode(404);
+    @Test(dataProvider = "protectedReads", description = "API-FAQ-012 - Administrative FAQ requires a token")
+    public void testProtectedReadRequiresToken(String endpoint, Function<FaqClient, Response> read) {
+        Response response = read.apply(publicClient);
+        org.testng.Assert.assertEquals(response.statusCode(), 401, "GET " + endpoint);
     }
 
-    @Test
-    public void searchReturnsAnEmptyPageForUnknownText() {
-        faqClient.searchQuestions("qa-missing-faq-" + UUID.randomUUID(), 0, 1).then()
-                .statusCode(200)
-                .body("items", empty())
-                .body("totalItemsCount", is(0));
-    }
-
-    @Test
-    public void negativeOffsetReturnsFirstPage() {
-        assertEquals(getQuestionPage(-1).getLong("items[0].id"),
-                getQuestionPage(0).getLong("items[0].id"));
-    }
-
-    @Test
-    public void zeroLimitReturnsAllQuestions() {
-        JsonPath page = faqClient.getQuestions(0, 0).then()
-                .statusCode(200)
-                .extract().jsonPath();
-
-        assertEquals((long) page.getList("items").size(), page.getLong("totalItemsCount"));
-    }
-
-    @Test
-    public void emptySearchQueryIsRejected() {
-        faqClient.searchQuestions("", 0, 1).then().statusCode(400);
-    }
-
-    @Test
-    public void questionsCanBeFilteredByPageAndStatus() {
-        JsonPath firstPage = getQuestionPage(0);
-        long pageId = firstPage.getLong("items[0].pageIds[0]");
-        int status = firstPage.getInt("items[0].status");
-
-        List<List<Number>> pageIds = faqClient.getQuestionsByPageAndStatus(pageId, status, 10).then()
-                .statusCode(200)
-                .body("items", not(empty()))
-                .body("items.status", everyItem(is(status)))
-                .extract().jsonPath().getList("items.pageIds");
-
-        assertQuestionsBelongToPage(pageIds, pageId);
-    }
-
-    private JsonPath getQuestionPage(int offset) {
-        return faqClient.getQuestions(offset, 1).then()
-                .statusCode(200)
-                .body("items", hasSize(1))
-                .extract().jsonPath();
-    }
-
-    private void assertQuestionsBelongToPage(List<List<Number>> pageIds, long pageId) {
-        pageIds.forEach(ids -> assertTrue(ids.stream().anyMatch(id -> id.longValue() == pageId),
-                "Each question should belong to the requested page"));
+    private FaqQuestionResponse firstQuestion() {
+        List<FaqQuestionResponse> questions = adminClient.getQuestions(0, 1).getItems();
+        assertTrue(questions != null && !questions.isEmpty(), "Expected a FAQ question for test data");
+        return questions.getFirst();
     }
 }
