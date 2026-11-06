@@ -16,14 +16,10 @@ public class AdminPartnerPageStep {
         this.cucumberHook = cucumberHook;
     }
 
-    @Given("the admin navigates to the \"Патрнери\" page")
-    public void navigateToAdminPartnerPage(String pageName) {
-        Assert.assertEquals(pageName, "Партнери");
-
+    @Given("the admin navigates to the \"Партнери\" page")
+    public void navigateToAdminPartnerPage() {
         adminPartnerPage = new AdminPartnerPage(cucumberHook.getDriver());
-        adminPartnerPage.open(
-                cucumberHook.getTestValueProvider().getBaseUrl()
-        );
+        adminPartnerPage.open(cucumberHook.getTestValueProvider().getBaseUrl());
     }
 
     @Given("the admin clears the Banner title field")
@@ -116,6 +112,30 @@ public class AdminPartnerPageStep {
         Assert.assertTrue(
                 adminPartnerPage.isPublishButtonEnabled(),
                 "Banner 'Опублікувати' button should be enabled"
+        );
+    }
+
+    @When("the admin triggers validation by blurring the Banner title field")
+    public void blurBannerTitle() {
+        adminPartnerPage.blurTitle();
+    }
+
+    @Then("the Banner title error message is {string}")
+    public void verifyBannerTitleError(String expectedError) {
+        Assert.assertEquals(
+                adminPartnerPage.getTitleErrorText(),
+                expectedError,
+                "Unexpected Banner title validation message"
+        );
+    }
+
+    @Then("the Banner {string} button remains disabled")
+    public void verifyBannerPublishButtonDisabled(String buttonName) {
+        Assert.assertEquals(buttonName, "Опублікувати");
+
+        Assert.assertFalse(
+                adminPartnerPage.isPublishButtonEnabled(),
+                "Banner 'Опублікувати' button should remain disabled"
         );
     }
 }

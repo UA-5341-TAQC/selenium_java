@@ -64,6 +64,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             }
         }
     }
+
     @Issue("999")
     @Test(description = "Verify description validation messages for every people card")
     public void testPeopleCardDescriptionValidationMessages() {
@@ -107,7 +108,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             }
         }
     }
-
 
     @Issue("998")
     @Test(description = "Verify that people card descriptions do not exceed 60 characters")
@@ -180,7 +180,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             });
         }
     }
-
 
     @Issue("997")
     @Test(description = "Verify real-time validation and 60-character limit for every people card")

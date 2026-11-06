@@ -34,10 +34,10 @@ public class AdminPartnerPage extends BaseAdminPage{
     @FindBy(css = ".PartnerBannerForm_content__GE07h .InputErrorWithCharacterCounter_error-section")
     private List<WebElement> bannerErrorMessages;
 
-    @FindBy(css = "#title ~ .InputErrorWithCharacterCounter_container__qE3ge .InputErrorWithCharacterCounter_error-section")
+    @FindBy(css = ".input-group:has(#title) .InputErrorWithCharacterCounter_error-section__OwyAS")
     private WebElement titleError;
 
-    @FindBy(css = ".input-group:has(#description) .InputErrorWithCharacterCounter_error-section")
+    @FindBy(css = ".input-group:has(#description) .InputErrorWithCharacterCounter_error-section__OwyAS")
     private WebElement descriptionError;
 
     @FindBy(css = "#title-character-count")
@@ -145,6 +145,12 @@ public class AdminPartnerPage extends BaseAdminPage{
         return titleInput.getAttribute("innerText").trim();
     }
 
+    @Step("Blur Banner title field")
+    public AdminPartnerPage blurTitle() {
+        titleInput.sendKeys(Keys.TAB);
+        return this;
+    }
+
     @Step("Clear description")
     public AdminPartnerPage clearDescription() {
         wait.until(ExpectedConditions.visibilityOf(descriptionInput));
@@ -186,7 +192,7 @@ public class AdminPartnerPage extends BaseAdminPage{
         return this;
     }
 
-    @Step("Check button 'Publish'")
+    @Step("Check if Banner Publish button is enabled")
     public boolean isPublishButtonEnabled() {
         return publishButton.isEnabled();
     }
@@ -196,17 +202,17 @@ public class AdminPartnerPage extends BaseAdminPage{
         return addTranslationButton.isDisplayed();
     }
 
-    @Step("Get title error")
+    @Step("Get Banner title error text")
     public String getTitleErrorText() {
-        wait.until(ExpectedConditions.visibilityOf(titleError));
+        waitUntilVisible(titleError);
         return titleError.getText().trim();
     }
 
     @Step("Get description error")
     public String getDescriptionErrorText() {
-        wait.until(ExpectedConditions.visibilityOf(descriptionError));
+        waitUntilVisible(descriptionError);
         return descriptionError.getText().trim();
-    }
+        }
 
     @Step("Get all errors")
     public List<String> getAllBannerErrorTexts() {
