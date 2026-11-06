@@ -25,9 +25,9 @@ Feature: Contact Us Page Functionality and Form Validation
   Scenario: Verify that the contact form is available and accepts valid input
     Then all contact form fields and the submit button should be displayed
     When the visitor fills the contact form with the following data:
-      | name    | Олександр Тестовий                                   |
-      | email   | test.user@example.com                                |
-      | subject | Загальне запитання                                   |
+      | name    | Олександр Тестовий                                  |
+      | email   | test.user@example.com                               |
+      | subject | Загальне запитання                                  |
       | message | Доброго дня! Це перевірка форми зворотного зв'язку. |
     Then the contact form fields should contain the entered values
     And the submit button with text "Надіслати" should be displayed
@@ -96,7 +96,7 @@ Feature: Contact Us Page Functionality and Form Validation
     Then the validation error "Некоректний E-mail" should not be displayed
 
     Examples:
-      | valid_email              |
-      | test.user@example.com    |
-      | info@victorycenter.ua    |
-      | user_123+tag@sub.org.ua  |
+      | valid_email             |
+      | test.user@example.com   |
+      | info@victorycenter.ua   |
+      | user_123+tag@sub.org.ua |

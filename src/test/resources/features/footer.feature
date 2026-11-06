@@ -41,7 +41,7 @@ Feature: Main Page - Footer Section
     And the original page remains open at the same URL
 
     Examples:
-      | network   | url                                      |
-      | Facebook  | https://www.facebook.com/victorycenterua   |
-      | Telegram  | https://t.me/victorycenterua               |
+      | network   | url                                       |
+      | Facebook  | https://www.facebook.com/victorycenterua  |
+      | Telegram  | https://t.me/victorycenterua              |
       | Instagram | https://www.instagram.com/victorycenterua |

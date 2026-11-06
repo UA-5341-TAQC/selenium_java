@@ -150,9 +150,9 @@ Feature: Admin Who We Are Management
     And the "Опублікувати" button is enabled
 
     Examples:
-      | tab              | valid_text                   |
-      | Кого підтримуємо | Зміни підтримки              |
-      | Основне          | Новий валідний опис основного|
+      | tab              | valid_text                    |
+      | Кого підтримуємо | Зміни підтримки               |
+      | Основне          | Новий валідний опис основного |
 
   @Issue-970 @Issue-932
   Scenario Outline: Verify cancelling publication via "Ні" button does not update public "Хто ми" page
