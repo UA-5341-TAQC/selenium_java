@@ -1,0 +1,1 @@
+Scenario started: Quote section displays partnership and support buttons
