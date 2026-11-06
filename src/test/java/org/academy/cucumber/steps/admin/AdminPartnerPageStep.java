@@ -129,6 +129,15 @@ public class AdminPartnerPageStep {
         );
     }
 
+    @Then("the Banner description error message is {string}")
+    public void verifyBannerDescriptionError(String expectedError) {
+        Assert.assertEquals(
+                adminPartnerPage.getDescriptionErrorText(),
+                expectedError,
+                "Unexpected Banner description validation message"
+        );
+    }
+
     @Then("the Banner {string} button remains disabled")
     public void verifyBannerPublishButtonDisabled(String buttonName) {
         Assert.assertEquals(buttonName, "Опублікувати");
@@ -136,6 +145,22 @@ public class AdminPartnerPageStep {
         Assert.assertFalse(
                 adminPartnerPage.isPublishButtonEnabled(),
                 "Banner 'Опублікувати' button should remain disabled"
+        );
+    }
+
+    @Then("the Banner title field is empty")
+    public void verifyBannerTitleIsEmpty() {
+        Assert.assertTrue(
+                adminPartnerPage.getTitle().isEmpty(),
+                "Banner title field should be empty"
+        );
+    }
+
+    @Then("the Banner description field is empty")
+    public void verifyBannerDescriptionIsEmpty() {
+        Assert.assertTrue(
+                adminPartnerPage.getDescriptionValue().isEmpty(),
+                "Banner description field should be empty"
         );
     }
 }
