@@ -67,6 +67,7 @@ public class CucumberHook {
         }
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-extensions");
 

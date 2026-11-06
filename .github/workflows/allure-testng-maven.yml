@@ -13,10 +13,10 @@ permissions:
   contents: write
   pull-requests: write
 
-# Serialize all runs that publish to gh-pages.
+# Allow parallel runs across different branches/PRs while canceling obsolete runs for the same PR.
 concurrency:
-  group: allure-pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
@@ -78,11 +78,9 @@ jobs:
         if: always()
         run: npm install --global allure-commandline@2.34.1
 
-      - name: Install jq
+      - name: Ensure jq is installed
         if: always()
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes jq
+        run: which jq || sudo apt-get install --yes jq
 
       # Prepare the report folder and restore history.
       - name: Prepare Allure directories
