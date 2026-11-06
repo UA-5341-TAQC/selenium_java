@@ -1,0 +1,1 @@
+Scenario passed: Verify entered values are discarded when modal closure is confirmed
