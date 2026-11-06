@@ -171,7 +171,6 @@ Feature: Admin Who We Are Management
 
   @Issue834
   Scenario: Verify character counters of title and description
-    Given the admin navigates to the "Хто ми" page
     When the admin selects the "Основне" tab
     Then the title counter should be "14/50"
     And the description counter should be "278/300"
@@ -192,7 +191,6 @@ Feature: Admin Who We Are Management
 
   @Issue835
   Scenario: Verify editable fields remain recoverable without publishing
-    Given the admin navigates to the "Хто ми" page
     When the admin selects the "Основне" tab
     And the admin saves the original title
     And the admin clears the title
@@ -207,7 +205,6 @@ Feature: Admin Who We Are Management
 
   @Issue874
   Scenario: Verify min/max boundary values for title and description
-    Given the admin navigates to the "Хто ми" page
     When the admin selects the "Основне" tab
     And the admin clears the title
     And the admin clears the main description
@@ -228,7 +225,6 @@ Feature: Admin Who We Are Management
 
   @Issue875
   Scenario: Verify minimum length validation for title and description
-    Given the admin navigates to the "Хто ми" page
     When the admin selects the "Основне" tab
     And the admin clears the title
     And the admin clears the main description
@@ -254,7 +250,6 @@ Feature: Admin Who We Are Management
 
   @Issue876
   Scenario: Verify maximum character limits for title and description
-    Given the admin navigates to the "Хто ми" page
     When the admin selects the "Основне" tab
     And the admin clears the title
     And the admin clears the main description
