@@ -8,7 +8,7 @@ import org.academy.ui.modals.admin.ConfirmationModal;
 import org.academy.ui.modals.admin.DeleteConfirmationModal;
 import org.academy.ui.modals.admin.faq.FaqModal;
 import org.academy.ui.pages.Admin.AdminFaqPage;
-import org.academy.ui.testrunners.UITestRunnerWithAdmin;
+import org.academy.utils.testrunners.UITestRunnerWithAdmin;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;

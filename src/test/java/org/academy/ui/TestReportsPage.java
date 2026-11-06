@@ -5,7 +5,7 @@ import io.qameta.allure.Story;
 import org.academy.ui.components.HeaderComponent;
 import org.academy.ui.components.LanguageSwitcherComponent;
 import org.academy.ui.pages.ReportsPage;
-import org.academy.ui.testrunners.BaseUiTestRunner;
+import org.academy.utils.testrunners.BaseUiTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
