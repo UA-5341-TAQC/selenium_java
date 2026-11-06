@@ -1,1 +1,0 @@
-Scenario passed: Category description rejects a short value and blocks characters beyond its limit
