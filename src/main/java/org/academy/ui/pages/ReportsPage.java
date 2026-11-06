@@ -2,9 +2,13 @@ package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
 import org.academy.ui.components.ExpensesBreakdownChartComponent;
+import org.academy.ui.components.FundingSourcesChartComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -15,6 +19,12 @@ public class ReportsPage extends BasePublicPage {
 
     @FindBy(css = "[class*='StatCard_card']")
     private List<WebElement> statCardElements;
+
+    @FindBy(css = "[class*='StatCard_wrapper']")
+    private List<WebElement> statCardWrapperElements;
+
+    @FindBy(css = "[class*='FundingSourcesChart_root']")
+    private WebElement fundingSourcesChartElement;
 
     @FindBy(css = "[class*='ExpensesBreakdownChart_container']")
     private WebElement expensesBreakdownChartElement;
@@ -34,6 +44,12 @@ public class ReportsPage extends BasePublicPage {
     @FindBy(css = "[class*='CtaSection_root'] a[href='/donate']")
     private WebElement ctaDonateLinkElement;
 
+    @FindBy(css = "[class*='amount']")
+    private List<WebElement> amountElements;
+
+    @FindBy(css = "[class*='StatCard_value']")
+    private WebElement mainStatValueAmountElement;
+
     public ReportsPage(WebDriver driver) {
         super(driver);
     }
@@ -46,6 +62,23 @@ public class ReportsPage extends BasePublicPage {
     @Step("Read stat card texts")
     public List<String> getStatCardTexts() {
         return getTexts(waitUntilAllVisible(statCardElements));
+    }
+
+    @Step("Read stat card value by label: {labelPart}")
+    public String getStatCardValueByLabel(String labelPart) {
+        for (WebElement card : waitUntilAllVisible(statCardWrapperElements)) {
+            String label = card.findElement(By.cssSelector("[class*='StatCard_label']")).getText();
+            if (label.contains(labelPart)) {
+                return card.findElement(By.cssSelector("[class*='StatCard_value']")).getText().trim();
+            }
+        }
+        throw new NoSuchElementException("Stat card not found by label: " + labelPart);
+    }
+
+    @Step("Get FundingSourcesChart component")
+    public FundingSourcesChartComponent getFundingSourcesChart() {
+        scrollIntoView(fundingSourcesChartElement);
+        return new FundingSourcesChartComponent(waitUntilVisible(fundingSourcesChartElement));
     }
 
     @Step("Get ExpensesBreakdownChart component")
@@ -69,10 +102,27 @@ public class ReportsPage extends BasePublicPage {
         return getTexts(waitUntilAllVisible(reportFileLabelElements));
     }
 
+    public int getReportFilesCount() {
+        scrollIntoView(reportsSectionTitleElement);
+        wait.until(ExpectedConditions.visibilityOfAllElements(reportFileLabelElements));
+        return reportFileLabelElements.size();
+    }
+
     @Step("Read report download button texts")
     public List<String> getReportDownloadButtonTexts() {
         scrollIntoView(reportsSectionTitleElement);
         return getTexts(waitUntilAllVisible(reportDownloadButtonElements));
+    }
+
+    public int getReportDownloadButtonCount() {
+        scrollIntoView(reportsSectionTitleElement);
+        wait.until(ExpectedConditions.visibilityOfAllElements(reportDownloadButtonElements));
+        return reportDownloadButtonElements.size();
+    }
+
+    public boolean areReportDownloadButtonDisplayed() {
+        return !reportDownloadButtonElements.isEmpty()
+                && reportDownloadButtonElements.stream().allMatch(WebElement::isDisplayed);
     }
 
     @Step("Click report download button")
@@ -123,5 +173,14 @@ public class ReportsPage extends BasePublicPage {
     public void clickCtaDonateLink() {
         scrollIntoView(ctaDonateLinkElement);
         click(ctaDonateLinkElement);
+    }
+    @Step("Get all amount texts")
+    public List<String> getAmountTexts() {
+        return getTexts(waitUntilAllVisible(amountElements));
+    }
+
+    @Step("Get main stat value amount text")
+    public String getMainStatValueTexts() {
+        return getText(waitUntilVisible(mainStatValueAmountElement));
     }
 }

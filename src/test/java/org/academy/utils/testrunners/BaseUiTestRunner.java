@@ -1,7 +1,6 @@
-package org.academy.ui.testrunners;
+package org.academy.utils.testrunners;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.academy.utils.TestEnvProvider;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,14 +11,13 @@ import org.testng.annotations.BeforeSuite;
 
 import java.time.Duration;
 
-public class BaseUiTestRunner {
-    protected static TestEnvProvider testEnvProvider;
+public class BaseUiTestRunner extends BaseTestRunner {
     protected WebDriver driver;
 
     @BeforeSuite
     public void beforeSuite() {
+        super.beforeSuite();
         WebDriverManager.chromedriver().setup();
-        testEnvProvider = new TestEnvProvider();
     }
 
     public WebDriver initChromeDriver() {

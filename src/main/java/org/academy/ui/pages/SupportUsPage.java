@@ -1,6 +1,7 @@
 package org.academy.ui.pages;
 
 import io.qameta.allure.Step;
+import org.academy.ui.components.ContactFormCardComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +48,9 @@ public class SupportUsPage extends BasePublicPage {
 
     @FindBy(css = "[class*='CtaSection_root'] a[href='/donate']")
     private WebElement donateLinkElement;
+
+    @FindBy(css = "form[class*='ContactSection_form']")
+    private WebElement contactFormElement;
 
     public SupportUsPage(WebDriver driver) {
         super(driver);
@@ -144,5 +148,14 @@ public class SupportUsPage extends BasePublicPage {
     public void clickDonateLink() {
         scrollIntoView(donateLinkElement);
         click(donateLinkElement);
+    }
+
+    public void scrollIntoViewContactForm(){
+        scrollIntoView(contactFormElement);
+    }
+
+    @Step("Get Contact us form component")
+    public ContactFormCardComponent getContactFormCard() {
+        return new ContactFormCardComponent(waitUntilVisible(contactFormElement));
     }
 }

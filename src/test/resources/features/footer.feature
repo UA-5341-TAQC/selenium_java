@@ -1,5 +1,5 @@
 @footer
-Feature: Footer navigation, contact information and social media
+Feature: Main Page - Footer Section
   Visitors can use the footer to navigate the website,
   view contact information and open Victory Center social media profiles.
 
@@ -41,7 +41,7 @@ Feature: Footer navigation, contact information and social media
     And the original page remains open at the same URL
 
     Examples:
-      | network   | url                                      |
-      | Facebook  | https://www.facebook.com/victorycenterua   |
-      | Telegram  | https://t.me/victorycenterua               |
+      | network   | url                                       |
+      | Facebook  | https://www.facebook.com/victorycenterua  |
+      | Telegram  | https://t.me/victorycenterua              |
       | Instagram | https://www.instagram.com/victorycenterua |
