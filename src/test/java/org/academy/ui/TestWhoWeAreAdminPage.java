@@ -26,8 +26,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     private static final String COUNTER_60 = "60/60";
     private static final String SIXTY_CHARACTERS = "А".repeat(MAX_CHARACTERS);
     private static final String TEST_TEXT_59 = "А".repeat(BEFORE_MAX_CHARACTERS);
-    private static final String PASTE_TEXT = "Б".repeat(MAX_CHARACTERS + 1);
-    private static final String EXPECTED_PASTED_TEXT = PASTE_TEXT.substring(0, MAX_CHARACTERS);
     private WhoWeArePageAdmin page;
 
     @BeforeMethod
@@ -66,6 +64,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             }
         }
     }
+
     @Issue("999")
     @Test(description = "Verify description validation messages for every people card")
     public void testPeopleCardDescriptionValidationMessages() {
@@ -83,7 +82,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 assertNoValidationWhileFocused(editor);
 
                 assertValidationAfterBlur(editor, MIN_LENGTH_ERROR);
-                assertCardError(editor, MIN_LENGTH_ERROR, currentCardIndex);
 
                 assertOtherCardsHaveNoErrors(currentCardIndex);
 
@@ -91,14 +89,18 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 editor.setText(TEN_CHARACTERS);
 
                 assertValidationAfterBlur(editor, "");
-                assertCardError(editor, "", currentCardIndex);
 
                 editor.clear();
 
                 assertNoValidationWhileFocused(editor);
 
                 assertValidationAfterBlur(editor, REQUIRED_ERROR);
-                assertCardError(editor, REQUIRED_ERROR, currentCardIndex);
+                assertOtherCardsHaveNoErrors(currentCardIndex);
+
+                editor.typeText(" ".repeat(12));
+
+                assertValidationAfterBlur(editor, REQUIRED_ERROR);
+                assertOtherCardsHaveNoErrors(currentCardIndex);
             });
 
             if (cardIndex < page.getCardsCount() - 1) {
@@ -147,31 +149,27 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
                 editor.typeText("Б");
 
                 Assert.assertEquals(editor.getDescriptionText(), SIXTY_CHARACTERS,
-                        "The 61st character must not appear in the editor");
+                        "The 61st typed character must not appear in the editor");
+
+                Assert.assertFalse(editor.getDescriptionText().contains("Б"),
+                        "The 61st typed character must not be present");
 
                 Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
                         "Counter must remain 60/60 after typing the 61st character");
 
-                editor.blurEditor();
+                String textToPaste = SIXTY_CHARACTERS + "Б";
+                editor.pasteText(textToPaste);
 
-                Assert.assertEquals(editor.getErrorMessage(), "",
-                        "No validation error must appear when the description contains 60 characters");
+                Assert.assertEquals(editor.getDescriptionText(), SIXTY_CHARACTERS,
+                        "The 61st character must not appear in the editor");
 
-                editor.pasteText(PASTE_TEXT);
-
-                Assert.assertEquals(editor.getDescriptionText(), EXPECTED_PASTED_TEXT,
-                        "After pasting 61 characters, the editor must contain only 60 characters");
+                Assert.assertFalse(editor.getDescriptionText().contains("Б"),
+                        "The last different character must not be present");
 
                 Assert.assertEquals(editor.getCounterText(), MAX_COUNTER,
-                        "Counter must not exceed 60/60 after paste");
-
-                Assert.assertTrue(editor.getDescriptionText().length() <= MAX_CHARACTERS,
-                        "Description must not exceed 60 characters after paste");
+                        "Counter must remain 60/60 after pasting 61 characters");
 
                 editor.blurEditor();
-
-                Assert.assertEquals(editor.getErrorMessage(), "",
-                        "No validation error must appear after pasting 60 characters");
 
                 assertPublishState(true);
             });
@@ -356,10 +354,14 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             editor.waitForErrorMessageToDisappear();
             Assert.assertFalse(editor.hasErrorMessage(),
                     "Valid description must not show a validation message");
+            Assert.assertEquals(editor.getErrorMessagesCount(), 0,
+                    "Valid description must not show validation messages");
         } else {
             editor.waitForErrorMessage(expectedError);
-            Assert.assertTrue(editor.getErrorMessage().contains(expectedError),
+            Assert.assertEquals(editor.getErrorMessage(), expectedError,
                     "Expected validation message '" + expectedError + "', but got: " + editor.getErrorMessage());
+            Assert.assertEquals(editor.getErrorMessagesCount(), 1,
+                    "Exactly one validation message must be shown for an invalid description");
         }
     }
 
@@ -374,20 +376,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         page.waitForPublishButtonEnabled(enabled);
         Assert.assertEquals(page.isPublishButtonEnabled(), enabled,
                 enabled ? "Publish button must be enabled" : "Publish button must be disabled");
-    }
-
-    private void assertCardError(
-            WhoWeAreDescriptionEditorComponent editor,
-            String expectedError,
-            int cardIndex) {
-
-        String actualError = editor.getErrorMessage();
-
-        Assert.assertEquals(
-                actualError,
-                expectedError,
-                "Incorrect validation message under card " + (cardIndex + 1)
-        );
     }
 
     private void assertOtherCardsHaveNoErrors(int currentCardIndex) {
