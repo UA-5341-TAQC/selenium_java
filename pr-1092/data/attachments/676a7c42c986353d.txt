@@ -1,0 +1,1 @@
+Scenario passed: Verify that Publish button remains disabled when Banner title is invalid and description is valid
