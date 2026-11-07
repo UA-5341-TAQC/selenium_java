@@ -48,16 +48,13 @@ public class BaseUiTestRunner extends BaseTestRunner {
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod() {
-        if (driver != null) {
-            driver.quit();
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } finally {
             DriverManager.removeDriver();
-        }
-    }
-
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() {
-        if (driver != null) {
-            driver.quit();
+            driver = null;
         }
     }
 }

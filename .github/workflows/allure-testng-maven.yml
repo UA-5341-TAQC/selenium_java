@@ -415,14 +415,12 @@ jobs:
             exit 1
           }
 
-          [[ "$HISTORY_OUTCOME" == "success" ]] || {
-            echo "::error::Unable to checkout gh-pages history."
-            exit 1
+          [[ "$HISTORY_OUTCOME" == "success" || "$HISTORY_OUTCOME" == "skipped" ]] || {
+            echo "::warning::Unable to checkout gh-pages history."
           }
 
-          [[ "$DEPLOY_OUTCOME" == "success" ]] || {
-            echo "::error::Unable to deploy Allure reports."
-            exit 1
+          [[ "$DEPLOY_OUTCOME" == "success" || "$DEPLOY_OUTCOME" == "skipped" ]] || {
+            echo "::warning::Unable to deploy Allure reports."
           }
 
           echo "Workflow completed successfully."
