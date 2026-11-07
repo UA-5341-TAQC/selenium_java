@@ -8,6 +8,7 @@
     <test name="API Tests">
         <classes>
             <class name="org.academy.api.AuthTests"/>
+            <class name="org.academy.api.BankDetailsTests"/>
             <class name="org.academy.api.CompanyProfileTests"/>
             <class name="org.academy.api.HistoryTests"/>
             <class name="org.academy.api.MainPageTests"/>
