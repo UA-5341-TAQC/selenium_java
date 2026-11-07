@@ -1,1 +1,0 @@
-Scenario passed: Verify Head section is displayed correctly

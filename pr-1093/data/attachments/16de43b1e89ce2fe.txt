@@ -1,1 +1,0 @@
-Scenario started: Verify View Programs opens Programs page in a new tab

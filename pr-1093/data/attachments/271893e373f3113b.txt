@@ -1,1 +1,0 @@
-Scenario failed: Valid edits enable saving only after both category fields pass validation
