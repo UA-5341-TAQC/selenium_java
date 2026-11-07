@@ -1,0 +1,1 @@
+Scenario started: Edited category counters update after every character typed or removed without blur
