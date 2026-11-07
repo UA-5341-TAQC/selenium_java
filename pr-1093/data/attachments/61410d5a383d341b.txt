@@ -1,0 +1,1 @@
+Scenario started: Verify Main page remains open after opening Programs
