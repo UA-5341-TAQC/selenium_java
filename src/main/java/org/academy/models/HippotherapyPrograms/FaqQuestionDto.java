@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FaqSectionQuestion {
-    private Integer id;
+public class FaqQuestionDto {
+    private Long id;
     private String questionText;
-    private String email;
+    private String answerText;
 }
