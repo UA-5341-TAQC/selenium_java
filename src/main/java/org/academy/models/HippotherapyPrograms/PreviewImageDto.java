@@ -1,7 +1,6 @@
 package org.academy.models.HippotherapyPrograms;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.OffsetDateTime;
 import lombok.Data;
 
 @Data
@@ -11,6 +10,6 @@ public class PreviewImageDto {
     private String blobName;
     private String url;
     private String mimeType;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private String createdAt;
+    private String updatedAt;
 }

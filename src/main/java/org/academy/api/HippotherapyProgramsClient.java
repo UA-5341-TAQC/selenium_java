@@ -35,7 +35,8 @@ public class HippotherapyProgramsClient extends BaseClient{
 
     public HippotherapyProgramDto getHippoProgramId(Long id){
         return prepareRequest()
-                .get(PROGRAM_SLUG_ENDPOINT+ "/"+id)
+                .pathParam("id", id)
+                .get( ENDPOINT + "/{id}")
                 .then()
                 .statusCode(200)
                 .extract()
