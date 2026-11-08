@@ -36,6 +36,7 @@
             <class name="org.academy.api.BankDetailsTests"/>
             <class name="org.academy.api.HistoryTests"/>
             <class name="org.academy.api.MainPageTests"/>
+            <class name="org.academy.api.FaqTests"/>
         </classes>
     </test>
 
