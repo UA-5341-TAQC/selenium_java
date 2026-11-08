@@ -1,0 +1,1 @@
+Scenario started: Verify copy email and phone number buttons functionality
