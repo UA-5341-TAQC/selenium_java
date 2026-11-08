@@ -1,0 +1,1 @@
+Scenario failed: Category fields trim leading and trailing spaces on blur
