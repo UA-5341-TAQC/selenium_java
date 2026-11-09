@@ -106,28 +106,45 @@ public class WhoWeAreDescriptionEditorComponent extends BaseComponent {
         scrollIntoView(editorElement);
         click(editorElement);
         editorElement.sendKeys(Keys.END);
-        js.executeScript(
-                "var el = arguments[0];" +
-                "var text = arguments[1];" +
-                "var dataTransfer = new DataTransfer();" +
-                "dataTransfer.setData('text/plain', text);" +
-                "var pasteEvent = new ClipboardEvent('paste', {" +
-                "  bubbles: true, cancelable: true, clipboardData: dataTransfer" +
-                "});" +
-                "el.dispatchEvent(pasteEvent);",
-                editorElement, text
-        );
-        String expectedPrefix = text.substring(0, Math.min(text.length(), 20));
-        wait.until(d -> getDescriptionText().contains(expectedPrefix));
+        boolean inserted = false;
+        try {
+            Object result = js.executeScript(
+                    "var el = arguments[0];" +
+                    "var text = arguments[1];" +
+                    "var oldText = el.innerText || el.textContent || '';" +
+                    "var dataTransfer = new DataTransfer();" +
+                    "dataTransfer.setData('text/plain', text);" +
+                    "var pasteEvent = new ClipboardEvent('paste', {" +
+                    "  bubbles: true, cancelable: true, clipboardData: dataTransfer" +
+                    "});" +
+                    "el.dispatchEvent(pasteEvent);" +
+                    "if (!pasteEvent.defaultPrevented) {" +
+                    "  var currentText = el.innerText || el.textContent || '';" +
+                    "  if (!currentText.includes(text)) {" +
+                    "    document.execCommand('insertText', false, text);" +
+                    "    el.dispatchEvent(new Event('input', { bubbles: true }));" +
+                    "  }" +
+                    "}" +
+                    "return true;",
+                    editorElement, text
+            );
+            inserted = Boolean.TRUE.equals(result);
+        } catch (Exception ignored) {
+        }
+        if (!inserted) {
+            typeText(text);
+        }
         return this;
     }
 
     @Step("Trigger blur on description editor")
     public WhoWeAreDescriptionEditorComponent blurEditor() {
-        blur(editorElement);
-        click(editorElement);
-        blur(editorElement);
-        js.executeScript("document.activeElement && document.activeElement.blur();");
+        js.executeScript(
+                "var el = arguments[0];" +
+                "if (el && el.blur) { el.blur(); }" +
+                "if (document.activeElement && document.activeElement.blur) { document.activeElement.blur(); }",
+                editorElement
+        );
         return this;
     }
 

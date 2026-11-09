@@ -57,7 +57,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
             int finalFirstCard = firstCard;
 
             Allure.step("Validate publish state starting from card " + (firstCard + 1), () ->
-                    runCardValidation(page, finalFirstCard, originalTexts, originalCounters));
+                    runCardValidation(finalFirstCard, originalTexts, originalCounters));
 
             if (firstCard < originalTexts.size() - 1) {
                 reloadPage();
@@ -368,6 +368,7 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
     private void reloadPage() {
         page.refresh();
         page = new WhoWeArePageAdmin(driver);
+        page.waitUntilLoaded();
         page.selectTab("Люди");
         page.waitForPeopleCards(4);
     }
@@ -393,9 +394,8 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         }
     }
 
-    private void runCardValidation(WhoWeArePageAdmin page, int firstCard,
+    private void runCardValidation(int firstCard,
                                    List<String> originalTexts, List<String> originalCounters) {
-        page = this.page;
         assertPublishState(false);
 
         WhoWeAreDescriptionEditorComponent firstEditor = page.getEditor(firstCard);
@@ -418,7 +418,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         assertPublishState(true);
 
         reloadPage();
-        page = this.page;
         assertReloadedState(page, originalTexts, originalCounters);
 
         page.getEditor(firstCard).enterBoldSpace();
@@ -429,7 +428,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         assertPublishState(false);
 
         reloadPage();
-        page = this.page;
         assertReloadedState(page, originalTexts, originalCounters);
 
         String originalText = originalTexts.get(firstCard);
@@ -444,7 +442,6 @@ public class TestWhoWeAreAdminPage extends UITestRunnerWithAdmin {
         assertPublishState(false);
 
         reloadPage();
-        page = this.page;
         assertReloadedState(page, originalTexts, originalCounters);
     }
 
