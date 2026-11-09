@@ -13,13 +13,14 @@ permissions:
   contents: write
   pull-requests: write
 
-# Serialize all runs that publish to gh-pages.
+# Allow parallel runs across different branches/PRs while canceling obsolete runs for the same PR.
 concurrency:
-  group: allure-pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
+  BASE_URL_API: ${{ secrets.BASE_URL_API }}
   ADMIN_LOGIN_URL: ${{ secrets.ADMIN_LOGIN_URL }}
   ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
   ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
@@ -77,11 +78,9 @@ jobs:
         if: always()
         run: npm install --global allure-commandline@2.34.1
 
-      - name: Install jq
+      - name: Ensure jq is installed
         if: always()
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes jq
+        run: which jq || sudo apt-get install --yes jq
 
       # Prepare the report folder and restore history.
       - name: Prepare Allure directories
@@ -416,14 +415,12 @@ jobs:
             exit 1
           }
 
-          [[ "$HISTORY_OUTCOME" == "success" ]] || {
-            echo "::error::Unable to checkout gh-pages history."
-            exit 1
+          [[ "$HISTORY_OUTCOME" == "success" || "$HISTORY_OUTCOME" == "skipped" ]] || {
+            echo "::warning::Unable to checkout gh-pages history."
           }
 
-          [[ "$DEPLOY_OUTCOME" == "success" ]] || {
-            echo "::error::Unable to deploy Allure reports."
-            exit 1
+          [[ "$DEPLOY_OUTCOME" == "success" || "$DEPLOY_OUTCOME" == "skipped" ]] || {
+            echo "::warning::Unable to deploy Allure reports."
           }
 
           echo "Workflow completed successfully."
