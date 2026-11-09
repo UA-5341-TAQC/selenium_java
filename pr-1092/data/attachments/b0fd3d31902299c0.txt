@@ -1,0 +1,1 @@
+Scenario failed: Verify that the description of card 3 in the "Люди" block does not exceed 60 characters
