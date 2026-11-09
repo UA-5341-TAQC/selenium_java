@@ -1,0 +1,1 @@
+Scenario failed: Verify the content display in the "Кого підтримуємо" tab

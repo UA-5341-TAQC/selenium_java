@@ -1,0 +1,1 @@
+Scenario passed: Verify that the contact form rejects invalid email addresses

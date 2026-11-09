@@ -1,0 +1,1 @@
+Scenario passed: Page sections follow the expected order
