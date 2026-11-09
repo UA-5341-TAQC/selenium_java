@@ -43,7 +43,7 @@
             <class name="org.academy.api.LocalizationLanguageTests"/>
             <class name="org.academy.api.HippoProgramsTest"/>
             <class name="org.academy.api.PartnersTests"/>
-
+            <class name="org.academy.api.FaqTests"/>
         </classes>
     </test>
 
