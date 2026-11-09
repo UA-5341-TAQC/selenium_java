@@ -75,7 +75,7 @@ public class AdminFaqSteps {
     @When("the administrator enters a FAQ answer of {int} characters")
     public void enterAnswer(int length) {
         enteredAnswer = "a".repeat(length);
-        modal.setAnswer(enteredAnswer);
+        modal.typeAnswerStepByStep(enteredAnswer);
         modal.blurAnswer();
     }
 

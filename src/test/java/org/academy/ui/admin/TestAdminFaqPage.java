@@ -22,7 +22,7 @@ import java.util.Optional;
 
 public class TestAdminFaqPage extends UITestRunnerWithAdmin {
 
-    private static final String FAQ_PATH = "admin-panel/faq";
+    private static final String FAQ_PATH = "/admin-panel/faq";
     private static final List<String> FAQ_TABS = List.of("Програми", "Про іпотерапію", "Донати");
     private static final String PUBLISHED_STATUS = "Опубліковано";
     private static final String TOOLTIP_TITLE = "Опубліковано на:";
