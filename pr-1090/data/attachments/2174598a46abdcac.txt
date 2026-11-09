@@ -1,0 +1,1 @@
+Scenario passed: Expenses chart shows a percentage and an absolute amount for every segment

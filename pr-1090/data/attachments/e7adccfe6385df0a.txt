@@ -1,0 +1,1 @@
+Scenario failed: Category fields normalize consecutive spaces and update their counters on blur
