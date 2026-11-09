@@ -1,0 +1,1 @@
+Scenario started: Verify maximum character limits for title and description
