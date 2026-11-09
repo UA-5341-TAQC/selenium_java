@@ -1,1 +1,0 @@
-Scenario started: Verify Head section is displayed correctly
