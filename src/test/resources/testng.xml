@@ -41,6 +41,7 @@
             <class name="org.academy.api.HippotherapyProgramCategoryTests"/>
             <class name="org.academy.api.LocalizationLanguageTests"/>
             <class name="org.academy.api.HippoProgramsTest"/>
+            <class name="org.academy.api.PartnersTests"/>
         </classes>
     </test>
 
