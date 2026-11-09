@@ -1,1 +1,0 @@
-Scenario passed: Verify that the description of card 1 in the "Люди" block does not exceed 60 characters

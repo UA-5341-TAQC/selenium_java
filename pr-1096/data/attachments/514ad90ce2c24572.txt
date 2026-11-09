@@ -1,1 +1,0 @@
-Scenario passed: Verify the 'Опис' field is editable on the "Люди" tab and displays an accurate character counter
