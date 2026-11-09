@@ -43,6 +43,7 @@
             <class name="org.academy.api.LocalizationLanguageTests"/>
             <class name="org.academy.api.HippoProgramsTest"/>
             <class name="org.academy.api.PartnersTests"/>
+            <class name="org.academy.api.FaqTests"/>
             <class name="org.academy.api.EventsPageTests"/>
             <class name="org.academy.api.FeedbackHistoriesTests"/>
             <class name="org.academy.api.ImageTests"/>
