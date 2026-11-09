@@ -19,7 +19,7 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
     private static final String IMAGE_LOADED_SCRIPT =
             "return arguments[0].complete && typeof arguments[0].naturalWidth !== 'undefined' && arguments[0].naturalWidth > 0;";
 
-    @FindBy(css = ".who-we-are-main-section")
+    @FindBy(css = ".who-we-are-main-section, [class*='who-we-are'], [class*='WhoWeAre'], .cards-section-wrapper-title, .content-wrapper-title")
     private WebElement mainSection;
 
     @FindBy(css = ".category-bar")
@@ -52,6 +52,16 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
 
     @Step("Open Admin 'Хто ми' page")
     public WhoWeArePageAdmin open(String baseUrl) {
+        String currentUrl = driver.getCurrentUrl();
+        if (currentUrl != null && currentUrl.contains("admin-panel")) {
+            if (currentUrl.contains(PAGE_PATH)) {
+                refresh();
+                return waitUntilLoaded();
+            }
+            AdminPanelPage adminPanel = new AdminPanelPage(driver);
+            adminPanel.getNavigation().clickWhoWeAreLink();
+            return waitUntilLoaded();
+        }
         String url = baseUrl.endsWith("/") ? baseUrl + PAGE_PATH : baseUrl + "/" + PAGE_PATH;
         driver.get(url);
         return waitUntilLoaded();
@@ -59,6 +69,7 @@ public class WhoWeArePageAdmin extends BaseAdminPage {
 
     @Step("Wait until Admin 'Хто ми' page is loaded")
     public WhoWeArePageAdmin waitUntilLoaded() {
+        wait.until(d -> d.getCurrentUrl().contains(PAGE_PATH));
         waitUntilVisible(categoryBarElement);
         waitUntilVisible(mainSection);
         return this;

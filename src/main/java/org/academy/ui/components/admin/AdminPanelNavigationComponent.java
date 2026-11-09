@@ -7,6 +7,7 @@ import org.academy.ui.pages.Admin.AdminFaqPage;
 import org.academy.ui.pages.Admin.AdminHistoryPage;
 import org.academy.ui.pages.Admin.EventsPageAdmin;
 import org.academy.ui.pages.Admin.TeamPageAdmin;
+import org.academy.ui.pages.Admin.WhoWeArePageAdmin;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -107,8 +108,9 @@ public class AdminPanelNavigationComponent extends BaseComponent {
     }
 
     @Step("Click Who We Are link")
-    public void clickWhoWeAreLink() {
+    public WhoWeArePageAdmin clickWhoWeAreLink() {
         click(whoWeAreLink);
+        return new WhoWeArePageAdmin(driver);
     }
 
     @Step("Click Events link")
