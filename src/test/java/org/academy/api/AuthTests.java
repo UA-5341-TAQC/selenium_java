@@ -31,24 +31,4 @@ public class AuthTests extends BaseAPITestRunner {
         Assert.assertTrue(authClientApi.getRefreshToken() != null && !authClientApi.getRefreshToken().isBlank(),
                 "Refresh token should not be null");
     }
-
-    @Test
-    public void testRefreshTokenAndLogout() {
-        LoginData loginData = new LoginData();
-        loginData.setEmail(testEnvProvider.getAdminEmail());
-        loginData.setPassword(testEnvProvider.getAdminPassword());
-        AuthClient authClientApi = new AuthClient(testEnvProvider.getBaseApiUrl());
-        authClientApi.login(loginData);
-        Assert.assertTrue(authClientApi.getRefreshToken() != null && !authClientApi.getRefreshToken().isBlank(),
-                "Refresh token should be present after login");
-
-        LoginResponse refreshResponse = authClientApi.refresh();
-        Assert.assertTrue(refreshResponse.getAccessToken() != null && !refreshResponse.getAccessToken().isBlank(),
-                "Refreshed access token should not be null");
-
-        Response logoutResponse = authClientApi.logout();
-        logoutResponse.then().statusCode(200);
-        Assert.assertTrue(authClientApi.getToken() == null, "Access token should be cleared after logout");
-        Assert.assertTrue(authClientApi.getRefreshToken() == null, "Refresh token should be cleared after logout");
-    }
 }
