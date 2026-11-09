@@ -1,1 +1,0 @@
-Scenario passed: Verify that the system stores the defaulted pre-uploaded image in the "Команда" block
