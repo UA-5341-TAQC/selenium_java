@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Test Suite" verbose="1" parallel="tests" thread-count="4">
+<suite name="Test Suite" verbose="1" parallel="tests" thread-count="3" data-provider-thread-count="5">
 
     <parameter name="cucumber.features.fail-on-undefined-steps" value="false"/>
     <parameter name="allure.results.suite.name" value="Cucumber BDD Tests"/>
@@ -32,13 +32,21 @@
 
     <test name="API Tests" parallel="classes" thread-count="2">
         <classes>
+            <class name="org.academy.api.CompanyProfileTests"/>
             <class name="org.academy.api.AuthTests"/>
             <class name="org.academy.api.BankDetailsTests"/>
+            <class name="org.academy.api.HistoryTests"/>
+            <class name="org.academy.api.MainPageTests"/>
+            <class name="org.academy.api.ReportProgramExpendituresTests"/>
+            <class name="org.academy.api.EventNewsCategoryTests"/>
+            <class name="org.academy.api.HippotherapyProgramCategoryTests"/>
+            <class name="org.academy.api.LocalizationLanguageTests"/>
+            <class name="org.academy.api.HippoProgramsTest"/>
+            <class name="org.academy.api.PartnersTests"/>
             <class name="org.academy.api.EventsPageTests"/>
             <class name="org.academy.api.FeedbackHistoriesTests"/>
-            <class name="org.academy.api.HistoryTests"/>
             <class name="org.academy.api.ImageTests"/>
-            <class name="org.academy.api.MainPageTests"/>
+
         </classes>
     </test>
 
