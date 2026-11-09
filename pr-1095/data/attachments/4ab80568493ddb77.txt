@@ -1,1 +1,0 @@
-Scenario started: Verify validation messages for 'Опис' field in 'Що ми робимо' block
