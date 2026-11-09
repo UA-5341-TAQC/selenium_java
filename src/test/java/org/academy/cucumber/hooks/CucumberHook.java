@@ -17,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.asserts.SoftAssert;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 public class CucumberHook {
@@ -40,13 +41,23 @@ public class CucumberHook {
     public void tearDown(Scenario scenario) {
         WebDriver driver = DriverManager.getDriver();
         if (driver != null) {
-            if (scenario.isFailed()) {
-                attachScreenshot();
-                attachPageSource();
+            try {
+                if (scenario.isFailed()) {
+                    try {
+                        attachScreenshot();
+                        attachPageSource();
+                    } catch (Exception e) {
+                        scenario.log("Failed to capture failure artifacts: " + e.getMessage());
+                    }
+                }
+                scenario.log("Scenario " + (scenario.isFailed() ? "failed" : "passed") + ": " + scenario.getName());
+            } finally {
+                try {
+                    driver.quit();
+                } finally {
+                    DriverManager.removeDriver();
+                }
             }
-            scenario.log("Scenario " + (scenario.isFailed() ? "failed" : "passed") + ": " + scenario.getName());
-            driver.quit();
-            DriverManager.removeDriver();
         }
     }
 
@@ -57,7 +68,7 @@ public class CucumberHook {
 
     @Attachment(value = "Page source on failure", type = "text/html")
     private byte[] attachPageSource() {
-        return DriverManager.getDriver().getPageSource().getBytes();
+        return DriverManager.getDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 
     private WebDriver initChromeDriver() {
@@ -67,6 +78,7 @@ public class CucumberHook {
         }
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-extensions");
 

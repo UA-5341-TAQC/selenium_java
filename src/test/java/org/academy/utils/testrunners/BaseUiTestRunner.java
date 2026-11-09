@@ -1,6 +1,7 @@
 package org.academy.utils.testrunners;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.academy.utils.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -28,6 +29,7 @@ public class BaseUiTestRunner extends BaseTestRunner {
         }
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-extensions");
 
@@ -40,20 +42,19 @@ public class BaseUiTestRunner extends BaseTestRunner {
     @BeforeMethod
     public void beforeMethod() {
         driver = initChromeDriver();
+        DriverManager.setDriver(driver);
         driver.get(testEnvProvider.getBaseUrl());
     }
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() {
-        if (driver != null) {
-            driver.quit();
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } finally {
+            DriverManager.removeDriver();
+            driver = null;
         }
     }
 }
