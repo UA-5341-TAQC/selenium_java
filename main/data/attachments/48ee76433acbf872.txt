@@ -1,0 +1,1 @@
+Scenario passed: Normalize whitespace and reject whitespace-only required fields
