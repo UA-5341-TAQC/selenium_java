@@ -2,6 +2,7 @@ package org.academy.utils.testrunners;
 
 import org.academy.ui.pages.Admin.AdminPanelPage;
 import org.academy.utils.AdminSession;
+import org.academy.utils.DriverManager;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -12,6 +13,7 @@ public class UITestRunnerWithAdmin extends BaseUiTestRunner {
     @BeforeMethod
     public void beforeMethod() {
         driver = initChromeDriver();
+        DriverManager.setDriver(driver);
         adminSession.set(new AdminSession(driver, testEnvProvider));
         loginAsAdmin();
     }
