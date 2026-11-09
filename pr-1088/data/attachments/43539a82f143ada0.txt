@@ -1,0 +1,1 @@
+Scenario started: Closing the modal with a non-empty "Назва" field asks for confirmation
