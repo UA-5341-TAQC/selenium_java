@@ -1,0 +1,1 @@
+Scenario failed: Verify space management of the "Опис" field in the "Команда" block
