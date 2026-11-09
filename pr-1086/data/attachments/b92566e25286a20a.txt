@@ -1,1 +1,0 @@
-Scenario started: Declining closure preserves values in the new category form
