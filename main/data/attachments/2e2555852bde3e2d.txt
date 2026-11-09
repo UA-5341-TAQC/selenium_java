@@ -1,0 +1,1 @@
+Scenario started: Footer has no broken links
