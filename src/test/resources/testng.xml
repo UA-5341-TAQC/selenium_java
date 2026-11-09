@@ -36,6 +36,10 @@
             <class name="org.academy.api.BankDetailsTests"/>
             <class name="org.academy.api.HistoryTests"/>
             <class name="org.academy.api.MainPageTests"/>
+            <class name="org.academy.api.ReportProgramExpendituresTests"/>
+            <class name="org.academy.api.EventNewsCategoryTests"/>
+            <class name="org.academy.api.HippotherapyProgramCategoryTests"/>
+            <class name="org.academy.api.LocalizationLanguageTests"/>
             <class name="org.academy.api.HippoProgramsTest"/>
         </classes>
     </test>
