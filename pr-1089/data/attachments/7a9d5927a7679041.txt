@@ -1,1 +1,0 @@
-Scenario started: The edit form lists existing categories without duplicates and selects one at a time

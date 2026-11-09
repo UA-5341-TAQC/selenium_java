@@ -1,1 +1,0 @@
-Scenario started: Verify validation messages for the description of card 2 in the "Люди" block

@@ -1,1 +1,0 @@
-Scenario started: Spaces cannot be entered into the e-mail field

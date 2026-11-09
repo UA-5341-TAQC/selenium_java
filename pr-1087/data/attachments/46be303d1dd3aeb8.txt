@@ -1,1 +1,0 @@
-Scenario failed: Verify "Опублікувати" button is disabled in the "Команда" block when no changes are made

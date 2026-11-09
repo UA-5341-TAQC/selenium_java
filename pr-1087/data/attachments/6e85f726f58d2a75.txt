@@ -1,1 +1,0 @@
-Scenario started: Confirming closure discards category edits without persisting them

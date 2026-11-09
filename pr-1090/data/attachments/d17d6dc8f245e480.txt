@@ -1,1 +1,0 @@
-Scenario started: Total collected funds use spaces as thousands separators and have no kopiykas

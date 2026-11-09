@@ -1,1 +1,0 @@
-Scenario passed: Footer stays correct after scrolling and page reload on the "Хто ми" page

@@ -1,1 +1,0 @@
-Scenario failed: Both category fields are required before saving can be enabled

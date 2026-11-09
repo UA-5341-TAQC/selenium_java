@@ -1,1 +1,0 @@
-Scenario passed: Contact form rejects an invalid e-mail

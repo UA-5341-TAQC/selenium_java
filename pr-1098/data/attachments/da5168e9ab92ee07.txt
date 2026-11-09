@@ -1,1 +1,0 @@
-Scenario started: Intro section displays an image, title and description

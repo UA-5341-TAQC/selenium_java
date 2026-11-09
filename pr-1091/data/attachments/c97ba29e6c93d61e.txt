@@ -1,1 +1,0 @@
-Scenario started: Verify that Publish button remains disabled when both Banner title and description are invalid

@@ -1,1 +1,0 @@
-Scenario passed: Total collected funds with kopiykas above 50 are truncated, not rounded up
