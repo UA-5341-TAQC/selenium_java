@@ -1,1 +1,0 @@
-Scenario passed: Partner profiles are arranged from left to right

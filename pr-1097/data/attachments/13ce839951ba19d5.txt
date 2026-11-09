@@ -1,1 +1,0 @@
-Scenario passed: Verify copy email and phone number buttons functionality

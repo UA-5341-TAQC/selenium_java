@@ -1,1 +1,0 @@
-Scenario started: Verify confirmation popup is displayed after clicking the enabled "Опублікувати" button in "Кого підтримуємо" block

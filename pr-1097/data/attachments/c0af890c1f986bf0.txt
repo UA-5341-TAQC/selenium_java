@@ -1,1 +1,0 @@
-Scenario started: Every partner profile has an image and description
