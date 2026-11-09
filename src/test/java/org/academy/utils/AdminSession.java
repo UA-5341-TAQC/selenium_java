@@ -32,26 +32,38 @@ public class AdminSession implements AutoCloseable {
 
     private record Session(String accessToken, String refreshToken) {
         boolean isExpired() {
-            String payloadJson = new String(
-                    Base64.getUrlDecoder().decode(accessToken.split("\\.")[1]),
-                    StandardCharsets.UTF_8
-            );
-            Map<?, ?> payload = new Json().toType(payloadJson, Map.class);
-            long exp = ((Number) payload.get("exp")).longValue();
-            return Instant.now().getEpochSecond() >= (exp - EXPIRATION_BUFFER_SECONDS);
+            if (accessToken == null || accessToken.isBlank()) {
+                return true;
+            }
+            try {
+                String[] parts = accessToken.split("\\.");
+                if (parts.length < 2) {
+                    return true;
+                }
+                String payloadJson = new String(
+                        Base64.getUrlDecoder().decode(parts[1]),
+                        StandardCharsets.UTF_8
+                );
+                Map<?, ?> payload = new Json().toType(payloadJson, Map.class);
+                Object expVal = payload.get("exp");
+                if (!(expVal instanceof Number expNumber)) {
+                    return true;
+                }
+                return Instant.now().getEpochSecond() >= (expNumber.longValue() - EXPIRATION_BUFFER_SECONDS);
+            } catch (Exception e) {
+                return true;
+            }
         }
     }
 
     private static Session sharedSession;
     private final WebDriver driver;
     private final TestEnvProvider environment;
-    private final AuthClient authClient;
     private NetworkInterceptor interceptor;
 
     public AdminSession(WebDriver driver, TestEnvProvider environment) {
         this.driver = driver;
         this.environment = environment;
-        this.authClient = new AuthClient(environment.getBaseApiUrl());
     }
 
     public AdminPanelPage login() {
@@ -67,7 +79,7 @@ public class AdminSession implements AutoCloseable {
                     Map.of("patterns", authPatterns)
             ));
         }
-        getSession();
+        getSession(environment);
         driver.get(URI.create(environment.getBaseUrl()).resolve(ADMIN_PATH).toString());
         return new AdminPanelPage(driver).waitUntilVisible();
     }
@@ -80,7 +92,7 @@ public class AdminSession implements AutoCloseable {
             String method = request.getMethod().toString();
             if (REFRESH_PATH.equals(uri.getPath())
                     && ("POST".equals(method) || "OPTIONS".equals(method))) {
-                Session current = getSession();
+                Session current = getSession(environment);
                 return refreshResponse(current.accessToken(), origin);
             }
             return NetworkInterceptor.PROCEED_WITH_REQUEST;
@@ -98,23 +110,32 @@ public class AdminSession implements AutoCloseable {
     }
 
     // Prevent parallel tests from logging in simultaneously and renew expired tokens automatically.
-    private Session getSession() {
+    public static Session getSession(TestEnvProvider environment) {
         synchronized (AdminSession.class) {
             if (sharedSession != null && sharedSession.isExpired()) {
-                sharedSession = refreshThroughApi(sharedSession);
+                sharedSession = refreshThroughApi(sharedSession, environment);
             }
             if (sharedSession == null || sharedSession.isExpired()) {
-                sharedSession = loginThroughApi();
+                sharedSession = loginThroughApi(environment);
             }
             return sharedSession;
         }
     }
 
-    private Session refreshThroughApi(Session expiredSession) {
+    public static String getSharedAccessToken(TestEnvProvider environment) {
+        return getSession(environment).accessToken();
+    }
+
+    public static synchronized void invalidateSharedSession() {
+        sharedSession = null;
+    }
+
+    private static Session refreshThroughApi(Session expiredSession, TestEnvProvider environment) {
         if (expiredSession.refreshToken() == null || expiredSession.refreshToken().isBlank()) {
             return null;
         }
         try {
+            AuthClient authClient = new AuthClient(environment.getBaseApiUrl());
             authClient.setToken(expiredSession.accessToken());
             authClient.setRefreshToken(expiredSession.refreshToken());
             if (authClient.refreshToken().statusCode() == 200) {
@@ -129,7 +150,8 @@ public class AdminSession implements AutoCloseable {
         return null;
     }
 
-    private Session loginThroughApi() {
+    private static Session loginThroughApi(TestEnvProvider environment) {
+        AuthClient authClient = new AuthClient(environment.getBaseApiUrl());
         LoginData loginData = new LoginData();
         loginData.setEmail(environment.getAdminEmail());
         loginData.setPassword(environment.getAdminPassword());

@@ -14,22 +14,26 @@ public class AuthClient extends BaseClient {
     }
 
     public Response login(String email, String password) {
-        Response response = prepareRequest()
-                .body("{\"email\":\"" + email + "\", \"password\":\"" + password + "\"}")
-                .post(ENDPOINT + "/login");
-        extractTokens(response);
-        return response;
+        LoginData loginData = new LoginData();
+        loginData.setEmail(email);
+        loginData.setPassword(password);
+        return postLogin(loginData);
     }
 
     public LoginResponse login(LoginData loginData) {
+        return postLogin(loginData)
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(LoginResponse.class);
+    }
+
+    private Response postLogin(LoginData loginData) {
         Response response = prepareRequest()
                 .body(loginData)
                 .post(ENDPOINT + "/login");
         extractTokens(response);
-        return response.then()
-                .statusCode(200)
-                .extract()
-                .as(LoginResponse.class);
+        return response;
     }
 
     public Response refreshToken() {
@@ -50,7 +54,7 @@ public class AuthClient extends BaseClient {
     public Response logout() {
         Response response = prepareRequest()
                 .post(ENDPOINT + "/logout");
-        if (response.statusCode() == 200) {
+        if (response.statusCode() >= 200 && response.statusCode() < 300) {
             this.token = null;
             this.refreshToken = null;
         }

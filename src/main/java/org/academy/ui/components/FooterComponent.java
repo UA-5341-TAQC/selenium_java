@@ -6,7 +6,9 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.net.URI;
 import org.openqa.selenium.TimeoutException;
 
@@ -45,6 +47,9 @@ public class FooterComponent extends BaseComponent {
     @FindBy(css = ".social-media button.contact-item, .social-media a")
     private List<WebElement> socialMediaButtons;
 
+    @FindBy(css = "a[href]")
+    private List<WebElement> allLinks;
+
     @FindBy(css = ".scrolling-text")
     private WebElement scrollingTextElement;
 
@@ -74,6 +79,18 @@ public class FooterComponent extends BaseComponent {
         return waitUntilAllVisible(navigationLinks).stream()
                 .map(link -> URI.create(link.getDomProperty("href")).getPath())
                 .toList();
+    }
+
+    @Step("Get all absolute links of the footer")
+    public List<String> getAllLinks() {
+        Set<String> links = new LinkedHashSet<>();
+        for (WebElement link : allLinks) {
+            String href = link.getDomProperty("href");
+            if (href != null && href.startsWith("http")) {
+                links.add(href);
+            }
+        }
+        return List.copyOf(links);
     }
 
     @Step("Click footer navigation link: {path}")
@@ -201,4 +218,3 @@ public class FooterComponent extends BaseComponent {
         }
     }
 }
-
