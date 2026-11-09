@@ -1,1 +1,0 @@
-Scenario passed: Clean-up icon follows focus and clears the "Опис" field
