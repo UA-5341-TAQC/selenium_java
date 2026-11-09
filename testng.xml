@@ -5,16 +5,6 @@
     <parameter name="cucumber.features.fail-on-undefined-steps" value="false"/>
     <parameter name="allure.results.suite.name" value="Cucumber BDD Tests"/>
 
-    <test name="API Tests">
-        <classes>
-            <class name="org.academy.api.AuthTests"/>
-            <class name="org.academy.api.BankDetailsTests"/>
-            <class name="org.academy.api.CompanyProfileTests"/>
-            <class name="org.academy.api.HistoryTests"/>
-            <class name="org.academy.api.MainPageTests"/>
-        </classes>
-    </test>
-
     <test name="UI Tests" parallel="classes" thread-count="2">
         <classes>
             <class name="org.academy.ui.admin.TestAdminFaqPage"/>
@@ -36,10 +26,28 @@
             <class name="org.academy.ui.TestTeamPage"/>
             <class name="org.academy.ui.TestTeamPageAdmin"/>
             <class name="org.academy.ui.TestWhoWeAreAdminPage"/>
+
         </classes>
     </test>
 
-    <test name="Cucumber BDD Tests">
+    <test name="API Tests" parallel="classes" thread-count="2">
+        <classes>
+            <class name="org.academy.api.CompanyProfileTests"/>
+            <class name="org.academy.api.AuthTests"/>
+            <class name="org.academy.api.BankDetailsTests"/>
+            <class name="org.academy.api.HistoryTests"/>
+            <class name="org.academy.api.MainPageTests"/>
+            <class name="org.academy.api.ReportProgramExpendituresTests"/>
+            <class name="org.academy.api.EventNewsCategoryTests"/>
+            <class name="org.academy.api.HippotherapyProgramCategoryTests"/>
+            <class name="org.academy.api.LocalizationLanguageTests"/>
+            <class name="org.academy.api.HippoProgramsTest"/>
+            <class name="org.academy.api.PartnersTests"/>
+
+        </classes>
+    </test>
+
+    <test name="Cucumber BDD Tests" parallel="data-providers" thread-count="2">
         <classes>
             <class name="org.academy.cucumber.RunCucumberTest"/>
         </classes>
